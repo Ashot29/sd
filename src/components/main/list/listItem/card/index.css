@@ -1,0 +1,8 @@
+.MuiCardContent-root {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.MuiCardContent-root:hover {
+  background-color: #eee;
+}

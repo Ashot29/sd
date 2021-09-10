@@ -1,0 +1,13 @@
+.card-modal-form {
+  padding: 10px 10px;
+}
+
+.title-div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-description {
+  margin-bottom: 10px;
+}

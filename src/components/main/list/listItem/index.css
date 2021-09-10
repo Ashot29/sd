@@ -1,0 +1,21 @@
+.list-item {
+  background-color: #eee;
+  margin-right: 25px;
+  padding: 10px;
+  border-radius: 4px;
+  min-width: 280px;
+  height: 100%;
+}
+
+.list-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cards-container {
+  min-height: 20px;
+  max-height: 530px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
