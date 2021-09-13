@@ -6,6 +6,7 @@ import {
   fetchAllUsers,
   getAllCards,
 } from "../../../stateManagement/actions/fetchDataActionCreator";
+import { patch } from "../../../httpRequests/patchRequest";
 import { DragDropContext } from "react-beautiful-dnd";
 import "./index.css";
 
@@ -13,20 +14,19 @@ export const fetchingAllCards = (url, dispatch) => {
   fetch(`${url}/cards`)
     .then((resp) => resp.json())
     .then((data) => {
-      console.log("fetch all cards");
       dispatch(getAllCards(data));
     });
 };
 
 export const fetchingAllLists = (url, dispatch) => {
-  console.log("fetching all lists");
   fetch(`${url}/lists`)
     .then((resp) => resp.json())
     .then((data) => {
-      console.log("fetch all lists");
       dispatch(fetchAllUsers(data));
     });
 };
+
+const changingCardsListId = patch('cards')
 
 function List() {
   let lists = useSelector((state) => state.fetchData.lists);
@@ -54,26 +54,53 @@ function List() {
     }
 
     if (source.droppableId === destination.droppableId) {
-      fetch(`${DEFAULT_URL}/cards?list_id=${destination.droppableId}`)
-        .then((resp) => resp.json())
-        .then((data) => {
-          let arr = [...data];
-          let [reorderedItem] = arr.splice(result.source.index, 1);
-          arr.splice(result.destination.index, 0, reorderedItem);
-          let ids = arr.map((item) => item.id);
-          fetch(`${DEFAULT_URL}/lists/${destination.droppableId}`, {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              card_positions: [...ids],
-            }),
-          }).then(() => {
-            fetchingAllCards(DEFAULT_URL, dispatch);
-            fetchingAllLists(DEFAULT_URL, dispatch);
+      // if the card remains in the same list
+      // changeSequenceOfList(result, dispatch)
+      // .then(() => console.log(1))
+      fetch(`${DEFAULT_URL}/cards/${draggableId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ list_id: +destination.droppableId }),
+      })
+      .then(() => {
+        fetch(`${DEFAULT_URL}/lists/${source.droppableId}`)
+          .then((resp) => resp.json())
+          .then((data) => {
+            let arr = [...data.card_positions];
+            let index = arr.findIndex((item) => +item === +draggableId);
+            arr.splice(index, 1);
+            fetch(`${DEFAULT_URL}/lists/${source.droppableId}`, {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                card_positions: [...arr],
+              }),
+            }).then(() => {
+              fetch(`${DEFAULT_URL}/lists/${destination.droppableId}`)
+                .then((resp) => resp.json())
+                .then((data) => {
+                  let arr = [...data.card_positions];
+                  arr.splice(destination.index, 0, +draggableId);
+                  fetch(`${DEFAULT_URL}/lists/${destination.droppableId}`, {
+                    method: "PATCH",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      card_positions: [...arr],
+                    }),
+                  }).then(() => {
+                    fetchingAllCards(DEFAULT_URL, dispatch);
+                    fetchingAllLists(DEFAULT_URL, dispatch);
+                  });
+                });
+            });
           });
-        });
+      });
     }
 
     if (source.droppableId !== destination.droppableId) {
@@ -139,3 +166,46 @@ function List() {
 }
 
 export default List;
+
+// function changeSequenceOfList(result, dispatch) {
+//   const { destination, source, draggableId } = result;
+//   changingCardsListId({ list_id: +destination.droppableId }, draggableId)
+//     .then(() => {
+//       console.log(1)
+//       fetch(`${DEFAULT_URL}/lists/${source.droppableId}`)
+//         .then((resp) => resp.json())
+//         .then((data) => {
+//           let arr = [...data.card_positions];
+//           let index = arr.findIndex((item) => +item === +draggableId);
+//           arr.splice(index, 1);
+//           fetch(`${DEFAULT_URL}/lists/${source.droppableId}`, {
+//             method: "PATCH",
+//             headers: {
+//               "Content-Type": "application/json",
+//             },
+//             body: JSON.stringify({
+//               card_positions: [...arr],
+//             }),
+//           }).then(() => {
+//             fetch(`${DEFAULT_URL}/lists/${destination.droppableId}`)
+//               .then((resp) => resp.json())
+//               .then((data) => {
+//                 let arr = [...data.card_positions];
+//                 arr.splice(destination.index, 0, +draggableId);
+//                 fetch(`${DEFAULT_URL}/lists/${destination.droppableId}`, {
+//                   method: "PATCH",
+//                   headers: {
+//                     "Content-Type": "application/json",
+//                   },
+//                   body: JSON.stringify({
+//                     card_positions: [...arr],
+//                   }),
+//                 }).then(() => {
+//                   fetchingAllCards(DEFAULT_URL, dispatch);
+//                   fetchingAllLists(DEFAULT_URL, dispatch);
+//                 });
+//               });
+//           });
+//         });
+//     });
+// }

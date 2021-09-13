@@ -21,48 +21,48 @@
   ],
   "lists": [
     {
-      "title": "title 2",
-      "card_positions": [],
+      "title": "title 1",
+      "card_positions": [
+        4,
+        1,
+        2,
+        3
+      ],
       "id": 1
     },
     {
       "title": "title 3",
-      "card_positions": [
-        1,
-        2,
-        3,
-        4
-      ],
-      "id": 2
+      "card_positions": [],
+      "id": 3
     },
     {
       "title": "title 4",
       "card_positions": [],
-      "id": 3
+      "id": 4
     }
   ],
   "cards": [
     {
       "title": "1",
-      "list_id": 2,
+      "list_id": 1,
       "description": "",
       "id": 1
     },
     {
       "title": "2",
-      "list_id": 2,
+      "list_id": 1,
       "description": "",
       "id": 2
     },
     {
       "title": "3",
-      "list_id": 2,
+      "list_id": 1,
       "description": "",
       "id": 3
     },
     {
       "title": "4",
-      "list_id": 2,
+      "list_id": 1,
       "description": "",
       "id": 4
     }

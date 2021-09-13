@@ -21,19 +21,23 @@ const ListItem = ({ title, id }) => {
     if (state.fetchData.cards.length === 0) return [];
     let arr = [];
     let list = state.fetchData.lists.find((list) => list.id === +id);
-    let card_positions = list.card_positions;
-    let cardsArray = [...state.fetchData.cards.filter(item => item.list_id == +id)]
-    card_positions.forEach(position => {
-      let card = cardsArray.find(item => item.id === +position)
-      if (card) {arr.push(card)}
-    })
-    return arr
+    let card_positions = list ? list.card_positions : [];
+    let cardsArray = [
+      ...state.fetchData.cards.filter((item) => item.list_id == +id),
+    ];
+    card_positions.forEach((position) => {
+      let card = cardsArray.find((item) => item.id === +position);
+      if (card) {
+        arr.push(card);
+      }
+    });
+    return arr;
   });
 
   useEffect(() => {
-    fetchingAllLists(DEFAULT_URL, dispatch)
+    fetchingAllLists(DEFAULT_URL, dispatch);
     // it is for fetching after deleting or adding card
-  }, [cards.length])
+  }, [cards.length]);
 
   let dispatch = useDispatch();
   let patchingNewListName = patchRequest(dispatch, "lists");

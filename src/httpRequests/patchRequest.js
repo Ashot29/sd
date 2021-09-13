@@ -21,3 +21,15 @@ export function patchRequest(dispatch, prefix, url = DEFAULT_URL) {
     }).then(() => getData(url, dispatch));
   };
 }
+
+export function patch(prefix, url = DEFAULT_URL) {
+  return function (data, id = '') {
+    fetch(`${url}/${prefix}/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then(resp => resp.json())
+  };
+}
