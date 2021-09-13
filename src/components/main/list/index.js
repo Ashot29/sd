@@ -26,7 +26,19 @@ export const fetchingAllLists = (url, dispatch) => {
     });
 };
 
-const changingCardsListId = patch('cards')
+const fetchFunctions = {
+  fetchingAllCards,
+  fetchingAllLists,
+};
+
+const getList = (id, url = DEFAULT_URL) => {
+  return fetch(`${url}/lists/${id}`)
+    .then((resp) => resp.json())
+    .then((data) => data);
+};
+
+const changeListCardPositions = patch("lists");
+const changeCardsListId = patch("cards");
 
 function List() {
   let lists = useSelector((state) => state.fetchData.lists);
@@ -44,7 +56,6 @@ function List() {
 
   const handleDragEnd = (result) => {
     const { destination, source, draggableId } = result;
-    console.log(draggableId);
     if (!destination) return;
     if (
       destination.droppableId === source.droppableId &&
@@ -54,101 +65,10 @@ function List() {
     }
 
     if (source.droppableId === destination.droppableId) {
-      // if the card remains in the same list
-      // changeSequenceOfList(result, dispatch)
-      // .then(() => console.log(1))
-      fetch(`${DEFAULT_URL}/cards/${draggableId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ list_id: +destination.droppableId }),
-      })
-      .then(() => {
-        fetch(`${DEFAULT_URL}/lists/${source.droppableId}`)
-          .then((resp) => resp.json())
-          .then((data) => {
-            let arr = [...data.card_positions];
-            let index = arr.findIndex((item) => +item === +draggableId);
-            arr.splice(index, 1);
-            fetch(`${DEFAULT_URL}/lists/${source.droppableId}`, {
-              method: "PATCH",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                card_positions: [...arr],
-              }),
-            }).then(() => {
-              fetch(`${DEFAULT_URL}/lists/${destination.droppableId}`)
-                .then((resp) => resp.json())
-                .then((data) => {
-                  let arr = [...data.card_positions];
-                  arr.splice(destination.index, 0, +draggableId);
-                  fetch(`${DEFAULT_URL}/lists/${destination.droppableId}`, {
-                    method: "PATCH",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      card_positions: [...arr],
-                    }),
-                  }).then(() => {
-                    fetchingAllCards(DEFAULT_URL, dispatch);
-                    fetchingAllLists(DEFAULT_URL, dispatch);
-                  });
-                });
-            });
-          });
-      });
-    }
-
-    if (source.droppableId !== destination.droppableId) {
-      fetch(`${DEFAULT_URL}/cards/${draggableId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ list_id: +destination.droppableId }),
-      })
-        .then((resp) => resp.json())
-        .then(() => {
-          fetch(`${DEFAULT_URL}/lists/${source.droppableId}`)
-            .then((resp) => resp.json())
-            .then((data) => {
-              let arr = [...data.card_positions];
-              let index = arr.findIndex((item) => +item === +draggableId);
-              arr.splice(index, 1);
-              fetch(`${DEFAULT_URL}/lists/${source.droppableId}`, {
-                method: "PATCH",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  card_positions: [...arr],
-                }),
-              }).then(() => {
-                fetch(`${DEFAULT_URL}/lists/${destination.droppableId}`)
-                  .then((resp) => resp.json())
-                  .then((data) => {
-                    let arr = [...data.card_positions];
-                    arr.splice(destination.index, 0, +draggableId);
-                    fetch(`${DEFAULT_URL}/lists/${destination.droppableId}`, {
-                      method: "PATCH",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        card_positions: [...arr],
-                      }),
-                    }).then(() => {
-                      fetchingAllCards(DEFAULT_URL, dispatch);
-                      fetchingAllLists(DEFAULT_URL, dispatch);
-                    });
-                  });
-              });
-            });
-        });
+      // Card moves in the same list.
+      changeSequenceOfList(result, dispatch, fetchFunctions);
+    } else {
+      changeSequenceBetweenLists(result, dispatch, fetchFunctions);
     }
 
     console.log(result);
@@ -167,45 +87,53 @@ function List() {
 
 export default List;
 
-// function changeSequenceOfList(result, dispatch) {
-//   const { destination, source, draggableId } = result;
-//   changingCardsListId({ list_id: +destination.droppableId }, draggableId)
-//     .then(() => {
-//       console.log(1)
-//       fetch(`${DEFAULT_URL}/lists/${source.droppableId}`)
-//         .then((resp) => resp.json())
-//         .then((data) => {
-//           let arr = [...data.card_positions];
-//           let index = arr.findIndex((item) => +item === +draggableId);
-//           arr.splice(index, 1);
-//           fetch(`${DEFAULT_URL}/lists/${source.droppableId}`, {
-//             method: "PATCH",
-//             headers: {
-//               "Content-Type": "application/json",
-//             },
-//             body: JSON.stringify({
-//               card_positions: [...arr],
-//             }),
-//           }).then(() => {
-//             fetch(`${DEFAULT_URL}/lists/${destination.droppableId}`)
-//               .then((resp) => resp.json())
-//               .then((data) => {
-//                 let arr = [...data.card_positions];
-//                 arr.splice(destination.index, 0, +draggableId);
-//                 fetch(`${DEFAULT_URL}/lists/${destination.droppableId}`, {
-//                   method: "PATCH",
-//                   headers: {
-//                     "Content-Type": "application/json",
-//                   },
-//                   body: JSON.stringify({
-//                     card_positions: [...arr],
-//                   }),
-//                 }).then(() => {
-//                   fetchingAllCards(DEFAULT_URL, dispatch);
-//                   fetchingAllLists(DEFAULT_URL, dispatch);
-//                 });
-//               });
-//           });
-//         });
-//     });
-// }
+function changeSequenceOfList(result, dispatch, fetchFunctions) {
+  const { destination, source, draggableId } = result;
+  const { fetchingAllCards, fetchingAllLists } = fetchFunctions;
+
+  getList(source.droppableId).then((data) => {
+    let arr = [...data.card_positions];
+    let index = arr.findIndex((item) => +item === +draggableId);
+    arr.splice(index, 1);
+    arr.splice(destination.index, 0, +draggableId);
+    console.log(arr, "arr");
+    changeListCardPositions(
+      { card_positions: [...arr] },
+      source.droppableId
+    ).then(() => {
+      fetchingAllCards(DEFAULT_URL, dispatch);
+      fetchingAllLists(DEFAULT_URL, dispatch);
+    });
+  });
+}
+
+function changeSequenceBetweenLists(result, dispatch, fetchFunctions) {
+  const { destination, source, draggableId } = result;
+  const { fetchingAllCards, fetchingAllLists } = fetchFunctions;
+
+  changeCardsListId({ list_id: +destination.droppableId }, draggableId).then(
+    () => {
+      getList(source.droppableId).then((data) => {
+        let arr = [...data.card_positions];
+        let index = arr.findIndex((item) => +item === +draggableId);
+        arr.splice(index, 1);
+        changeListCardPositions(
+          { card_positions: [...arr] },
+          source.droppableId
+        ).then(() => {
+          getList(destination.droppableId).then((data) => {
+            let arr = [...data.card_positions];
+            arr.splice(destination.index, 0, +draggableId);
+            changeListCardPositions(
+              { card_positions: [...arr] },
+              destination.droppableId
+            ).then(() => {
+              fetchingAllCards(DEFAULT_URL, dispatch);
+              fetchingAllLists(DEFAULT_URL, dispatch);
+            });
+          });
+        });
+      });
+    }
+  );
+}
