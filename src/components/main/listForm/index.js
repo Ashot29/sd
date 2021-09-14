@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeButtonState } from "../../../stateManagement/actions/buttonActionCreator";
 import { TextField } from "@material-ui/core";
-import { fetchUsers } from "../../../stateManagement/actions/fetchDataActionCreator";
+import { postLists } from "../../../stateManagement/actions/fetchDataActionCreator";
 import Button from "@material-ui/core/Button";
 import "./index.css";
 
@@ -20,12 +20,12 @@ function ListForm() {
   }
 
   function addList() {
-    dispatch(fetchUsers(inputValue));
+    dispatch(postLists(inputValue));
     setInputValue("");
   }
 
   return (
-    <form className="create-list" onSubmit={addList}>
+    <form className="create-list" onSubmit={event => {event.preventDefault(); addList()}}> 
       <TextField
         id="outlined-basic"
         label="Enter list title*"

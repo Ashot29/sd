@@ -1,24 +1,59 @@
 {
-  "employees": [
+  "users": [
     {
-      "id": 1,
+      "id": "4603_0.800",
       "firstName": "Sebastian",
       "lastName": "Eschweiler",
       "email": "sebastian@codingthesmartway.com"
     },
     {
-      "id": 2,
+      "id": "4603_0.8009",
       "firstName": "Steve",
       "lastName": "Palmer",
       "email": "steve@codingthesmartway.com"
     },
     {
-      "id": 3,
+      "id": "08715_0.5828",
       "firstName": "Ann",
       "lastName": "Smith",
       "email": "ann@codingthesmartway.com"
     }
   ],
-  "lists": [],
-  "cards": []
+  "lists": [
+    {
+      "id": "1631626169382_0.17718705693442738",
+      "title": "title 1",
+      "card_positions": [],
+      "position": 4
+    },
+    {
+      "id": "1631626171216_0.6814747000277634",
+      "title": "title 2",
+      "card_positions": [],
+      "position": 5
+    },
+    {
+      "id": "1631627616546_0.16114182370703256",
+      "title": "title 4",
+      "card_positions": [
+        "1631627620244_0.7846651123963984",
+        "1631626177064_0.31120586409665796"
+      ],
+      "position": 3
+    }
+  ],
+  "cards": [
+    {
+      "id": "1631626177064_0.31120586409665796",
+      "title": "2",
+      "list_id": "1631627616546_0.16114182370703256",
+      "description": "second card"
+    },
+    {
+      "id": "1631627620244_0.7846651123963984",
+      "title": "4",
+      "list_id": "1631627616546_0.16114182370703256",
+      "description": ""
+    }
+  ]
 }

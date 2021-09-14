@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeButtonState } from "../../stateManagement/actions/buttonActionCreator";
 import List from "./list";
 import ListForm from "./listForm";
 import Button from "@material-ui/core/Button";
-import { DragDropContext } from "react-beautiful-dnd";
+import { getUsers } from "../../stateManagement/actions/usersActionCreator";
+import CardModal from "./cardModal";
 import "./index.css";
 
 function Main() {
   let state = useSelector((state) => state.isButtonClicked);
   let dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUsers())
+  }, [])
 
   function changeForm() {
     dispatch(changeButtonState());
@@ -32,6 +37,7 @@ function Main() {
           <ListForm />
         )}
       </div>
+      <CardModal />
     </div>
   );
 }

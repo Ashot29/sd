@@ -27,13 +27,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CardModal() {
-  let state = useSelector((state) => state.modalReducer);
+  const modalState = useSelector((state) => state.modalReducer);
+  const users = useSelector(state => state.usersReducer)
   const {
     modalTitle: title,
     modalId: id,
     modalDescription: description,
     modalListId: list_id
-  } = state;
+  } = modalState;
   const classes = useStyles();
   let [desc, setDesc] = useState(description);
   let [titleValue, setTitleValue] = useState(title);
@@ -43,6 +44,7 @@ export default function CardModal() {
 
   const handleClose = () => {
     dispatch(closeModal());
+    setDesc('')
   };
 
   useEffect(() => {
@@ -73,7 +75,7 @@ export default function CardModal() {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         className={classes.modal}
-        open={state.modalIsOpen}
+        open={modalState.modalIsOpen}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -81,7 +83,7 @@ export default function CardModal() {
           timeout: 500,
         }}
       >
-        <Fade in={state.modalIsOpen}>
+        <Fade in={modalState.modalIsOpen}>
           <div className={classes.paper}>
             <form className="card-modal-form">
               <div className="title-div">

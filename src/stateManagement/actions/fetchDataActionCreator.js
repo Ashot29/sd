@@ -1,41 +1,61 @@
 import { DEFAULT_URL } from "../url";
 
-export const fetchUsersRequest = () => {
+export const fetchListsRequest = () => {
   return {
-    type: "FETCH_USERS_REQUEST",
+    type: "FETCH_LISTS_REQUEST",
   };
 };
 
-export const fetchUsersSucccess = (list) => {
+export const fetchListsSuccess = (list) => {
   return {
-    type: "FETCH_USERS_SUCCESS",
+    type: "FETCH_LISTS_SUCCESS",
     payload: list,
   };
 };
 
-export const fetchAllUsers = (list) => {
+export const setAllLists = (list) => {
   return {
-    type: "FETCH_ALL_USERS",
+    type: "FETCH_ALL_LISTS",
     payload: list,
   };
 };
 
-export const fetchUsers = (title) => {
+function findHighestPositionNumber(listArray) {
+  let highest = listArray[0].position;
+  listArray.forEach((list) => {
+    if (list.position > highest) highest = list.position;
+  });
+  return +highest;
+}
+
+export const postLists = (title) => {
+  // make more readable
   return (dispatch) => {
-    let data = {
-      title,
-      card_positions: []
-    };
-    dispatch(fetchUsersRequest());
-    fetch(`${DEFAULT_URL}/lists`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data1) => dispatch(fetchUsersSucccess([data1])));
+    fetch(`${DEFAULT_URL}/lists`)
+      .then((resp) => resp.json())
+      .then((lists) => {
+        let position =
+          lists.length === 0 ? 1 : findHighestPositionNumber(lists) + 1;
+
+        let data = {
+          id: `${Date.now()}_${Math.random()}`,
+          title,
+          card_positions: [],
+          position,
+        };
+
+        dispatch(fetchListsRequest());
+
+        fetch(`${DEFAULT_URL}/lists`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => response.json())
+          .then((data1) => dispatch(fetchListsSuccess([data1])));
+      });
   };
 };
 
@@ -49,6 +69,7 @@ export const addCardsActionCreator = (data) => {
 export const addCard = (inputValue, locationListId) => {
   return (dispatch) => {
     let data = {
+      id: `${Date.now()}_${Math.random()}`,
       title: inputValue,
       list_id: locationListId,
       description: "",
@@ -63,21 +84,22 @@ export const addCard = (inputValue, locationListId) => {
       .then((resp) => resp.json())
       .then((data) => {
         fetch(`${DEFAULT_URL}/lists/${data.list_id}`)
-        .then(resp => resp.json())
-        .then(dataOfList => {
-          fetch(`${DEFAULT_URL}/lists/${data.list_id}`, {
-          method: 'PATCH',
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({card_positions: [...dataOfList.card_positions, data.id]})
-        })
-        .then(() => {
-          fetch(`${DEFAULT_URL}/lists`)
-          .then(resp => resp.json())
-          .then(data => dispatch(fetchAllUsers(data)))
-        })
-        })
+          .then((resp) => resp.json())
+          .then((dataOfList) => {
+            fetch(`${DEFAULT_URL}/lists/${data.list_id}`, {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                card_positions: [...dataOfList.card_positions, data.id],
+              }),
+            }).then(() => {
+              fetch(`${DEFAULT_URL}/lists`)
+                .then((resp) => resp.json())
+                .then((data) => dispatch(setAllLists(data)));
+            });
+          });
         dispatch(addCardsActionCreator(data));
       });
   };
