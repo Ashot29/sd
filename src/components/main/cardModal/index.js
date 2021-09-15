@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import { useSelector, useDispatch } from "react-redux";
 import { TextField, Button } from "@material-ui/core";
 import { closeModal } from "../../../stateManagement/actions/modalActionCreator";
@@ -28,12 +30,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CardModal() {
   const modalState = useSelector((state) => state.modalReducer);
-  const users = useSelector(state => state.usersReducer)
+  const users = useSelector((state) => state.usersReducer.users);
   const {
     modalTitle: title,
     modalId: id,
     modalDescription: description,
-    modalListId: list_id
+    modalListId: list_id,
   } = modalState;
   const classes = useStyles();
   let [desc, setDesc] = useState(description);
@@ -44,7 +46,7 @@ export default function CardModal() {
 
   const handleClose = () => {
     dispatch(closeModal());
-    setDesc('')
+    setDesc("");
   };
 
   useEffect(() => {
@@ -66,11 +68,11 @@ export default function CardModal() {
       description: desc,
     };
     patchingCards(data, id, fetchingAllCards);
+    setDesc("");
     dispatch(closeModal());
   }
 
   return (
-    <div>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -88,7 +90,7 @@ export default function CardModal() {
             <form className="card-modal-form">
               <div className="title-div">
                 <TextField
-                  style={{ width: "80%", marginBottom: "10px" }}
+                  style={{ width: "500px", marginBottom: "10px" }}
                   required
                   id="outlined-required"
                   label="Title*"
@@ -107,6 +109,24 @@ export default function CardModal() {
                   variant="outlined"
                   onChange={(event) => setDesc(event.target.value)}
                 />
+              </div>
+              <div className="card-users">
+                <h3 style={{ fontFamily: "roboto", marginBottom: "12px" }}>
+                  Members
+                </h3>
+                <div className="users">
+                  {users.map((user) => (
+                    <div className="user" key={user.id}>
+                      <FormControlLabel
+                        value="end"
+                        control={<Checkbox color="primary" />}
+                        label={user.firstName}
+                        labelPlacement="end"
+                        onClick={(event) => console.log(event.target.checked)}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
               <div className="card-modal-buttons">
                 <Button
@@ -129,6 +149,5 @@ export default function CardModal() {
           </div>
         </Fade>
       </Modal>
-    </div>
   );
 }

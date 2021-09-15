@@ -1,7 +1,7 @@
 .list-content {
   display: flex;
   flex-direction: row; 
-  max-width: 68.05%;
+  max-width: 75%;
   align-items: flex-start;
   overflow-x: auto;
   padding-bottom: 100px;

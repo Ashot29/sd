@@ -16,3 +16,17 @@
   justify-content: space-between;
   width: 100%;
 }
+
+.form-buttons {
+  display: flex;
+}
+
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-avatars {
+  display: flex;
+}

@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import { fetchingAllLists } from "../..";
 import "./index.css";
 import { addCard } from "../../../../../stateManagement/actions/fetchDataActionCreator";
 import { useDispatch } from "react-redux";
-import { DEFAULT_URL } from "../../../../../stateManagement/url";
 
 function CardForm({ id }) {
   let [inputValue, setInputValue] = useState("");
