@@ -10,7 +10,7 @@ import FormatAlignLeftIcon from "@material-ui/icons/FormatAlignLeft";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { DEFAULT_URL } from "../../../../../stateManagement/url";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchingAllCards } from "../..";
 import { patch } from "../../../../../httpRequests/patchRequest";
 import { openModal } from "../../../../../stateManagement/actions/modalActionCreator";
@@ -30,6 +30,22 @@ const useStyles = makeStyles({
 const patchCardTitle = patch("cards");
 
 export default function MediaCard({ title, id, description, index, list_id }) {
+  const usersSubscribedOnCard = useSelector(state => {
+    let allUsers = state.usersReducer.users;
+    let set = new Set();
+
+    allUsers.forEach(user => {
+      const subscribed_to_cards = new Set(user.subscribed_to_cards)
+      if (subscribed_to_cards.has(id)) {
+        set.add(user)
+      }
+    })
+
+    set = Array.from(set)
+
+    return set
+  })
+
   let [hoverState, updateHoverState] = useState(false);
   let [formIsOpen, updateFormState] = useState(false);
   let [inputValue, changeInputValue] = useState(title);
@@ -113,9 +129,11 @@ export default function MediaCard({ title, id, description, index, list_id }) {
                     {!!description && <FormatAlignLeftIcon fontSize="small" />}
                   </div>
                   <div className='card-avatars'>
-                    <Avatar style={{marginLeft: '5px', backgroundColor: 'indigo'}}>A</Avatar>
-                    <Avatar style={{marginLeft: '5px', backgroundColor: 'indigo'}}>B</Avatar>
-                    <Avatar style={{marginLeft: '5px', backgroundColor: 'indigo'}}>C</Avatar>
+                    {
+                      usersSubscribedOnCard.map(user => {
+                        return <Avatar key={user.id} style={{marginLeft: '5px', backgroundColor: '#c7d1c8'}}>{user.firstName[0]}</Avatar>
+                      })
+                    }
                   </div>
                 </div>
               </CardContent>

@@ -154,6 +154,8 @@ function changeListSequence(lists, result, dispatch) {
   const [reorderedItem] = items.splice(result.source.index, 1);
   items.splice(result.destination.index, 0, reorderedItem);
 
+  dispatch(setAllLists(items));
+
   items.forEach((item, index) => {
     let position = clone[index].position;
     if (item.position === position) return;
@@ -167,7 +169,7 @@ function changeListSequence(lists, result, dispatch) {
     });
   });
 
-  dispatch(setAllLists(items));
+  // dispatch(setAllLists(items));
 }
 
 function arrayInRightSequence(data, result) {

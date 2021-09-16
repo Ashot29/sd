@@ -9,6 +9,13 @@ export function usersReducer(state = usersInitialData, action) {
                 ...state,
                 users: [...action.payload.users]
             }
+        // case 'CHANGE_USER_SUBSCRIPTIONS':
+        //     return {
+        //         ...state,
+        //         users: [
+        //             state.users.splice(action.payload.index, 1)
+        //         ]
+        //     }
         default:
             return state
     }
