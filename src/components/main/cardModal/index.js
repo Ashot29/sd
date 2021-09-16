@@ -121,52 +121,19 @@ export default function CardModal() {
                 {users.map((user) => {
                   let set = new Set(user.subscribed_to_cards);
                   let userHasTheId = set.has(id);
-                  console.log(userHasTheId, `${title}, ${user.firstName}`)
+                  // Checking if user is subscribed on the card
+
                   return (
                     <div className="user" key={user.id}>
-                      <span style={{fontSize: '20px'}}>{user.firstName}</span>
+                      <span style={{ fontSize: "20px" }}>{user.firstName}</span>
                       <input
-                      style={{marginRight: '12px'}}
-                      type='checkbox'
-                        ref={checkboxElem}
+                        style={{ marginRight: "12px" }}
+                        type="checkbox"
                         defaultChecked={userHasTheId}
-                        label={user.firstName}
                         data-cardid={id}
                         onClick={(event) => {
-                          console.log(event)
-                          const checked = event.target.checked;
-                          const current_user = users.find(
-                            (obj) => obj.id === user.id
-                          );
-                          let subscribed_to_cards = new Set(
-                            current_user.subscribed_to_cards
-                          );
-
-                          if (checked) {
-                            console.log(1)
-                            subscribed_to_cards.add(id);
-                            subscribed_to_cards = Array.from(subscribed_to_cards);
-
-                            setTimeout(() => {
-                              if (checked !== event.target.checked) return;
-                              patchingUserSubscriptions(
-                                { subscribed_to_cards },
-                                user.id
-                              ).then(() => dispatch(getUsers()));
-                            }, 300);
-                          } else {
-                            console.log(2)
-                            subscribed_to_cards.delete(id);
-                            subscribed_to_cards = Array.from(subscribed_to_cards);
-
-                            setTimeout(() => {
-                              if (checked !== event.target.checked) return;
-                              patchingUserSubscriptions(
-                                { subscribed_to_cards },
-                                user.id
-                              ).then(() => dispatch(getUsers()));
-                            }, 300);
-                          }
+                          let data = { users, user, id, patchingUserSubscriptions };
+                          handleCheckboxClicks(event, data, dispatch);
                         }}
                       />
                     </div>
@@ -196,4 +163,56 @@ export default function CardModal() {
       </Fade>
     </Modal>
   );
+}
+
+const handleCheckboxClicks = (event, data, dispatch) => {
+  let { users, user, id, patchingUserSubscriptions } = data;
+
+  const checked = event.target.checked;
+  const current_user = users.find((obj) => obj.id === user.id);
+  let subscribed_to_cards = new Set(current_user.subscribed_to_cards);
+
+  let argsForHandling = {
+    id,
+    user,
+    patchingUserSubscriptions,
+    subscribed_to_cards,
+    checked,
+    dispatch,
+  };
+
+  if (checked) {
+    changeUserSubscription('ADD', argsForHandling, event)
+  } else {
+    changeUserSubscription('DELETE', argsForHandling, event)
+  }
+};
+
+function changeUserSubscription(type, args, event) {
+  let {
+    user,
+    id,
+    patchingUserSubscriptions,
+    subscribed_to_cards,
+    checked,
+    dispatch,
+  } = args;
+
+  console.log(subscribed_to_cards)
+
+  if (type === 'DELETE') {
+      subscribed_to_cards.delete(id);
+      subscribed_to_cards = Array.from(subscribed_to_cards);
+  } else if (type === 'ADD') {
+      subscribed_to_cards.add(id);
+      subscribed_to_cards = Array.from(subscribed_to_cards);
+  }
+
+  console.log(subscribed_to_cards)
+
+  setTimeout(() => {
+    if (checked !== event.target.checked) return;
+    patchingUserSubscriptions({ subscribed_to_cards }, user.id)
+    .then(() => dispatch(getUsers()));
+  }, 300)
 }
