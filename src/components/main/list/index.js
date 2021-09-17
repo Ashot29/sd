@@ -8,23 +8,22 @@ import {
 } from "../../../stateManagement/actions/fetchDataActionCreator";
 import { patch } from "../../../httpRequests/patchRequest";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import CardService from "../../../services/cards.service";
+import ListService from './../../../services/list.service';
 import "./index.css";
 
+const cardService = CardService.getInstance();
+const listService = ListService.getInstance();
+
 export const fetchingAllCards = (url, dispatch) => {
-  fetch(`${url}/cards`)
-    .then((resp) => resp.json())
-    .then((data) => {
-      dispatch(getAllCards(data));
-    });
+  cardService.get().then((data) => dispatch(getAllCards(data)));
 };
 
 export const fetchingAllLists = (url, dispatch) => {
-  fetch(`${url}/lists`)
-    .then((resp) => resp.json())
-    .then((data) => {
-      data.sort((a, b) => a.position - b.position);
-      dispatch(setAllLists(data));
-    });
+  listService.get().then((data) => {
+    data.sort((a, b) => a.position - b.position);
+    dispatch(setAllLists(data));
+  });
 };
 
 const fetchFunctions = {

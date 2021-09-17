@@ -11,61 +11,50 @@ import { Avatar } from "@material-ui/core";
 import "./index.css";
 import { DEFAULT_URL } from "../../stateManagement/url";
 import { patch } from "../../httpRequests/patchRequest";
+import UserSequenceService from "./../../services/user-sequence.service";
 
 function Main() {
+  const userSequenceService = UserSequenceService.getInstance();
   let [userSequence, setUserSequence] = useState([]);
+  let state = useSelector((state) => state.isButtonClicked);
+  let dispatch = useDispatch();
+  const patchUsersSequence = patch("user-sequence");
 
   const users = useSelector((state) => {
-    let allUsers = state.usersReducer.users
-    let arr = [];
-
-    if (userSequence.length === 0) return [];
-    userSequence.forEach(userId => {
-      let obj = allUsers.find(user => user.id === userId)
-      arr.push(obj)
-    })
-
-    return arr
+    const allUsers = state.usersReducer.users;
+    const arr = [];
+    userSequence.forEach((userId) =>
+      arr.push(allUsers.find((user) => user.id === userId))
+    );
+    return arr;
   });
-  let state = useSelector((state) => state.isButtonClicked);
-
-  let dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getUsers());
+    userSequenceService
+      .getById(1)
+      .then((data) => setUserSequence([...data.sequence]));
   }, []);
-
-  useEffect(() => {
-    fetch(`${DEFAULT_URL}/user-sequence/1`)
-    .then(resp => resp.json())
-    .then(data => {
-      setUserSequence([...data.sequence])
-    })
-  }, [])
 
   function changeForm() {
     dispatch(changeButtonState());
   }
 
-  const patchUsersSequence = patch('user-sequence')
-
   const handleUsersDrag = (result) => {
-    const { destination, source } = result
-    if (!destination) return;
+    const { destination, source } = result;
     if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
+      (destination.droppableId === source.droppableId &&
+        destination.index === source.index) ||
+      !destination
     ) {
       return;
     }
 
     const [reorderedItem] = users.splice(result.source.index, 1);
     users.splice(result.destination.index, 0, reorderedItem);
-    const arr = users.map(user => user.id);
-
-    patchUsersSequence({sequence: arr}, 1)
-    // changing the users-sequence into ours
-  }
+    const arr = users.map((user) => user.id);
+    patchUsersSequence({ sequence: arr }, 1);
+  };
 
   return (
     <div className="main-content">
@@ -95,7 +84,6 @@ function Main() {
                         <Avatar {...provided.dragHandleProps}>
                           {user.firstName[0]}
                         </Avatar>
-                        
                       </div>
                     )}
                   </Draggable>
@@ -106,7 +94,6 @@ function Main() {
           )}
         </Droppable>
       </DragDropContext>
-
       <div className="lists">
         <List />
         {!state.isButtonClicked ? (
@@ -121,7 +108,6 @@ function Main() {
           <ListForm />
         )}
       </div>
-
       <CardModal />
     </div>
   );

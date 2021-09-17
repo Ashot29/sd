@@ -198,13 +198,12 @@ const handleCheckboxClicks = (event, data, dispatch) => {
   }
 };
 
-function changeUserSubscription(type, args, event) {
+function changeUserSubscription(type, args) {
   let {
     user,
     id,
     patchingUserSubscriptions,
     subscribed_to_cards,
-    checked,
     dispatch,
   } = args;
 
