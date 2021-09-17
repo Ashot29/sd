@@ -7,27 +7,20 @@ import { DEFAULT_URL } from "../../../../../stateManagement/url";
 import { fetchingAllLists } from "../..";
 import { useDispatch } from "react-redux";
 import { fetchingAllCards } from "../..";
+import ListService from "./../../../../../services/list.service";
+import CardService from "./../../../../../services/cards.service";
+
+const listService = ListService.getInstance();
+const cardService = CardService.getInstance();
 
 function deleteListWithItsCards(url, id, dispatch) {
-  fetch(`${url}/lists/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then(() => {
-    fetch(`${url}/cards?list_id=${id}`)
-      .then((resp) => resp.json())
-      .then((data) => {
-        fetchingAllLists(url, dispatch);
-        data.forEach((item) => {
-          fetch(`${url}/cards/${item.id}`, {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }).then(() => fetchingAllCards(url, dispatch));
-        });
+  listService.delete(id).then(() => {
+    cardService.getWithlistId(id).then((data) => {
+      fetchingAllLists(url, dispatch);
+      data.forEach((item) => {
+        cardService.delete(item.id).then(() => fetchingAllCards(url, dispatch));
       });
+    });
   });
 }
 

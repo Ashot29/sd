@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:8000";
+export const BASE_URL = "http://localhost:8000";
 
 export class BaseService {
   constructor(url) {
@@ -24,11 +24,11 @@ export class BaseService {
 
   update(id, data) {
     return fetch(`${BASE_URL}/${this.url}/${id}`, {
-        method: 'DELETE',
+        method: 'PATCH',
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.parse(JSON.stringify(data))
+        body: JSON.stringify(data)
     }).then((resp) => resp.json());
   }
 }

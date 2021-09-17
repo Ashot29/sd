@@ -160,13 +160,7 @@ function changeListSequence(lists, result, dispatch) {
     let position = clone[index].position;
     if (item.position === position) return;
 
-    fetch(`${DEFAULT_URL}/lists/${item.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ position }),
-    });
+    listService.update(item.id, { position });
   });
 }
 
