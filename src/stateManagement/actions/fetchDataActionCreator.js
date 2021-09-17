@@ -71,12 +71,14 @@ const patchCardPositions = patch('lists')
 
 export const addCard = (inputValue, locationListId) => {
   return (dispatch) => {
+    // Preparing data for sending
     let data = {
       id: `${Date.now()}_${Math.random()}`,
       title: inputValue,
       list_id: locationListId,
       description: "",
     };
+    
     fetch(`${DEFAULT_URL}/cards`, {
       method: "POST",
       headers: {
