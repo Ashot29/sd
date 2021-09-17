@@ -14,7 +14,9 @@ import { DEFAULT_URL } from "../../../../stateManagement/url";
 const ListItem = ({ title, id, index }) => {
   let [isClicked, setIsClicked] = useState(false);
   let [value, setValue] = useState(title);
+
   let cards = useSelector((state) => {
+    // Taking only the cards that are in list card_positions property
     if (state.fetchData.lists.length === 0) return [];
     if (state.fetchData.cards.length === 0) return [];
     let arr = [];
@@ -79,6 +81,7 @@ const ListItem = ({ title, id, index }) => {
               <MenuButton id={id} />
             </div>
           </div>
+          
           <div className="button-and-cards">
             <Droppable droppableId={id} type="CARDS">
               {(provided) => (

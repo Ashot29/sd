@@ -28,16 +28,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CardModal() {
-  const checkboxElem = useRef(null);
   const modalState = useSelector((state) => state.modalReducer);
-  const users = useSelector((state) => state.usersReducer.users);
   const {
     modalTitle: title,
     modalId: id,
     modalDescription: description,
     modalListId: list_id,
   } = modalState;
+
+  const users = useSelector((state) => state.usersReducer.users);
+
   const classes = useStyles();
+
   let [desc, setDesc] = useState(description);
   let [titleValue, setTitleValue] = useState(title);
   let dispatch = useDispatch();
@@ -132,7 +134,12 @@ export default function CardModal() {
                         defaultChecked={userHasTheId}
                         data-cardid={id}
                         onClick={(event) => {
-                          let data = { users, user, id, patchingUserSubscriptions };
+                          let data = {
+                            users,
+                            user,
+                            id,
+                            patchingUserSubscriptions,
+                          };
                           handleCheckboxClicks(event, data, dispatch);
                         }}
                       />
@@ -182,9 +189,9 @@ const handleCheckboxClicks = (event, data, dispatch) => {
   };
 
   if (checked) {
-    changeUserSubscription('ADD', argsForHandling, event)
+    changeUserSubscription("ADD", argsForHandling, event);
   } else {
-    changeUserSubscription('DELETE', argsForHandling, event)
+    changeUserSubscription("DELETE", argsForHandling, event);
   }
 };
 
@@ -198,21 +205,18 @@ function changeUserSubscription(type, args, event) {
     dispatch,
   } = args;
 
-  console.log(subscribed_to_cards)
-
-  if (type === 'DELETE') {
-      subscribed_to_cards.delete(id);
-      subscribed_to_cards = Array.from(subscribed_to_cards);
-  } else if (type === 'ADD') {
-      subscribed_to_cards.add(id);
-      subscribed_to_cards = Array.from(subscribed_to_cards);
+  if (type === "DELETE") {
+    subscribed_to_cards.delete(id);
+    subscribed_to_cards = Array.from(subscribed_to_cards);
+  } else if (type === "ADD") {
+    subscribed_to_cards.add(id);
+    subscribed_to_cards = Array.from(subscribed_to_cards);
   }
-
-  console.log(subscribed_to_cards)
 
   setTimeout(() => {
     if (checked !== event.target.checked) return;
-    patchingUserSubscriptions({ subscribed_to_cards }, user.id)
-    .then(() => dispatch(getUsers()));
-  }, 300)
+    patchingUserSubscriptions({ subscribed_to_cards }, user.id).then(() =>
+      dispatch(getUsers())
+    );
+  }, 300);
 }

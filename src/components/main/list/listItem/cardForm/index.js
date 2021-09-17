@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 function CardForm({ id }) {
   let [inputValue, setInputValue] = useState("");
   let [isClicked, setIsClicked] = useState(false);
+  
   let dispatch = useDispatch();
   let elem;
 

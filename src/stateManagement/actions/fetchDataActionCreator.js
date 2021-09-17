@@ -1,3 +1,4 @@
+import { patch } from "../../httpRequests/patchRequest";
 import { DEFAULT_URL } from "../url";
 
 export const fetchListsRequest = () => {
@@ -66,6 +67,8 @@ export const addCardsActionCreator = (data) => {
   };
 };
 
+const patchCardPositions = patch('lists')
+
 export const addCard = (inputValue, locationListId) => {
   return (dispatch) => {
     let data = {
@@ -86,15 +89,10 @@ export const addCard = (inputValue, locationListId) => {
         fetch(`${DEFAULT_URL}/lists/${data.list_id}`)
           .then((resp) => resp.json())
           .then((dataOfList) => {
-            fetch(`${DEFAULT_URL}/lists/${data.list_id}`, {
-              method: "PATCH",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                card_positions: [...dataOfList.card_positions, data.id],
-              }),
-            }).then(() => {
+            patchCardPositions({card_positions: [...dataOfList.card_positions, data.id]}, data.list_id)
+            // patching new card positions to list with data.list_id Id
+            
+            .then(() => {
               fetch(`${DEFAULT_URL}/lists`)
                 .then((resp) => resp.json())
                 .then((data) => dispatch(setAllLists(data)));

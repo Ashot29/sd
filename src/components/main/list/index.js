@@ -44,6 +44,7 @@ const changeCardsListId = patch("cards");
 function List() {
   let lists = useSelector((state) => state.fetchData.lists);
   let [listsArray, setListsArray] = useState(lists);
+
   let dispatch = useDispatch();
 
   useEffect(() => {
@@ -56,7 +57,7 @@ function List() {
   }, []);
 
   const handleDragEnd = (result) => {
-    const { destination, source, draggableId, type } = result;
+    const { destination, source, type } = result;
     if (!destination) return;
     if (
       destination.droppableId === source.droppableId &&
@@ -168,8 +169,6 @@ function changeListSequence(lists, result, dispatch) {
       body: JSON.stringify({ position }),
     });
   });
-
-  // dispatch(setAllLists(items));
 }
 
 function arrayInRightSequence(data, result) {

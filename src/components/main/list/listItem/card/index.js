@@ -28,23 +28,25 @@ const useStyles = makeStyles({
 });
 
 const patchCardTitle = patch("cards");
+const patchListCardPositions = patch("lists");
 
 export default function MediaCard({ title, id, description, index, list_id }) {
-  const usersSubscribedOnCard = useSelector(state => {
+  const usersSubscribedOnCard = useSelector((state) => {
+    // Taking only the users that are subscribed to this card
     let allUsers = state.usersReducer.users;
     let set = new Set();
 
-    allUsers.forEach(user => {
-      const subscribed_to_cards = new Set(user.subscribed_to_cards)
+    allUsers.forEach((user) => {
+      const subscribed_to_cards = new Set(user.subscribed_to_cards);
       if (subscribed_to_cards.has(id)) {
-        set.add(user)
+        set.add(user);
       }
-    })
+    });
 
-    set = Array.from(set)
+    set = Array.from(set);
 
-    return set
-  })
+    return set;
+  });
 
   let [hoverState, updateHoverState] = useState(false);
   let [formIsOpen, updateFormState] = useState(false);
@@ -124,18 +126,27 @@ export default function MediaCard({ title, id, description, index, list_id }) {
                   </div>
                 </div>
 
-                <div className='card-bottom'>
+                <div className="card-bottom">
                   <div className="description-icon">
                     {!!description && <FormatAlignLeftIcon fontSize="small" />}
                   </div>
-                  <div className='card-avatars'>
-                    {
-                      usersSubscribedOnCard.map(user => {
-                        return <Avatar key={user.id} style={{marginLeft: '5px', backgroundColor: '#c7d1c8'}}>{user.firstName[0]}</Avatar>
-                      })
-                    }
+                  <div className="card-avatars">
+                    {usersSubscribedOnCard.map((user) => {
+                      return (
+                        <Avatar
+                          key={user.id}
+                          style={{
+                            marginLeft: "5px",
+                            backgroundColor: "#c7d1c8",
+                          }}
+                        >
+                          {user.firstName[0]}
+                        </Avatar>
+                      );
+                    })}
                   </div>
                 </div>
+                
               </CardContent>
             </Card>
           </div>
@@ -187,15 +198,9 @@ export const deleteCard = (url, id, dispatch, list_id) => {
         let arr = [...dataOfList.card_positions];
         let index = arr.findIndex((item) => item == id);
         arr.splice(index, 1);
-        fetch(`${DEFAULT_URL}/lists/${list_id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            card_positions: [...arr],
-          }),
-        });
+
+        // deleting card id from list's card_positions
+        patchListCardPositions({ card_positions: [...arr] }, list_id);
       })
       .then(() => fetchingAllCards(url, dispatch));
   });

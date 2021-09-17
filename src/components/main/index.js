@@ -25,6 +25,8 @@ function Main() {
 
   return (
     <div className="main-content">
+
+      
       <div className="members">
         {users.map((user) => {
           return (
@@ -35,6 +37,7 @@ function Main() {
           );
         })}
       </div>
+
       <div className="lists">
         <List />
         {!state.isButtonClicked ? (
@@ -49,6 +52,7 @@ function Main() {
           <ListForm />
         )}
       </div>
+
       <CardModal />
     </div>
   );
