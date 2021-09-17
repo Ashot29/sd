@@ -50,10 +50,18 @@ function Main() {
   const patchUsersSequence = patch('user-sequence')
 
   const handleUsersDrag = (result) => {
+    const { destination, source } = result
+    if (!destination) return;
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
     const [reorderedItem] = users.splice(result.source.index, 1);
     users.splice(result.destination.index, 0, reorderedItem);
-
-    let arr = users.map(user => user.id)
+    const arr = users.map(user => user.id);
 
     patchUsersSequence({sequence: arr}, 1)
     // changing the users-sequence into ours

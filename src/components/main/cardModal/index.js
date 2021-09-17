@@ -90,7 +90,10 @@ export default function CardModal() {
     >
       <Fade in={modalState.modalIsOpen}>
         <div className={classes.paper}>
-          <form className="card-modal-form">
+          <form
+            className="card-modal-form"
+            onSubmit={() => console.log(2323233)}
+          >
             <div className="title-div">
               <TextField
                 style={{ width: "500px", marginBottom: "10px" }}
@@ -213,10 +216,7 @@ function changeUserSubscription(type, args, event) {
     subscribed_to_cards = Array.from(subscribed_to_cards);
   }
 
-  setTimeout(() => {
-    if (checked !== event.target.checked) return;
-    patchingUserSubscriptions({ subscribed_to_cards }, user.id).then(() =>
-      dispatch(getUsers())
-    );
-  }, 300);
+  patchingUserSubscriptions({ subscribed_to_cards }, user.id).then(() =>
+    dispatch(getUsers())
+  );
 }
