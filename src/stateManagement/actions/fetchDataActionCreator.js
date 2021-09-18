@@ -4,6 +4,8 @@ import ListService from "../../services/list.service";
 const cardService = CardService.getInstance();
 const listService = ListService.getInstance();
 
+// Action creators for LISTS
+
 export const fetchListsRequest = () => {
   return {
     type: "FETCH_LISTS_REQUEST",
@@ -23,14 +25,6 @@ export const setAllLists = (list) => {
     payload: list,
   };
 };
-
-function findHighestPositionNumber(listArray) {
-  let highest = listArray[0].position;
-  listArray.forEach((list) => {
-    if (list.position > highest) highest = list.position;
-  });
-  return +highest;
-}
 
 export const postLists = (title) => {
   return (dispatch) => {
@@ -52,6 +46,8 @@ export const postLists = (title) => {
     });
   };
 };
+
+// Action creators for CARDS
 
 export const addCardsActionCreator = (data) => {
   return {
@@ -91,3 +87,13 @@ export const getAllCards = (cards) => {
     payload: cards,
   };
 };
+
+// Helper Functions
+
+function findHighestPositionNumber(listArray) {
+  let highest = listArray[0].position;
+  listArray.forEach((list) => {
+    if (list.position > highest) highest = list.position;
+  });
+  return +highest;
+}
