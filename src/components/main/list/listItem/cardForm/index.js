@@ -6,10 +6,9 @@ import { addCard } from "../../../../../stateManagement/actions/fetchDataActionC
 import { useDispatch } from "react-redux";
 
 function CardForm({ id }) {
+  const dispatch = useDispatch();
   let [inputValue, setInputValue] = useState("");
   let [isClicked, setIsClicked] = useState(false);
-  
-  let dispatch = useDispatch();
   let elem;
 
   let buttonStyles = {
@@ -22,9 +21,9 @@ function CardForm({ id }) {
   }
 
   function addingCard() {
-      dispatch(addCard(inputValue, id));
-      changeForm();
-      setInputValue("");
+    dispatch(addCard(inputValue, id));
+    changeForm();
+    setInputValue("");
   }
 
   if (!isClicked) {
@@ -41,6 +40,7 @@ function CardForm({ id }) {
     elem = (
       <form className="create-list" onSubmit={addingCard}>
         <TextField
+          autoFocus
           id="standard-basic"
           label="Enter card title*"
           style={{ width: "100%" }}

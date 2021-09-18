@@ -7,23 +7,23 @@ import ListForm from "./listForm";
 import Button from "@material-ui/core/Button";
 import { getUsers } from "../../stateManagement/actions/usersActionCreator";
 import CardModal from "./cardModal";
-import { Avatar } from "@material-ui/core";
-import "./index.css";
 import UserSequenceService from "./../../services/user-sequence.service";
+import Member from "./member";
+import "./index.css";
 
 function Main() {
   const userSequenceService = UserSequenceService.getInstance();
   let [userSequence, setUserSequence] = useState([]);
   let state = useSelector((state) => state.isButtonClicked);
-  let dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const users = useSelector((state) => {
     const allUsers = state.usersReducer.users;
-    const arr = [];
+    const usersInRightArrange = [];
     userSequence.forEach((userId) =>
-      arr.push(allUsers.find((user) => user.id === userId))
+      usersInRightArrange.push(allUsers.find((user) => user.id === userId))
     );
-    return arr;
+    return usersInRightArrange;
   });
 
   useEffect(() => {
@@ -33,11 +33,11 @@ function Main() {
       .then((data) => setUserSequence([...data.sequence]));
   }, []);
 
-  function changeForm() {
+  function changeButtonIntoForm() {
     dispatch(changeButtonState());
   }
 
-  const handleUsersDrag = (result) => {
+  const dragEnd = (result) => {
     const { destination, source } = result;
     if (
       (destination.droppableId === source.droppableId &&
@@ -49,14 +49,14 @@ function Main() {
 
     const [reorderedItem] = users.splice(result.source.index, 1);
     users.splice(result.destination.index, 0, reorderedItem);
-    const arr = users.map((user) => user.id);
+    const userIds = users.map((user) => user.id);
 
-    userSequenceService.update(1, { sequence: arr })
+    userSequenceService.update(1, { sequence: userIds });
   };
 
   return (
     <div className="main-content">
-      <DragDropContext onDragEnd={handleUsersDrag}>
+      <DragDropContext onDragEnd={dragEnd}>
         <Droppable
           droppableId="all-members"
           direction="horizontal"
@@ -69,23 +69,7 @@ function Main() {
               ref={provided.innerRef}
             >
               {users.map((user, index) => {
-                return (
-                  <Draggable index={index} draggableId={user.id} key={user.id}>
-                    {(provided) => (
-                      <div
-                        className="member"
-                        {...provided.draggableProps}
-                        ref={provided.innerRef}
-                      >
-                        <h3 style={{ color: "#FFF" }}>{user.firstName}</h3>
-
-                        <Avatar {...provided.dragHandleProps}>
-                          {user.firstName[0]}
-                        </Avatar>
-                      </div>
-                    )}
-                  </Draggable>
-                );
+                return <Member index={index} user={user} key={user.id} />;
               })}
               {provided.placeholder}
             </div>
@@ -96,9 +80,10 @@ function Main() {
         <List />
         {!state.isButtonClicked ? (
           <Button
+          style={{backgroundColor: '#e0e0e0'}}
+            className="add-list-button"
             variant="outlined"
-            style={{ backgroundColor: "#e0e0e0" }}
-            onClick={changeForm}
+            onClick={changeButtonIntoForm}
           >
             + ADD A LIST
           </Button>

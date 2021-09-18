@@ -22,3 +22,11 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
+
+.title-textfield {
+  width: 500px;
+}
+
+.description-textfield {
+  width: 100%;
+}

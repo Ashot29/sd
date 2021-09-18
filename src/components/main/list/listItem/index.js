@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import MenuButton from "./menuButton";
-import "./index.css";
 import { useDispatch } from "react-redux";
 import MediaCard from "./card";
 import CardForm from "./cardForm";
@@ -10,30 +9,31 @@ import { fetchingAllLists } from "..";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import { DEFAULT_URL } from "../../../../stateManagement/url";
 import ListService from "../../../../services/list.service";
+import "./index.css";
 
 const listService = ListService.getInstance();
 
 const ListItem = ({ title, id, index }) => {
   let [isClicked, setIsClicked] = useState(false);
   let [value, setValue] = useState(title);
+  const dispatch = useDispatch();
 
-  let cards = useSelector((state) => {
-    // Taking only the cards that are in list card_positions property
-    if (state.fetchData.lists.length === 0) return [];
-    if (state.fetchData.cards.length === 0) return [];
-    let arr = [];
-    let list = state.fetchData.lists.find((list) => list.id === id);
+  const cards = useSelector((state) => {
+    const lists = state.fetchData.lists;
+    const cards = state.fetchData.cards;
+    let cardsInRightSequence = [];
+    let list = lists.find((list) => list.id === id);
     let card_positions = list ? list.card_positions : [];
-    let cardsArray = [
-      ...state.fetchData.cards.filter((item) => item.list_id == id),
+    let cardsBelongingToThisList = [
+      ...cards.filter((card) => card.list_id == id),
     ];
     card_positions.forEach((position) => {
-      let card = cardsArray.find((item) => item.id === position);
+      let card = cardsBelongingToThisList.find((card) => card.id === position);
       if (card) {
-        arr.push(card);
+        cardsInRightSequence.push(card);
       }
     });
-    return arr;
+    return cardsInRightSequence;
   });
 
   useEffect(() => {
@@ -41,12 +41,9 @@ const ListItem = ({ title, id, index }) => {
     // it is for fetching after deleting or adding card
   }, [cards.length]);
 
-  let dispatch = useDispatch();
-
   let element = !isClicked ? (
     <div
       className="list-title"
-      style={{ fontWeight: 700, fontSize: "20px", cursor: "pointer" }}
       onClick={() => setIsClicked(!isClicked)}
     >
       {title}
@@ -63,8 +60,8 @@ const ListItem = ({ title, id, index }) => {
     >
       <Input
         value={value}
-        onChange={(e) => setValue(e.target.value)}
         inputProps={{ "aria-label": "description" }}
+        onChange={(e) => setValue(e.target.value)}
       />
     </form>
   );

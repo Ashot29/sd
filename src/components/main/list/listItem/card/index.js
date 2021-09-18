@@ -15,12 +15,13 @@ import { fetchingAllCards } from "../..";
 import { openModal } from "../../../../../stateManagement/actions/modalActionCreator";
 import { Draggable } from "react-beautiful-dnd";
 import Avatar from "@material-ui/core/Avatar";
-import "./index.css";
 import CardService from "../../../../../services/cards.service";
 import ListService from "../../../../../services/list.service";
+import EditForm from "./editForm";
+import "./index.css";
 
-const cardService = CardService.getInstance()
-const listService = ListService.getInstance()
+const cardService = CardService.getInstance();
+const listService = ListService.getInstance();
 
 const useStyles = makeStyles({
   root: {
@@ -32,44 +33,29 @@ const useStyles = makeStyles({
 });
 
 export default function MediaCard({ title, id, description, index, list_id }) {
-  const usersSubscribedOnCard = useSelector((state) => {
-    // Taking only the users that are subscribed to this card
-    let allUsers = state.usersReducer.users;
-    let set = new Set();
-
-    allUsers.forEach((user) => {
-      const subscribed_to_cards = new Set(user.subscribed_to_cards);
-      if (subscribed_to_cards.has(id)) {
-        set.add(user);
-      }
-    });
-
-    set = Array.from(set);
-
-    return set;
-  });
-
+  const classes = useStyles();
+  const dispatch = useDispatch();
   let [hoverState, updateHoverState] = useState(false);
   let [formIsOpen, updateFormState] = useState(false);
   let [inputValue, changeInputValue] = useState(title);
-  // this component renders either card or card editing form
+
+  const usersSubscribedOnCard = useSelector((state) => {
+    const allUsers = state.usersReducer.users;
+    let userSet = new Set();
+    allUsers.forEach((user) => {
+      const subscribed_to_cards = new Set(user.subscribed_to_cards);
+      if (subscribed_to_cards.has(id)) {
+        userSet.add(user);
+      }
+    });
+    userSet = Array.from(userSet);
+
+    return userSet;
+  });
 
   useEffect(() => {
     changeInputValue(title);
   }, [title]);
-
-  let dispatch = useDispatch();
-  const classes = useStyles();
-
-  let buttonStyles = {
-    marginTop: "12px",
-    marginRight: "4px",
-  };
-
-  const changeCardTitle = () => {
-    cardService.update(id, { title: inputValue });
-    updateFormState(false);
-  };
 
   if (!formIsOpen) {
     return (
@@ -85,16 +71,9 @@ export default function MediaCard({ title, id, description, index, list_id }) {
             <Card
               className={classes.root}
               style={{ marginTop: "15px", marginBottom: "15px" }}
-              onClick={(event) =>
-                handlingCardClick(
-                  event,
-                  id,
-                  DEFAULT_URL,
-                  dispatch,
-                  title,
-                  description,
-                  list_id
-                )
+              onClick={(event) => {
+                let args = {event, id, DEFAULT_URL, dispatch, title, description, list_id}
+                handlingCardClick(args)}
               }
             >
               <CardContent
@@ -147,7 +126,6 @@ export default function MediaCard({ title, id, description, index, list_id }) {
                     })}
                   </div>
                 </div>
-                
               </CardContent>
             </Card>
           </div>
@@ -155,61 +133,26 @@ export default function MediaCard({ title, id, description, index, list_id }) {
       </Draggable>
     );
   } else {
-    return (
-      <form className="create-list" onSubmit={changeCardTitle}>
-        <TextField
-          id="standard-basic"
-          label="Change Card Title*"
-          style={{ width: "100%" }}
-          value={inputValue}
-          onChange={(e) => changeInputValue(e.target.value)}
-        />
-        <div className="form-buttons">
-          <Button
-            variant="contained"
-            style={buttonStyles}
-            color="primary"
-            onClick={changeCardTitle}
-          >
-            Change Title
-          </Button>
-          <Button
-            style={buttonStyles}
-            color="primary"
-            onClick={() => updateFormState(false)}
-          >
-            X
-          </Button>
-        </div>
-      </form>
-    );
+    return <EditForm id={id} title={title} updateFormState={updateFormState} />;
   }
 }
 
 export const deleteCard = (url, id, dispatch, list_id) => {
-  cardService.delete(id)
-  .then(() => {
-    listService.getById(list_id)
+  cardService.delete(id).then(() => {
+    listService
+      .getById(list_id)
       .then((dataOfList) => {
-        let arr = [...dataOfList.card_positions];
-        let index = arr.findIndex((item) => item == id);
-        arr.splice(index, 1);
-
-        listService.update(list_id, { card_positions: [...arr] })
+        let card_positions = [...dataOfList.card_positions];
+        let index = card_positions.findIndex((cardId) => cardId == id);
+        card_positions.splice(index, 1);
+        listService.update(list_id, {card_positions});
       })
       .then(() => fetchingAllCards(url, dispatch));
   });
 };
 
-function handlingCardClick(
-  event,
-  id,
-  url,
-  dispatch,
-  title,
-  description,
-  list_id
-) {
+function handlingCardClick(args) {
+  let { event, id, url, dispatch, title, description, list_id } = args;
   if (
     !event.target.closest("button") ||
     !event.target.closest("button").classList.contains("MuiIconButton-root")

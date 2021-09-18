@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -10,9 +10,10 @@ import { DEFAULT_URL } from "../../../stateManagement/url";
 import { deleteCard } from "../list/listItem/card";
 import { fetchingAllCards } from "../list";
 import { getUsers } from "../../../stateManagement/actions/usersActionCreator";
-import "./index.css";
 import CardService from "../../../services/cards.service";
 import UserService from "../../../services/user.service";
+import MemberCheckbox from "./memberCheckbox";
+import "./index.css";
 
 const cardService = CardService.getInstance();
 const userServices = UserService.getInstance();
@@ -33,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CardModal() {
   const modalState = useSelector((state) => state.modalReducer);
+  const users = useSelector((state) => state.usersReducer.users);
   const {
     modalTitle: title,
     modalId: id,
@@ -40,13 +42,10 @@ export default function CardModal() {
     modalListId: list_id,
   } = modalState;
 
-  const users = useSelector((state) => state.usersReducer.users);
-
   const classes = useStyles();
-
+  const dispatch = useDispatch();
   let [desc, setDesc] = useState(description);
   let [titleValue, setTitleValue] = useState(title);
-  let dispatch = useDispatch();
 
   const handleClose = () => {
     dispatch(closeModal());
@@ -92,13 +91,13 @@ export default function CardModal() {
     >
       <Fade in={modalState.modalIsOpen}>
         <div className={classes.paper}>
-          <form
-            className="card-modal-form"
-            onSubmit={() => console.log(2323233)}
-          >
+
+          <form className="card-modal-form">
+
             <div className="title-div">
               <TextField
-                style={{ width: "500px", marginBottom: "10px" }}
+                className='title-textfield'
+                style={{marginBottom: '10px'}}
                 required
                 id="outlined-required"
                 label="Title*"
@@ -110,9 +109,9 @@ export default function CardModal() {
             </div>
             <div className="card-description">
               <TextField
+                className='description-textfield'
                 id="outlined-basic"
                 label="Card Description"
-                style={{ width: "100%" }}
                 value={desc}
                 variant="outlined"
                 onChange={(event) => {
@@ -125,31 +124,13 @@ export default function CardModal() {
                 Members
               </h3>
               <div className="users">
-                {users.map((user) => {
-                  let set = new Set(user.subscribed_to_cards);
-                  let userHasTheId = set.has(id);
-                  // Checking if user is subscribed on the card
-
-                  return (
-                    <div className="user" key={user.id}>
-                      <span style={{ fontSize: "20px" }}>{user.firstName}</span>
-                      <input
-                        style={{ marginRight: "12px" }}
-                        type="checkbox"
-                        defaultChecked={userHasTheId}
-                        data-cardid={id}
-                        onClick={(event) => {
-                          let data = {
-                            users,
-                            user,
-                            id,
-                          };
-                          handleCheckboxClicks(event, data, dispatch);
-                        }}
-                      />
-                    </div>
-                  );
-                })}
+                {users.map((user) => (
+                <MemberCheckbox 
+                  user={user} id={id} 
+                  dispatch={dispatch} users={users} 
+                  handleCheckboxClicks={handleCheckboxClicks}
+                  />
+                ))}
               </div>
             </div>
             <div className="card-modal-buttons">
@@ -169,7 +150,9 @@ export default function CardModal() {
                 DELETE CARD
               </Button>
             </div>
+            
           </form>
+
         </div>
       </Fade>
     </Modal>
@@ -180,8 +163,8 @@ const handleCheckboxClicks = (event, data, dispatch) => {
   let { users, user, id } = data;
 
   const checked = event.target.checked;
-  const current_user = users.find((obj) => obj.id === user.id);
-  let subscribed_to_cards = new Set(current_user.subscribed_to_cards);
+  const current_user = users.find((currentUser) => currentUser.id === user.id);
+  const subscribed_to_cards = new Set(current_user.subscribed_to_cards);
 
   let argsForHandling = {
     id,

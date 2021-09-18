@@ -27,7 +27,7 @@ function deleteListWithItsCards(url, id, dispatch) {
 export default function MenuButton({ id }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  let dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

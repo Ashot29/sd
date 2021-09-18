@@ -7,15 +7,14 @@ import Button from "@material-ui/core/Button";
 import "./index.css";
 
 function ListForm() {
-  let dispatch = useDispatch();
+  const dispatch = useDispatch();
   let [inputValue, setInputValue] = useState("");
-
   let buttonStyles = {
     marginTop: "12px",
     marginRight: "4px",
   };
 
-  function changeForm() {
+  function changeFormIntoButton() {
     dispatch(changeButtonState());
   }
 
@@ -25,8 +24,15 @@ function ListForm() {
   }
 
   return (
-    <form className="create-list" onSubmit={event => {event.preventDefault(); addList()}}> 
+    <form
+      className="create-list"
+      onSubmit={(event) => {
+        event.preventDefault();
+        addList();
+      }}
+    >
       <TextField
+        autoFocus
         id="outlined-basic"
         label="Enter list title*"
         value={inputValue}
@@ -42,7 +48,11 @@ function ListForm() {
         >
           Add List
         </Button>
-        <Button style={buttonStyles} color="primary" onClick={changeForm}>
+        <Button
+          style={buttonStyles}
+          color="primary"
+          onClick={changeFormIntoButton}
+        >
           X
         </Button>
       </div>

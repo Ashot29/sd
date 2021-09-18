@@ -1,0 +1,10 @@
+.avatar-name {
+  color: #FFF;
+}
+
+.member {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+  cursor: pointer;
+}

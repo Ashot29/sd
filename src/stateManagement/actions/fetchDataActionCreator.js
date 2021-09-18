@@ -48,7 +48,7 @@ export const postLists = (title) => {
 
       listService
         .post(data)
-        .then((data1) => dispatch(fetchListsSuccess([data1])));
+        .then((postedData) => dispatch(fetchListsSuccess([postedData])));
     });
   };
 };
