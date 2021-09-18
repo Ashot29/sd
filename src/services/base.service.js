@@ -14,21 +14,31 @@ export class BaseService {
   }
 
   delete(id) {
-      return fetch(`${BASE_URL}/${this.url}/${id}`, {
-          method: 'DELETE',
-          headers: {
-            "Content-Type": "application/json",
-          }
-      }).then((resp) => resp.json());
+    return fetch(`${BASE_URL}/${this.url}/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((resp) => resp.json());
   }
 
   update(id, data) {
     return fetch(`${BASE_URL}/${this.url}/${id}`, {
-        method: 'PATCH',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data)
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    }).then((resp) => resp.json());
+  }
+
+  post(data) {
+    return fetch(`${BASE_URL}/${this.url}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
     }).then((resp) => resp.json());
   }
 }

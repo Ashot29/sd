@@ -9,9 +9,13 @@ import { closeModal } from "../../../stateManagement/actions/modalActionCreator"
 import { DEFAULT_URL } from "../../../stateManagement/url";
 import { deleteCard } from "../list/listItem/card";
 import { fetchingAllCards } from "../list";
-import { patchRequest, patch } from "../../../httpRequests/patchRequest";
 import { getUsers } from "../../../stateManagement/actions/usersActionCreator";
 import "./index.css";
+import CardService from "../../../services/cards.service";
+import UserService from "../../../services/user.service";
+
+const cardService = CardService.getInstance();
+const userServices = UserService.getInstance();
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -44,9 +48,6 @@ export default function CardModal() {
   let [titleValue, setTitleValue] = useState(title);
   let dispatch = useDispatch();
 
-  const patchingCards = patchRequest(dispatch, "cards");
-  const patchingUserSubscriptions = patch("users");
-
   const handleClose = () => {
     dispatch(closeModal());
     setDesc("");
@@ -70,7 +71,8 @@ export default function CardModal() {
       title: titleValue,
       description: desc,
     };
-    patchingCards(data, id, fetchingAllCards);
+    cardService.update(id, data)
+    .then(() => fetchingAllCards(DEFAULT_URL, dispatch))
     setDesc("");
     dispatch(closeModal());
   }
@@ -141,7 +143,6 @@ export default function CardModal() {
                             users,
                             user,
                             id,
-                            patchingUserSubscriptions,
                           };
                           handleCheckboxClicks(event, data, dispatch);
                         }}
@@ -176,7 +177,7 @@ export default function CardModal() {
 }
 
 const handleCheckboxClicks = (event, data, dispatch) => {
-  let { users, user, id, patchingUserSubscriptions } = data;
+  let { users, user, id } = data;
 
   const checked = event.target.checked;
   const current_user = users.find((obj) => obj.id === user.id);
@@ -185,7 +186,6 @@ const handleCheckboxClicks = (event, data, dispatch) => {
   let argsForHandling = {
     id,
     user,
-    patchingUserSubscriptions,
     subscribed_to_cards,
     checked,
     dispatch,
@@ -202,7 +202,6 @@ function changeUserSubscription(type, args) {
   let {
     user,
     id,
-    patchingUserSubscriptions,
     subscribed_to_cards,
     dispatch,
   } = args;
@@ -215,7 +214,8 @@ function changeUserSubscription(type, args) {
     subscribed_to_cards = Array.from(subscribed_to_cards);
   }
 
-  patchingUserSubscriptions({ subscribed_to_cards }, user.id).then(() =>
+  userServices.update(user.id, { subscribed_to_cards })
+  .then(() =>
     dispatch(getUsers())
   );
 }

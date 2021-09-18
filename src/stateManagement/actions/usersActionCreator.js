@@ -1,4 +1,3 @@
-import { DEFAULT_URL } from "../url";
 import UserService from "./../../services/user.service";
 
 export const getUsers = () => {

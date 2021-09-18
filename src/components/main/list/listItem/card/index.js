@@ -12,11 +12,15 @@ import Typography from "@material-ui/core/Typography";
 import { DEFAULT_URL } from "../../../../../stateManagement/url";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchingAllCards } from "../..";
-import { patch } from "../../../../../httpRequests/patchRequest";
 import { openModal } from "../../../../../stateManagement/actions/modalActionCreator";
 import { Draggable } from "react-beautiful-dnd";
 import Avatar from "@material-ui/core/Avatar";
 import "./index.css";
+import CardService from "../../../../../services/cards.service";
+import ListService from "../../../../../services/list.service";
+
+const cardService = CardService.getInstance()
+const listService = ListService.getInstance()
 
 const useStyles = makeStyles({
   root: {
@@ -26,9 +30,6 @@ const useStyles = makeStyles({
     height: 140,
   },
 });
-
-const patchCardTitle = patch("cards");
-const patchListCardPositions = patch("lists");
 
 export default function MediaCard({ title, id, description, index, list_id }) {
   const usersSubscribedOnCard = useSelector((state) => {
@@ -66,7 +67,7 @@ export default function MediaCard({ title, id, description, index, list_id }) {
   };
 
   const changeCardTitle = () => {
-    patchCardTitle({ title: inputValue }, id);
+    cardService.update(id, { title: inputValue });
     updateFormState(false);
   };
 
@@ -186,21 +187,15 @@ export default function MediaCard({ title, id, description, index, list_id }) {
 }
 
 export const deleteCard = (url, id, dispatch, list_id) => {
-  fetch(`${url}/cards/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then(() => {
-    fetch(`${DEFAULT_URL}/lists/${list_id}`)
-      .then((resp) => resp.json())
+  cardService.delete(id)
+  .then(() => {
+    listService.getById(list_id)
       .then((dataOfList) => {
         let arr = [...dataOfList.card_positions];
         let index = arr.findIndex((item) => item == id);
         arr.splice(index, 1);
 
-        // deleting card id from list's card_positions
-        patchListCardPositions({ card_positions: [...arr] }, list_id);
+        listService.update(list_id, { card_positions: [...arr] })
       })
       .then(() => fetchingAllCards(url, dispatch));
   });

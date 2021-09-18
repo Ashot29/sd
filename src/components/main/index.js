@@ -9,8 +9,6 @@ import { getUsers } from "../../stateManagement/actions/usersActionCreator";
 import CardModal from "./cardModal";
 import { Avatar } from "@material-ui/core";
 import "./index.css";
-import { DEFAULT_URL } from "../../stateManagement/url";
-import { patch } from "../../httpRequests/patchRequest";
 import UserSequenceService from "./../../services/user-sequence.service";
 
 function Main() {
@@ -18,7 +16,6 @@ function Main() {
   let [userSequence, setUserSequence] = useState([]);
   let state = useSelector((state) => state.isButtonClicked);
   let dispatch = useDispatch();
-  const patchUsersSequence = patch("user-sequence");
 
   const users = useSelector((state) => {
     const allUsers = state.usersReducer.users;
@@ -53,7 +50,8 @@ function Main() {
     const [reorderedItem] = users.splice(result.source.index, 1);
     users.splice(result.destination.index, 0, reorderedItem);
     const arr = users.map((user) => user.id);
-    patchUsersSequence({ sequence: arr }, 1);
+
+    userSequenceService.update(1, { sequence: arr })
   };
 
   return (

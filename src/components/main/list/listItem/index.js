@@ -6,10 +6,12 @@ import MediaCard from "./card";
 import CardForm from "./cardForm";
 import Input from "@material-ui/core/Input";
 import { useSelector } from "react-redux";
-import { patchRequest } from "../../../../httpRequests/patchRequest";
 import { fetchingAllLists } from "..";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import { DEFAULT_URL } from "../../../../stateManagement/url";
+import ListService from "../../../../services/list.service";
+
+const listService = ListService.getInstance();
 
 const ListItem = ({ title, id, index }) => {
   let [isClicked, setIsClicked] = useState(false);
@@ -40,7 +42,6 @@ const ListItem = ({ title, id, index }) => {
   }, [cards.length]);
 
   let dispatch = useDispatch();
-  let patchingNewListName = patchRequest(dispatch, "lists");
 
   let element = !isClicked ? (
     <div
@@ -55,7 +56,8 @@ const ListItem = ({ title, id, index }) => {
       noValidate
       autoComplete="off"
       onSubmit={() => {
-        patchingNewListName({ title: value }, id, fetchingAllLists);
+        listService.update(id, { title: value })
+        .then(() => fetchingAllLists(DEFAULT_URL, dispatch))
         setIsClicked(!isClicked);
       }}
     >

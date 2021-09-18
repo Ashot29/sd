@@ -1,5 +1,8 @@
-import { patch } from "../../httpRequests/patchRequest";
-import { DEFAULT_URL } from "../url";
+import CardService from "../../services/cards.service";
+import ListService from "../../services/list.service";
+
+const cardService = CardService.getInstance();
+const listService = ListService.getInstance();
 
 export const fetchListsRequest = () => {
   return {
@@ -30,33 +33,23 @@ function findHighestPositionNumber(listArray) {
 }
 
 export const postLists = (title) => {
-  // make more readable
   return (dispatch) => {
-    fetch(`${DEFAULT_URL}/lists`)
-      .then((resp) => resp.json())
-      .then((lists) => {
-        let position =
-          lists.length === 0 ? 1 : findHighestPositionNumber(lists) + 1;
+    listService.get().then((lists) => {
+      let position =
+        lists.length === 0 ? 1 : findHighestPositionNumber(lists) + 1;
 
-        let data = {
-          id: `${Date.now()}_${Math.random()}`,
-          title,
-          card_positions: [],
-          position,
-        };
+      let data = {
+        id: `${Date.now()}_${Math.random()}`,
+        title,
+        card_positions: [],
+        position,
+      };
+      dispatch(fetchListsRequest());
 
-        dispatch(fetchListsRequest());
-
-        fetch(`${DEFAULT_URL}/lists`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        })
-          .then((response) => response.json())
-          .then((data1) => dispatch(fetchListsSuccess([data1])));
-      });
+      listService
+        .post(data)
+        .then((data1) => dispatch(fetchListsSuccess([data1])));
+    });
   };
 };
 
@@ -67,41 +60,28 @@ export const addCardsActionCreator = (data) => {
   };
 };
 
-const patchCardPositions = patch('lists')
-
 export const addCard = (inputValue, locationListId) => {
   return (dispatch) => {
-    // Preparing data for sending
     let data = {
       id: `${Date.now()}_${Math.random()}`,
       title: inputValue,
       list_id: locationListId,
       description: "",
     };
-    
-    fetch(`${DEFAULT_URL}/cards`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        fetch(`${DEFAULT_URL}/lists/${data.list_id}`)
-          .then((resp) => resp.json())
-          .then((dataOfList) => {
-            patchCardPositions({card_positions: [...dataOfList.card_positions, data.id]}, data.list_id)
-            // patching new card positions to list with data.list_id Id
-            
-            .then(() => {
-              fetch(`${DEFAULT_URL}/lists`)
-                .then((resp) => resp.json())
-                .then((data) => dispatch(setAllLists(data)));
-            });
+
+    cardService.post(data).then((data) => {
+      listService.getById(data.list_id).then((dataOfList) => {
+        listService
+          .update(data.list_id, {
+            card_positions: [...dataOfList.card_positions, data.id],
+          })
+          .then(() => {
+            listService.get().then((data) => dispatch(setAllLists(data)));
           });
-        dispatch(addCardsActionCreator(data));
       });
+      console.log(data);
+      dispatch(addCardsActionCreator(data));
+    });
   };
 };
 
