@@ -7,7 +7,9 @@ export default function MemberCheckbox(props) {
   const userHasTheId = set.has(id);
   return (
     <div className="user">
-      <span className='member-firstname'>{user.firstName}</span>
+      <span className='member-firstname'>
+        {user.firstName}
+      </span>
       <input
         className="member-checkbox"
         type="checkbox"

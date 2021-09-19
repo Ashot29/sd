@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import MenuButton from "./menuButton";
-import { useDispatch } from "react-redux";
-import MediaCard from "./card";
+import { useDispatch, useSelector } from "react-redux";  
+import MediaCard from "./card";    
 import CardForm from "./cardForm";
 import Input from "@material-ui/core/Input";
-import { useSelector } from "react-redux";
 import { fetchingAllLists } from "..";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import { DEFAULT_URL } from "../../../../stateManagement/url";
+import { BASE_URL } from "../../../../stateManagement/url";
 import ListService from "../../../../services/list.service";
 import "./index.css";
 
@@ -22,8 +21,8 @@ const ListItem = ({ title, id, index }) => {
     const lists = state.fetchData.lists;
     const cards = state.fetchData.cards;
     let cardsInRightSequence = [];
-    let list = lists.find((list) => list.id === id);
-    let card_positions = list ? list.card_positions : [];
+    let parentList = lists.find((list) => list.id === id);
+    let card_positions = parentList ? parentList.card_positions : [];
     let cardsBelongingToThisList = [
       ...cards.filter((card) => card.list_id == id),
     ];
@@ -37,7 +36,7 @@ const ListItem = ({ title, id, index }) => {
   });
 
   useEffect(() => {
-    fetchingAllLists(DEFAULT_URL, dispatch);
+    fetchingAllLists(BASE_URL, dispatch);
     // it is for fetching after deleting or adding card
   }, [cards.length]);
 
@@ -54,7 +53,7 @@ const ListItem = ({ title, id, index }) => {
       autoComplete="off"
       onSubmit={() => {
         listService.update(id, { title: value })
-        .then(() => fetchingAllLists(DEFAULT_URL, dispatch))
+        .then(() => fetchingAllLists(BASE_URL, dispatch))
         setIsClicked(!isClicked);
       }}
     >

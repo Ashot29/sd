@@ -6,7 +6,7 @@ import Fade from "@material-ui/core/Fade";
 import { useSelector, useDispatch } from "react-redux";
 import { TextField, Button } from "@material-ui/core";
 import { closeModal } from "../../../stateManagement/actions/modalActionCreator";
-import { DEFAULT_URL } from "../../../stateManagement/url";
+import { BASE_URL } from "../../../stateManagement/url";
 import { deleteCard } from "../list/listItem/card";
 import { fetchingAllCards } from "../list";
 import { getUsers } from "../../../stateManagement/actions/usersActionCreator";
@@ -41,16 +41,10 @@ export default function CardModal() {
     modalDescription: description,
     modalListId: list_id,
   } = modalState;
-
   const classes = useStyles();
   const dispatch = useDispatch();
   let [desc, setDesc] = useState(description);
   let [titleValue, setTitleValue] = useState(title);
-
-  const handleClose = () => {
-    dispatch(closeModal());
-    setDesc("");
-  };
 
   useEffect(() => {
     setDesc(description);
@@ -60,8 +54,13 @@ export default function CardModal() {
     setTitleValue(title);
   }, [title]);
 
+  const handleClose = () => {
+    dispatch(closeModal());
+    setDesc("");
+  };
+
   function deletingCardFromModal() {
-    deleteCard(DEFAULT_URL, id, dispatch, list_id);
+    deleteCard(BASE_URL, id, dispatch, list_id);
     handleClose();
   }
 
@@ -70,8 +69,9 @@ export default function CardModal() {
       title: titleValue,
       description: desc,
     };
-    cardService.update(id, data)
-    .then(() => fetchingAllCards(DEFAULT_URL, dispatch))
+    cardService
+      .update(id, data)
+      .then(() => fetchingAllCards(BASE_URL, dispatch));
     setDesc("");
     dispatch(closeModal());
   }
@@ -91,13 +91,11 @@ export default function CardModal() {
     >
       <Fade in={modalState.modalIsOpen}>
         <div className={classes.paper}>
-
           <form className="card-modal-form">
-
             <div className="title-div">
               <TextField
-                className='title-textfield'
-                style={{marginBottom: '10px'}}
+                className="title-textfield"
+                style={{ marginBottom: "10px" }}
                 required
                 id="outlined-required"
                 label="Title*"
@@ -109,7 +107,7 @@ export default function CardModal() {
             </div>
             <div className="card-description">
               <TextField
-                className='description-textfield'
+                className="description-textfield"
                 id="outlined-basic"
                 label="Card Description"
                 value={desc}
@@ -125,10 +123,12 @@ export default function CardModal() {
               </h3>
               <div className="users">
                 {users.map((user) => (
-                <MemberCheckbox 
-                  user={user} id={id} 
-                  dispatch={dispatch} users={users} 
-                  handleCheckboxClicks={handleCheckboxClicks}
+                  <MemberCheckbox
+                    user={user}
+                    id={id}
+                    dispatch={dispatch}
+                    users={users}
+                    handleCheckboxClicks={handleCheckboxClicks}
                   />
                 ))}
               </div>
@@ -150,9 +150,7 @@ export default function CardModal() {
                 DELETE CARD
               </Button>
             </div>
-            
           </form>
-
         </div>
       </Fade>
     </Modal>
@@ -182,12 +180,7 @@ const handleCheckboxClicks = (event, data, dispatch) => {
 };
 
 function changeUserSubscription(type, args) {
-  let {
-    user,
-    id,
-    subscribed_to_cards,
-    dispatch,
-  } = args;
+  let { user, id, subscribed_to_cards, dispatch } = args;
 
   if (type === "DELETE") {
     subscribed_to_cards.delete(id);
@@ -197,8 +190,7 @@ function changeUserSubscription(type, args) {
     subscribed_to_cards = Array.from(subscribed_to_cards);
   }
 
-  userServices.update(user.id, { subscribed_to_cards })
-  .then(() =>
-    dispatch(getUsers())
-  );
+  userServices
+    .update(user.id, { subscribed_to_cards })
+    .then(() => dispatch(getUsers()));
 }

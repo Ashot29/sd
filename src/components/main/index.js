@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeButtonState } from "../../stateManagement/actions/buttonActionCreator";
 import List from "./list";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import ListForm from "./listForm";
 import Button from "@material-ui/core/Button";
 import { getUsers } from "../../stateManagement/actions/usersActionCreator";
@@ -13,9 +13,9 @@ import "./index.css";
 
 function Main() {
   const userSequenceService = UserSequenceService.getInstance();
+  const dispatch = useDispatch();
   let [userSequence, setUserSequence] = useState([]);
   let state = useSelector((state) => state.isButtonClicked);
-  const dispatch = useDispatch();
 
   const users = useSelector((state) => {
     const allUsers = state.usersReducer.users;

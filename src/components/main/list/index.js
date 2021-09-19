@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ListItem from "./listItem";
-import { DEFAULT_URL } from "../../../stateManagement/url";
+import { BASE_URL } from "../../../stateManagement/url";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setAllLists,
@@ -31,17 +31,17 @@ const fetchFunctions = {
 };
 
 function List() {
+  const dispatch = useDispatch();
   let lists = useSelector((state) => state.fetchData.lists);
   let [listsArray, setListsArray] = useState(lists);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     setListsArray(lists);
   }, [lists]);
 
   useEffect(() => {
-    fetchingAllLists(DEFAULT_URL, dispatch);
-    fetchingAllCards(DEFAULT_URL, dispatch);
+    fetchingAllLists(BASE_URL, dispatch);
+    fetchingAllCards(BASE_URL, dispatch);
   }, []);
 
   const handleDragEnd = (result) => {
@@ -106,8 +106,8 @@ function changeSequenceOfCards(result, dispatch, fetchFunctions) {
     listService
       .update(source.droppableId, { card_positions: [...rightArrangedArray] })
       .then(() => {
-        fetchingAllCards(DEFAULT_URL, dispatch);
-        fetchingAllLists(DEFAULT_URL, dispatch);
+        fetchingAllCards(BASE_URL, dispatch);
+        fetchingAllLists(BASE_URL, dispatch);
       });
   });
 }
@@ -166,8 +166,8 @@ function dispatchNewCardPositions(result, dispatch, fetchfunctions) {
     let card_positions = [...data.card_positions];
     card_positions.splice(destination.index, 0, draggableId);
     listService.update(destination.droppableId, { card_positions }).then(() => {
-      fetchingAllCards(DEFAULT_URL, dispatch);
-      fetchingAllLists(DEFAULT_URL, dispatch);
+      fetchingAllCards(BASE_URL, dispatch);
+      fetchingAllLists(BASE_URL, dispatch);
     });
   });
 }

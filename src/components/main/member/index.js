@@ -13,9 +13,12 @@ export default function Member(props) {
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
-          <h3 className='avatar-name'>{user.firstName}</h3>
-
-          <Avatar {...provided.dragHandleProps}>{user.firstName[0]}</Avatar>
+          <h3 className='avatar-name'>
+            {user.firstName}
+          </h3>
+          <Avatar {...provided.dragHandleProps}>
+            {user.firstName[0]}
+          </Avatar>
         </div>
       )}
     </Draggable>

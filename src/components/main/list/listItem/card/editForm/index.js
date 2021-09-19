@@ -3,7 +3,7 @@ import { TextField } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import CardService from "../../../../../../services/cards.service";
 import { fetchingAllCards } from "../../..";
-import { DEFAULT_URL } from "../../../../../../stateManagement/url";
+import { BASE_URL } from "../../../../../../stateManagement/url";
 import { useDispatch } from "react-redux";
 import './index.css'
 
@@ -18,10 +18,9 @@ function EditForm(props) {
     const { updateFormState, title, id } = props;
     let [inputValue, changeInputValue] = useState(title)
     const dispatch = useDispatch();
-    
     const changeCardTitle = () => {
         cardService.update(id, { title: inputValue })
-        .then(() => fetchingAllCards(DEFAULT_URL, dispatch))
+        .then(() => fetchingAllCards(BASE_URL, dispatch))
         updateFormState(false);
       };
 

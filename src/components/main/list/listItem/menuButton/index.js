@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Fade from "@material-ui/core/Fade";
-import { DEFAULT_URL } from "../../../../../stateManagement/url";
+import { BASE_URL } from "../../../../../stateManagement/url";
 import { fetchingAllLists } from "../..";
 import { useDispatch } from "react-redux";
 import { fetchingAllCards } from "../..";
@@ -38,7 +38,7 @@ export default function MenuButton({ id }) {
   };
 
   const deletingList = () => {
-    deleteListWithItsCards(DEFAULT_URL, id, dispatch);
+    deleteListWithItsCards(BASE_URL, id, dispatch);
     handleClose();
   };
 
@@ -59,8 +59,12 @@ export default function MenuButton({ id }) {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={deletingList}>Delete This List</MenuItem>
-        <MenuItem onClick={handleClose}>Move This List</MenuItem>
+        <MenuItem onClick={deletingList}>
+          Delete This List
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          Move This List
+        </MenuItem>
       </Menu>
     </>
   );

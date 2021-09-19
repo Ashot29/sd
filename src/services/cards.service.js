@@ -1,5 +1,5 @@
 import { BaseService } from "./base.service";
-import { BASE_URL } from "./base.service";
+import { BASE_URL } from "../stateManagement/url";
 
 export default class CardService extends BaseService {
   constructor() {
