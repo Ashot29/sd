@@ -1,4 +1,6 @@
-import { initialState } from "../store/initialState";
+const initialState = {
+  isButtonClicked: false,
+};
 
 export default function isButtonClicked(state = initialState, action) {
   switch (action.type) {

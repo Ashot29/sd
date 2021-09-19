@@ -1,6 +1,10 @@
-import { initialState } from "../store/initialState";
+const dataState = {
+  lists: [],
+  cards: [],
+  isLoading: false,
+}
 
-export function fetchData(state = initialState, action) {
+export function fetchData(state = dataState, action) {
   switch (action.type) {
     case "FETCH_LISTS_REQUEST":
       return {
