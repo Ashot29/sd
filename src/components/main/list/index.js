@@ -1,141 +1,173 @@
 import React, { useState, useEffect } from "react";
 import ListItem from "./listItem";
-import { DEFAULT_URL } from "../../../stateManagement/url";
+import { BASE_URL } from "../../../stateManagement/url";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchAllUsers,
+  setAllLists,
   getAllCards,
 } from "../../../stateManagement/actions/fetchDataActionCreator";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import CardService from "../../../services/cards.service";
+import ListService from "./../../../services/list.service";
 import "./index.css";
 
+const cardService = CardService.getInstance();
+const listService = ListService.getInstance();
+
 export const fetchingAllCards = (url, dispatch) => {
-  fetch(`${url}/cards`)
-    .then((resp) => resp.json())
-    .then((data) => {
-      console.log("fetch all cards");
-      dispatch(getAllCards(data));
-    });
+  cardService.get().then((data) => dispatch(getAllCards(data)));
 };
 
 export const fetchingAllLists = (url, dispatch) => {
-  console.log("fetching all lists");
-  fetch(`${url}/lists`)
-    .then((resp) => resp.json())
-    .then((data) => {
-      console.log("fetch all lists");
-      dispatch(fetchAllUsers(data));
-    });
+  listService.get().then((data) => {
+    data.sort((a, b) => a.position - b.position);
+    dispatch(setAllLists(data));
+  });
+};
+
+const fetchFunctions = {
+  fetchingAllCards,
+  fetchingAllLists,
 };
 
 function List() {
+  const dispatch = useDispatch();
   let lists = useSelector((state) => state.fetchData.lists);
   let [listsArray, setListsArray] = useState(lists);
-  let dispatch = useDispatch();
 
   useEffect(() => {
     setListsArray(lists);
   }, [lists]);
 
   useEffect(() => {
-    fetchingAllLists(DEFAULT_URL, dispatch);
-    fetchingAllCards(DEFAULT_URL, dispatch);
+    fetchingAllLists(BASE_URL, dispatch);
+    fetchingAllCards(BASE_URL, dispatch);
   }, []);
 
   const handleDragEnd = (result) => {
-    const { destination, source, draggableId } = result;
-    console.log(draggableId);
-    if (!destination) return;
+    const { destination, source, type } = result;
     if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
+      (destination.droppableId === source.droppableId &&
+        destination.index === source.index) ||
+      !destination
     ) {
       return;
     }
 
-    if (source.droppableId === destination.droppableId) {
-      fetch(`${DEFAULT_URL}/cards?list_id=${destination.droppableId}`)
-        .then((resp) => resp.json())
-        .then((data) => {
-          let arr = [...data];
-          let [reorderedItem] = arr.splice(result.source.index, 1);
-          arr.splice(result.destination.index, 0, reorderedItem);
-          let ids = arr.map((item) => item.id);
-          fetch(`${DEFAULT_URL}/lists/${destination.droppableId}`, {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              card_positions: [...ids],
-            }),
-          }).then(() => {
-            fetchingAllCards(DEFAULT_URL, dispatch);
-            fetchingAllLists(DEFAULT_URL, dispatch);
-          });
-        });
+    if (type === "CARDS") {
+      if (source.droppableId === destination.droppableId) {
+        changeSequenceOfCards(result, dispatch, fetchFunctions);
+      } else {
+        changeCardsSequenceBetwLists(result, dispatch, fetchFunctions);
+      }
     }
 
-    if (source.droppableId !== destination.droppableId) {
-      fetch(`${DEFAULT_URL}/cards/${draggableId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ list_id: +destination.droppableId }),
-      })
-        .then((resp) => resp.json())
-        .then(() => {
-          fetch(`${DEFAULT_URL}/lists/${source.droppableId}`)
-            .then((resp) => resp.json())
-            .then((data) => {
-              let arr = [...data.card_positions];
-              let index = arr.findIndex((item) => +item === +draggableId);
-              arr.splice(index, 1);
-              fetch(`${DEFAULT_URL}/lists/${source.droppableId}`, {
-                method: "PATCH",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                  card_positions: [...arr],
-                }),
-              }).then(() => {
-                fetch(`${DEFAULT_URL}/lists/${destination.droppableId}`)
-                  .then((resp) => resp.json())
-                  .then((data) => {
-                    let arr = [...data.card_positions];
-                    arr.splice(destination.index, 0, +draggableId);
-                    fetch(`${DEFAULT_URL}/lists/${destination.droppableId}`, {
-                      method: "PATCH",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        card_positions: [...arr],
-                      }),
-                    }).then(() => {
-                      fetchingAllCards(DEFAULT_URL, dispatch);
-                      fetchingAllLists(DEFAULT_URL, dispatch);
-                    });
-                  });
-              });
-            });
-        });
+    if (type === "LISTS") {
+      changeListSequence(lists, result, dispatch);
     }
-
-    console.log(result);
   };
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="list-content">
-        {listsArray.map((list) => {
-          return <ListItem key={list.id} id={list.id} title={list.title} />;
-        })}
-      </div>
+      <Droppable droppableId="all-lists" direction="horizontal" type="LISTS">
+        {(provided) => (
+          <div
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            className="list-content"
+          >
+            {listsArray.map((list, index) => {
+              return (
+                <ListItem
+                  key={list.id}
+                  id={list.id}
+                  title={list.title}
+                  index={index}
+                />
+              );
+            })}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
     </DragDropContext>
   );
 }
 
 export default List;
+
+function changeSequenceOfCards(result, dispatch, fetchFunctions) {
+  const { source } = result;
+  const { fetchingAllCards, fetchingAllLists } = fetchFunctions;
+
+  listService.getById(source.droppableId).then((data) => {
+    let rightArrangedArray = arrayInRightSequence(data, result);
+
+    listService
+      .update(source.droppableId, { card_positions: [...rightArrangedArray] })
+      .then(() => {
+        fetchingAllCards(BASE_URL, dispatch);
+        fetchingAllLists(BASE_URL, dispatch);
+      });
+  });
+}
+
+function changeCardsSequenceBetwLists(result, dispatch, fetchFunctions) {
+  const { destination, source, draggableId } = result;
+
+  cardService
+    .update(draggableId, { list_id: destination.droppableId })
+    .then(() => {
+      listService.getById(source.droppableId).then((data) => {
+        let card_positions = [...data.card_positions];
+        let index = card_positions.findIndex(
+          (cardId) => cardId === draggableId
+        );
+        card_positions.splice(index, 1);
+        listService.update(source.droppableId, { card_positions }).then(() => {
+          dispatchNewCardPositions(result, dispatch, fetchFunctions);
+        });
+      });
+    });
+}
+
+function changeListSequence(lists, result, dispatch) {
+  let cloned_lists = JSON.parse(JSON.stringify(lists));
+  let listArray = JSON.parse(JSON.stringify(lists));
+
+  const [reorderedItem] = listArray.splice(result.source.index, 1);
+  listArray.splice(result.destination.index, 0, reorderedItem);
+
+  dispatch(setAllLists(listArray));
+
+  listArray.forEach((list, index) => {
+    let position = cloned_lists[index].position;
+    if (list.position === position) return;
+
+    listService.update(list.id, { position });
+  });
+}
+
+function arrayInRightSequence(data, result) {
+  const { destination, draggableId } = result;
+
+  let card_positions = [...data.card_positions];
+  let index = card_positions.findIndex((cardId) => cardId === draggableId);
+  card_positions.splice(index, 1);
+  card_positions.splice(destination.index, 0, draggableId);
+  return card_positions;
+}
+
+function dispatchNewCardPositions(result, dispatch, fetchfunctions) {
+  const { destination, draggableId } = result;
+  const { fetchingAllCards, fetchingAllLists } = fetchfunctions;
+
+  listService.getById(destination.droppableId).then((data) => {
+    let card_positions = [...data.card_positions];
+    card_positions.splice(destination.index, 0, draggableId);
+    listService.update(destination.droppableId, { card_positions }).then(() => {
+      fetchingAllCards(BASE_URL, dispatch);
+      fetchingAllLists(BASE_URL, dispatch);
+    });
+  });
+}

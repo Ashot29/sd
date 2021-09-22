@@ -6,8 +6,30 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  width: 100%;
 }
 
 .lists > div {
   margin: 0 20px;
+}
+
+.members {
+  display: flex;
+  margin-left: 30px;
+  margin-bottom: 20px;
+}
+
+.member {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+  cursor: pointer;
+}
+
+.member h3{
+  margin-right: 5px;
+}
+
+.add-list-button {
+  background-color: #e0e0e0;
 }

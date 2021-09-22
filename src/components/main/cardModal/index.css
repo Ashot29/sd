@@ -11,3 +11,22 @@
 .card-description {
   margin-bottom: 10px;
 }
+
+.card-users {
+  padding: 20px 0;
+  width: 65%;
+}
+
+.users {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.title-textfield {
+  width: 500px;
+}
+
+.description-textfield {
+  width: 100%;
+}

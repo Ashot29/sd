@@ -1,43 +1,53 @@
-import { DEFAULT_URL } from "../url";
+import CardService from "../../services/cards.service";
+import ListService from "../../services/list.service";
 
-export const fetchUsersRequest = () => {
+const cardService = CardService.getInstance();
+const listService = ListService.getInstance();
+
+// Action creators for LISTS
+
+export const fetchListsRequest = () => {
   return {
-    type: "FETCH_USERS_REQUEST",
+    type: "FETCH_LISTS_REQUEST",
   };
 };
 
-export const fetchUsersSucccess = (list) => {
+export const fetchListsSuccess = (list) => {
   return {
-    type: "FETCH_USERS_SUCCESS",
+    type: "FETCH_LISTS_SUCCESS",
     payload: list,
   };
 };
 
-export const fetchAllUsers = (list) => {
+export const setAllLists = (list) => {
   return {
-    type: "FETCH_ALL_USERS",
+    type: "FETCH_ALL_LISTS",
     payload: list,
   };
 };
 
-export const fetchUsers = (title) => {
+export const postLists = (title) => {
   return (dispatch) => {
-    let data = {
-      title,
-      card_positions: []
-    };
-    dispatch(fetchUsersRequest());
-    fetch(`${DEFAULT_URL}/lists`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data1) => dispatch(fetchUsersSucccess([data1])));
+    listService.get().then((lists) => {
+      let position =
+        lists.length === 0 ? 1 : findHighestPositionNumber(lists) + 1;
+
+      let data = {
+        id: `${Date.now()}_${Math.random()}`,
+        title,
+        card_positions: [],
+        position,
+      };
+      dispatch(fetchListsRequest());
+
+      listService
+        .post(data)
+        .then((postedData) => dispatch(fetchListsSuccess([postedData])));
+    });
   };
 };
+
+// Action creators for CARDS
 
 export const addCardsActionCreator = (data) => {
   return {
@@ -49,37 +59,25 @@ export const addCardsActionCreator = (data) => {
 export const addCard = (inputValue, locationListId) => {
   return (dispatch) => {
     let data = {
+      id: `${Date.now()}_${Math.random()}`,
       title: inputValue,
       list_id: locationListId,
       description: "",
     };
-    fetch(`${DEFAULT_URL}/cards`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        fetch(`${DEFAULT_URL}/lists/${data.list_id}`)
-        .then(resp => resp.json())
-        .then(dataOfList => {
-          fetch(`${DEFAULT_URL}/lists/${data.list_id}`, {
-          method: 'PATCH',
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({card_positions: [...dataOfList.card_positions, data.id]})
-        })
-        .then(() => {
-          fetch(`${DEFAULT_URL}/lists`)
-          .then(resp => resp.json())
-          .then(data => dispatch(fetchAllUsers(data)))
-        })
-        })
-        dispatch(addCardsActionCreator(data));
+
+    cardService.post(data).then((data) => {
+      listService.getById(data.list_id).then((dataOfList) => {
+        listService
+          .update(data.list_id, {
+            card_positions: [...dataOfList.card_positions, data.id],
+          })
+          .then(() => {
+            listService.get().then((data) => dispatch(setAllLists(data)));
+          });
       });
+      console.log(data);
+      dispatch(addCardsActionCreator(data));
+    });
   };
 };
 
@@ -89,3 +87,13 @@ export const getAllCards = (cards) => {
     payload: cards,
   };
 };
+
+// Helper Functions
+
+function findHighestPositionNumber(listArray) {
+  let highest = listArray[0].position;
+  listArray.forEach((list) => {
+    if (list.position > highest) highest = list.position;
+  });
+  return +highest;
+}

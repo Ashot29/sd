@@ -6,11 +6,17 @@ import Fade from "@material-ui/core/Fade";
 import { useSelector, useDispatch } from "react-redux";
 import { TextField, Button } from "@material-ui/core";
 import { closeModal } from "../../../stateManagement/actions/modalActionCreator";
-import { DEFAULT_URL } from "../../../stateManagement/url";
+import { BASE_URL } from "../../../stateManagement/url";
 import { deleteCard } from "../list/listItem/card";
 import { fetchingAllCards } from "../list";
-import { patchRequest } from "../../../httpRequests/patchRequest";
+import { getUsers } from "../../../stateManagement/actions/usersActionCreator";
+import CardService from "../../../services/cards.service";
+import UserService from "../../../services/user.service";
+import MemberCheckbox from "./memberCheckbox";
 import "./index.css";
+
+const cardService = CardService.getInstance();
+const userServices = UserService.getInstance();
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -27,23 +33,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CardModal() {
-  let state = useSelector((state) => state.modalReducer);
+  const modalState = useSelector((state) => state.modalReducer);
+  const users = useSelector((state) => state.usersReducer.users);
   const {
     modalTitle: title,
     modalId: id,
     modalDescription: description,
-    modalListId: list_id
-  } = state;
+    modalListId: list_id,
+  } = modalState;
   const classes = useStyles();
+  const dispatch = useDispatch();
   let [desc, setDesc] = useState(description);
   let [titleValue, setTitleValue] = useState(title);
-  let dispatch = useDispatch();
-
-  let patchingCards = patchRequest(dispatch, "cards");
-
-  const handleClose = () => {
-    dispatch(closeModal());
-  };
 
   useEffect(() => {
     setDesc(description);
@@ -53,8 +54,13 @@ export default function CardModal() {
     setTitleValue(title);
   }, [title]);
 
+  const handleClose = () => {
+    dispatch(closeModal());
+    setDesc("");
+  };
+
   function deletingCardFromModal() {
-    deleteCard(DEFAULT_URL, id, dispatch, list_id);
+    deleteCard(BASE_URL, id, dispatch, list_id);
     handleClose();
   }
 
@@ -63,70 +69,128 @@ export default function CardModal() {
       title: titleValue,
       description: desc,
     };
-    patchingCards(data, id, fetchingAllCards);
+    cardService
+      .update(id, data)
+      .then(() => fetchingAllCards(BASE_URL, dispatch));
+    setDesc("");
     dispatch(closeModal());
   }
 
   return (
-    <div>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={state.modalIsOpen}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={state.modalIsOpen}>
-          <div className={classes.paper}>
-            <form className="card-modal-form">
-              <div className="title-div">
-                <TextField
-                  style={{ width: "80%", marginBottom: "10px" }}
-                  required
-                  id="outlined-required"
-                  label="Title*"
-                  variant="outlined"
-                  value={titleValue}
-                  onChange={(evt) => setTitleValue(evt.target.value)}
-                />
-                <Button onClick={handleClose}>X</Button>
+    <Modal
+      aria-labelledby="transition-modal-title"
+      aria-describedby="transition-modal-description"
+      className={classes.modal}
+      open={modalState.modalIsOpen}
+      onClose={handleClose}
+      closeAfterTransition
+      BackdropComponent={Backdrop}
+      BackdropProps={{
+        timeout: 500,
+      }}
+    >
+      <Fade in={modalState.modalIsOpen}>
+        <div className={classes.paper}>
+          <form className="card-modal-form">
+            <div className="title-div">
+              <TextField
+                className="title-textfield"
+                style={{ marginBottom: "10px" }}
+                required
+                id="outlined-required"
+                label="Title*"
+                variant="outlined"
+                value={titleValue}
+                onChange={(evt) => setTitleValue(evt.target.value)}
+              />
+              <Button onClick={handleClose}>X</Button>
+            </div>
+            <div className="card-description">
+              <TextField
+                className="description-textfield"
+                id="outlined-basic"
+                label="Card Description"
+                value={desc}
+                variant="outlined"
+                onChange={(event) => {
+                  setDesc(event.target.value);
+                }}
+              />
+            </div>
+            <div className="card-users">
+              <h3 style={{ fontFamily: "roboto", marginBottom: "12px" }}>
+                Members
+              </h3>
+              <div className="users">
+                {users.map((user) => (
+                  <MemberCheckbox
+                    user={user}
+                    id={id}
+                    dispatch={dispatch}
+                    users={users}
+                    handleCheckboxClicks={handleCheckboxClicks}
+                  />
+                ))}
               </div>
-              <div className="card-description">
-                <TextField
-                  id="outlined-basic"
-                  label="Card Description"
-                  style={{ width: "100%" }}
-                  value={desc}
-                  variant="outlined"
-                  onChange={(event) => setDesc(event.target.value)}
-                />
-              </div>
-              <div className="card-modal-buttons">
-                <Button
-                  variant="contained"
-                  style={{ marginRight: "5px" }}
-                  color="primary"
-                  onClick={saveAllChangesInModal}
-                >
-                  SAVE ALL CHANGES
-                </Button>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={deletingCardFromModal}
-                >
-                  DELETE CARD
-                </Button>
-              </div>
-            </form>
-          </div>
-        </Fade>
-      </Modal>
-    </div>
+            </div>
+            <div className="card-modal-buttons">
+              <Button
+                variant="contained"
+                style={{ marginRight: "5px" }}
+                color="primary"
+                onClick={saveAllChangesInModal}
+              >
+                SAVE ALL CHANGES
+              </Button>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={deletingCardFromModal}
+              >
+                DELETE CARD
+              </Button>
+            </div>
+          </form>
+        </div>
+      </Fade>
+    </Modal>
   );
+}
+
+const handleCheckboxClicks = (event, data, dispatch) => {
+  let { users, user, id } = data;
+
+  const checked = event.target.checked;
+  const current_user = users.find((currentUser) => currentUser.id === user.id);
+  const subscribed_to_cards = new Set(current_user.subscribed_to_cards);
+
+  let argsForHandling = {
+    id,
+    user,
+    subscribed_to_cards,
+    checked,
+    dispatch,
+  };
+
+  if (checked) {
+    changeUserSubscription("ADD", argsForHandling, event);
+  } else {
+    changeUserSubscription("DELETE", argsForHandling, event);
+  }
+};
+
+function changeUserSubscription(type, args) {
+  let { user, id, subscribed_to_cards, dispatch } = args;
+
+  if (type === "DELETE") {
+    subscribed_to_cards.delete(id);
+    subscribed_to_cards = Array.from(subscribed_to_cards);
+  } else if (type === "ADD") {
+    subscribed_to_cards.add(id);
+    subscribed_to_cards = Array.from(subscribed_to_cards);
+  }
+
+  userServices
+    .update(user.id, { subscribed_to_cards })
+    .then(() => dispatch(getUsers()));
 }

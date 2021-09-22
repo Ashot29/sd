@@ -1,8 +1,32 @@
 .MuiCardContent-root {
   cursor: pointer;
   transition: 0.3s;
+  display: flex;
+  flex-direction: column;
 }
 
 .MuiCardContent-root:hover {
   background-color: #eee;
+}
+
+.card-title-and-delete {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.form-buttons {
+  display: flex;
+}
+
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-avatars {
+  display: flex;
 }

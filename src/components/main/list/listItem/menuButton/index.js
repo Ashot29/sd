@@ -3,38 +3,31 @@ import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Fade from "@material-ui/core/Fade";
-import { DEFAULT_URL } from "../../../../../stateManagement/url";
+import { BASE_URL } from "../../../../../stateManagement/url";
 import { fetchingAllLists } from "../..";
 import { useDispatch } from "react-redux";
 import { fetchingAllCards } from "../..";
+import ListService from "./../../../../../services/list.service";
+import CardService from "./../../../../../services/cards.service";
+
+const listService = ListService.getInstance();
+const cardService = CardService.getInstance();
 
 function deleteListWithItsCards(url, id, dispatch) {
-  fetch(`${url}/lists/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then(() => {
-    fetch(`${url}/cards?list_id=${id}`)
-      .then((resp) => resp.json())
-      .then((data) => {
-        fetchingAllLists(url, dispatch);
-        data.forEach((item) => {
-          fetch(`${url}/cards/${item.id}`, {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }).then(() => fetchingAllCards(url, dispatch));
-        });
+  listService.delete(id).then(() => {
+    cardService.getWithlistId(id).then((data) => {
+      fetchingAllLists(url, dispatch);
+      data.forEach((item) => {
+        cardService.delete(item.id).then(() => fetchingAllCards(url, dispatch));
       });
+    });
   });
 }
 
 export default function MenuButton({ id }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  let dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -45,7 +38,7 @@ export default function MenuButton({ id }) {
   };
 
   const deletingList = () => {
-    deleteListWithItsCards(DEFAULT_URL, id, dispatch);
+    deleteListWithItsCards(BASE_URL, id, dispatch);
     handleClose();
   };
 
@@ -66,8 +59,12 @@ export default function MenuButton({ id }) {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={deletingList}>Delete This List</MenuItem>
-        <MenuItem onClick={handleClose}>Move This List</MenuItem>
+        <MenuItem onClick={deletingList}>
+          Delete This List
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          Move This List
+        </MenuItem>
       </Menu>
     </>
   );

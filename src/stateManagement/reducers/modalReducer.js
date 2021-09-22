@@ -3,6 +3,7 @@ export const modalState = {
   modalTitle: "",
   modalId: "",
   modalDescription: "",
+  modalListId: '',
 };
 
 export const modalReducer = (state = modalState, action) => {
