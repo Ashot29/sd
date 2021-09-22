@@ -20,9 +20,9 @@ const ListItem = ({ title, id, index }) => {
   const cards = useSelector((state) => {
     const lists = state.fetchData.lists;
     const cards = state.fetchData.cards;
-    let cardsInRightSequence = [];
+    const cardsInRightSequence = [];
     let parentList = lists.find((list) => list.id === id);
-    let card_positions = parentList ? parentList.card_positions : [];
+    const card_positions = parentList ? parentList.card_positions : [];
     let cardsBelongingToThisList = [
       ...cards.filter((card) => card.list_id == id),
     ];

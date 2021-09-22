@@ -75,7 +75,6 @@ export const addCard = (inputValue, locationListId) => {
             listService.get().then((data) => dispatch(setAllLists(data)));
           });
       });
-      console.log(data);
       dispatch(addCardsActionCreator(data));
     });
   };

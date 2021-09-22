@@ -124,8 +124,9 @@ export default function CardModal() {
               <div className="users">
                 {users.map((user) => (
                   <MemberCheckbox
+                    key={user.id}
                     user={user}
-                    id={id}
+                    cardId={id}
                     dispatch={dispatch}
                     users={users}
                     handleCheckboxClicks={handleCheckboxClicks}
@@ -158,14 +159,14 @@ export default function CardModal() {
 }
 
 const handleCheckboxClicks = (event, data, dispatch) => {
-  let { users, user, id } = data;
+  let { users, user, cardId } = data;
 
   const checked = event.target.checked;
   const current_user = users.find((currentUser) => currentUser.id === user.id);
   const subscribed_to_cards = new Set(current_user.subscribed_to_cards);
 
   let argsForHandling = {
-    id,
+    cardId,
     user,
     subscribed_to_cards,
     checked,
@@ -180,13 +181,13 @@ const handleCheckboxClicks = (event, data, dispatch) => {
 };
 
 function changeUserSubscription(type, args) {
-  let { user, id, subscribed_to_cards, dispatch } = args;
+  let { user, cardId, subscribed_to_cards, dispatch } = args;
 
   if (type === "DELETE") {
-    subscribed_to_cards.delete(id);
+    subscribed_to_cards.delete(cardId);
     subscribed_to_cards = Array.from(subscribed_to_cards);
   } else if (type === "ADD") {
-    subscribed_to_cards.add(id);
+    subscribed_to_cards.add(cardId);
     subscribed_to_cards = Array.from(subscribed_to_cards);
   }
 

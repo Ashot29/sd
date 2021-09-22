@@ -47,9 +47,10 @@ function List() {
   const handleDragEnd = (result) => {
     const { destination, source, type } = result;
     if (
-      (destination.droppableId === source.droppableId &&
-        destination.index === source.index) ||
       !destination
+       ||
+       (destination.droppableId === source.droppableId &&
+        destination.index === source.index)
     ) {
       return;
     }

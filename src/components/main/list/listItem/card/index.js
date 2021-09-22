@@ -17,9 +17,11 @@ import CardService from "../../../../../services/cards.service";
 import ListService from "../../../../../services/list.service";
 import EditForm from "./editForm";
 import "./index.css";
+import UserService from "./../../../../../services/user.service";
 
 const cardService = CardService.getInstance();
 const listService = ListService.getInstance();
+const userService = UserService.getInstance();
 
 const useStyles = makeStyles({
   root: {
@@ -70,9 +72,17 @@ export default function MediaCard({ title, id, description, index, list_id }) {
               className={classes.root}
               style={{ marginTop: "15px", marginBottom: "15px" }}
               onClick={(event) => {
-                let args = {event, id, BASE_URL, dispatch, title, description, list_id}
-                handlingCardClick(args)}
-              }
+                let args = {
+                  event,
+                  id,
+                  BASE_URL,
+                  dispatch,
+                  title,
+                  description,
+                  list_id,
+                };
+                handlingCardClick(args);
+              }}
             >
               <CardContent
                 style={{
@@ -135,18 +145,14 @@ export default function MediaCard({ title, id, description, index, list_id }) {
   }
 }
 
-export const deleteCard = (url, id, dispatch, list_id) => {
-  cardService.delete(id).then(() => {
-    listService
-      .getById(list_id)
-      .then((dataOfList) => {
-        const card_positions = [...dataOfList.card_positions];
-        const index = card_positions.findIndex((cardId) => cardId == id);
-        card_positions.splice(index, 1);
-        listService.update(list_id, {card_positions});
-      })
-      .then(() => fetchingAllCards(url, dispatch));
-  });
+export const deleteCard = (args) => {
+  let { id } = args;
+  cardService
+    .delete(id)
+    .then(() => {
+      deleteFromlistCardPositions(args);
+    })
+    .then(() => deleteUserSubscription(id));
 };
 
 function handlingCardClick(args) {
@@ -159,10 +165,38 @@ function handlingCardClick(args) {
   } else if (
     event.target.closest("button").classList.contains("card-delete-button")
   ) {
-    deleteCard(url, id, dispatch, list_id);
+    let argsForCardDeleting = { url, id, dispatch, list_id };
+    deleteCard(argsForCardDeleting);
   } else if (
     event.target.closest("button").classList.contains("card-edit-button")
   ) {
     return;
   }
+}
+
+function deleteUserSubscription(id) {
+  userService.get().then((data) => {
+    data.forEach((user) => {
+      const subscribed_to_cards = user.subscribed_to_cards;
+      const cardIdIndex = subscribed_to_cards.findIndex(
+        (cardId) => cardId === id
+      );
+      if (cardIdIndex === -1) return;
+      subscribed_to_cards.splice(cardIdIndex, 1);
+      userService.update(user.id, { subscribed_to_cards });
+    });
+  });
+}
+
+function deleteFromlistCardPositions(argsForList) {
+  let { id, list_id, url, dispatch } = argsForList;
+  listService
+    .getById(list_id)
+    .then((dataOfList) => {
+      const card_positions = [...dataOfList.card_positions];
+      const index = card_positions.findIndex((cardId) => cardId == id);
+      card_positions.splice(index, 1);
+      listService.update(list_id, { card_positions });
+    })
+    .then(() => fetchingAllCards(url, dispatch));
 }

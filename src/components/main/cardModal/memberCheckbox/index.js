@@ -2,9 +2,9 @@ import React from "react";
 import "./index.css";
 
 export default function MemberCheckbox(props) {
-  const { user, id, dispatch, users, handleCheckboxClicks } = props;
+  const { user, cardId, dispatch, users, handleCheckboxClicks } = props;
   const set = new Set(user.subscribed_to_cards);
-  const userHasTheId = set.has(id);
+  const userHasTheId = set.has(cardId);
   return (
     <div className="user">
       <span className='member-firstname'>
@@ -18,7 +18,7 @@ export default function MemberCheckbox(props) {
           let data = {
             users,
             user,
-            id,
+            cardId,
           };
           handleCheckboxClicks(event, data, dispatch);
         }}
