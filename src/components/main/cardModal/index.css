@@ -17,6 +17,11 @@
   width: 65%;
 }
 
+.card-users-title {
+  font-family: 'roboto';
+  margin-bottom: 12px;
+}
+
 .users {
   display: flex;
   flex-direction: row;

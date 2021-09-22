@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import { BASE_URL } from "../../../../../stateManagement/url";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchingAllCards } from "../..";
-import { openModal } from "../../../../../stateManagement/actions/modalActionCreator";
+import { openCardModal } from "../../../../../stateManagement/actions/cardModalActionCreator";
 import { Draggable } from "react-beautiful-dnd";
 import Avatar from "@material-ui/core/Avatar";
 import CardService from "../../../../../services/cards.service";
@@ -161,7 +161,7 @@ function handlingCardClick(args) {
     !event.target.closest("button") ||
     !event.target.closest("button").classList.contains("MuiIconButton-root")
   ) {
-    dispatch(openModal(title, id, description, list_id));
+    dispatch(openCardModal(title, id, description, list_id));
   } else if (
     event.target.closest("button").classList.contains("card-delete-button")
   ) {

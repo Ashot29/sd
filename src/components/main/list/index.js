@@ -33,7 +33,7 @@ const fetchFunctions = {
 function List() {
   const dispatch = useDispatch();
   let lists = useSelector((state) => state.fetchData.lists);
-  let [listsArray, setListsArray] = useState(lists);
+  let [listsArray, setListsArray] = useState([...lists]);
 
   useEffect(() => {
     setListsArray(lists);
@@ -120,8 +120,8 @@ function changeCardsSequenceBetwLists(result, dispatch, fetchFunctions) {
     .update(draggableId, { list_id: destination.droppableId })
     .then(() => {
       listService.getById(source.droppableId).then((data) => {
-        let card_positions = [...data.card_positions];
-        let index = card_positions.findIndex(
+        const card_positions = [...data.card_positions];
+        const index = card_positions.findIndex(
           (cardId) => cardId === draggableId
         );
         card_positions.splice(index, 1);
@@ -133,8 +133,8 @@ function changeCardsSequenceBetwLists(result, dispatch, fetchFunctions) {
 }
 
 function changeListSequence(lists, result, dispatch) {
-  let cloned_lists = JSON.parse(JSON.stringify(lists));
-  let listArray = JSON.parse(JSON.stringify(lists));
+  const cloned_lists = JSON.parse(JSON.stringify(lists));
+  const listArray = JSON.parse(JSON.stringify(lists));
 
   const [reorderedItem] = listArray.splice(result.source.index, 1);
   listArray.splice(result.destination.index, 0, reorderedItem);
@@ -142,7 +142,7 @@ function changeListSequence(lists, result, dispatch) {
   dispatch(setAllLists(listArray));
 
   listArray.forEach((list, index) => {
-    let position = cloned_lists[index].position;
+    const position = cloned_lists[index].position;
     if (list.position === position) return;
 
     listService.update(list.id, { position });
@@ -152,8 +152,8 @@ function changeListSequence(lists, result, dispatch) {
 function arrayInRightSequence(data, result) {
   const { destination, draggableId } = result;
 
-  let card_positions = [...data.card_positions];
-  let index = card_positions.findIndex((cardId) => cardId === draggableId);
+  const card_positions = [...data.card_positions];
+  const index = card_positions.findIndex((cardId) => cardId === draggableId);
   card_positions.splice(index, 1);
   card_positions.splice(destination.index, 0, draggableId);
   return card_positions;
@@ -164,7 +164,7 @@ function dispatchNewCardPositions(result, dispatch, fetchfunctions) {
   const { fetchingAllCards, fetchingAllLists } = fetchfunctions;
 
   listService.getById(destination.droppableId).then((data) => {
-    let card_positions = [...data.card_positions];
+    const card_positions = [...data.card_positions];
     card_positions.splice(destination.index, 0, draggableId);
     listService.update(destination.droppableId, { card_positions }).then(() => {
       fetchingAllCards(BASE_URL, dispatch);

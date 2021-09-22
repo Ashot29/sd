@@ -1,4 +1,4 @@
-export const modalState = {
+export const cardModalState = {
   modalIsOpen: false,
   modalTitle: "",
   modalId: "",
@@ -6,7 +6,7 @@ export const modalState = {
   modalListId: '',
 };
 
-export const modalReducer = (state = modalState, action) => {
+export const cardModalReducer = (state = cardModalState, action) => {
   switch (action.type) {
     case "CLOSE_MODAL":
       return {

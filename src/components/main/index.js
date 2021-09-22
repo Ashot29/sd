@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeButtonState } from "../../stateManagement/actions/buttonActionCreator";
-import List from "./list";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import ListForm from "./listForm";
-import Button from "@material-ui/core/Button";
 import { getUsers } from "../../stateManagement/actions/usersActionCreator";
 import CardModal from "./cardModal";
 import UserSequenceService from "./../../services/user-sequence.service";
+import ListForm from "./listForm";
+import Button from "@material-ui/core/Button";
 import Member from "./member";
+import List from "./list";
 import "./index.css";
 
 function Main() {
@@ -68,7 +68,8 @@ function Main() {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {users.map((user, index) => {
+              {!!users.length && users.map((user, index) => {
+                if (!user) return;
                 return <Member index={index} user={user} key={user.id} />;
               })}
               {provided.placeholder}
@@ -76,6 +77,7 @@ function Main() {
           )}
         </Droppable>
       </DragDropContext>
+
       <div className="lists">
         <List />
         {!state.isButtonClicked ? (
@@ -91,6 +93,7 @@ function Main() {
           <ListForm />
         )}
       </div>
+      
       <CardModal />
     </div>
   );

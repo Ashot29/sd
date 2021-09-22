@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { changeButtonState } from "../../../stateManagement/actions/buttonActionCreator";
-import { TextField } from "@material-ui/core";
 import { postLists } from "../../../stateManagement/actions/fetchDataActionCreator";
+import { TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import "./index.css";
 
 function ListForm() {
   const dispatch = useDispatch();
   let [inputValue, setInputValue] = useState("");
-  let buttonStyles = {
+  const buttonStyles = {
     marginTop: "12px",
     marginRight: "4px",
   };

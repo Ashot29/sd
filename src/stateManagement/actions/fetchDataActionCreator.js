@@ -4,7 +4,7 @@ import ListService from "../../services/list.service";
 const cardService = CardService.getInstance();
 const listService = ListService.getInstance();
 
-// Action creators for LISTS
+/////////////////////////////////// Action creators for LISTS
 
 export const fetchListsRequest = () => {
   return {
@@ -47,7 +47,7 @@ export const postLists = (title) => {
   };
 };
 
-// Action creators for CARDS
+///////////////////////////////// Action creators for CARDS
 
 export const addCardsActionCreator = (data) => {
   return {

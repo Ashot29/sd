@@ -1,12 +1,14 @@
 import { combineReducers } from "redux";
 import isButtonClicked from "./isButtonClickedReducer";
-import { modalReducer } from "./modalReducer";
+import { cardModalReducer } from "./cardModalReducer";
 import { fetchData } from "./fetchDataReducer";
 import { usersReducer } from "./usersReducer";
+import { userModalReducer } from "./userModalReducer";
 
 export let rootReducer = combineReducers({
   isButtonClicked,
   fetchData,
-  modalReducer,
-  usersReducer
+  cardModalReducer,
+  usersReducer,
+  userModalReducer
 });

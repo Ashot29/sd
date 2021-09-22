@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
-import { useSelector, useDispatch } from "react-redux";
 import { TextField, Button } from "@material-ui/core";
-import { closeModal } from "../../../stateManagement/actions/modalActionCreator";
+import { closeCardModal } from "../../../stateManagement/actions/cardModalActionCreator";
 import { BASE_URL } from "../../../stateManagement/url";
 import { deleteCard } from "../list/listItem/card";
 import { fetchingAllCards } from "../list";
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CardModal() {
-  const modalState = useSelector((state) => state.modalReducer);
+  const modalState = useSelector((state) => state.cardModalReducer);
   const users = useSelector((state) => state.usersReducer.users);
   const {
     modalTitle: title,
@@ -55,7 +55,7 @@ export default function CardModal() {
   }, [title]);
 
   const handleClose = () => {
-    dispatch(closeModal());
+    dispatch(closeCardModal());
     setDesc("");
   };
 
@@ -65,7 +65,7 @@ export default function CardModal() {
   }
 
   function saveAllChangesInModal() {
-    let data = {
+    const data = {
       title: titleValue,
       description: desc,
     };
@@ -73,7 +73,7 @@ export default function CardModal() {
       .update(id, data)
       .then(() => fetchingAllCards(BASE_URL, dispatch));
     setDesc("");
-    dispatch(closeModal());
+    dispatch(closeCardModal());
   }
 
   return (
@@ -101,7 +101,7 @@ export default function CardModal() {
                 label="Title*"
                 variant="outlined"
                 value={titleValue}
-                onChange={(evt) => setTitleValue(evt.target.value)}
+                onChange={(event) => setTitleValue(event.target.value)}
               />
               <Button onClick={handleClose}>X</Button>
             </div>
@@ -118,9 +118,7 @@ export default function CardModal() {
               />
             </div>
             <div className="card-users">
-              <h3 style={{ fontFamily: "roboto", marginBottom: "12px" }}>
-                Members
-              </h3>
+              <h3 className="card-users-title">Members</h3>
               <div className="users">
                 {users.map((user) => (
                   <MemberCheckbox

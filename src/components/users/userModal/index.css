@@ -1,0 +1,19 @@
+.user-modal-form {
+    width: 100%;
+}
+
+.first-name-and-button {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 0 10px;
+}
+
+.firstname-input {
+    width: 90%;
+}
+
+.user-modal-input {
+    width: 100%;
+    margin-bottom: 20px;
+}
