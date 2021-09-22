@@ -19,7 +19,7 @@ export default function BasicTable() {
   const users = useSelector((state) => state.usersReducer.users);
   const dispatch = useDispatch();
   const userSequenceService = UserSequenceService.getInstance();
-  const handleOpen = () => dispatch(openUserModal());
+  const handleOpen = (args) => dispatch(openUserModal(args));
 
   useEffect(() => {
     dispatch(getUsers());
@@ -64,7 +64,9 @@ export default function BasicTable() {
                   color="primary"
                   startIcon={<EditIcon />}
                   style={{ marginRight: "10px" }}
-                  onClick={handleOpen}
+                  onClick={() => {
+                    handleOpen(user)
+                  }}
                 >
                   Edit
                 </Button>

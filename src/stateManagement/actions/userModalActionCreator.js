@@ -4,8 +4,9 @@ export const closeUserModal = () => {
     }
 }
 
-export const openUserModal = () => {
+export const openUserModal = (userInfo) => {
     return {
-        type: "OPEN_USER_MODAL"
+        type: "OPEN_USER_MODAL",
+        payload: userInfo
     }
 }

@@ -4,12 +4,20 @@ import AddIcon from "@material-ui/icons/Add";
 import { Button } from "@material-ui/core";
 import UserModal from "./userModal";
 import { openUserModal } from "../../stateManagement/actions/userModalActionCreator";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import "./index.css";
 
 const Users = () => {
   const dispatch = useDispatch();
-  const handleOpen = () => dispatch(openUserModal())
+  const data = {
+    modalIsOpen: true,
+    country: "",
+    firstName: "",
+    lastName: "",
+    age: "",
+    email: "",
+  };
+  const handleOpen = () => dispatch(openUserModal(data));
 
   return (
     <div className="users-section">

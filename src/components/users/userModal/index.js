@@ -25,6 +25,14 @@ const style = {
 
 export default function UserModal() {
   const open = useSelector((state) => state.userModalReducer.modalIsOpen);
+  const user = useSelector((state) => state.userModalReducer);
+  const userInfo = React.useState({
+    firstName: user.firstName,
+    lastName:user.lastName,
+    age: user.age,
+    email: user.email,
+    country: user.country,
+  })
   const dispatch = useDispatch();
   const handleClose = () => dispatch(closeUserModal());
 
@@ -55,6 +63,7 @@ export default function UserModal() {
                   id="outlined-required"
                   label="FirstName"
                   variant="outlined"
+                  defaultValue={user.firstName}
                 />
                 <Button onClick={handleClose}>X</Button>
               </div>
@@ -65,6 +74,7 @@ export default function UserModal() {
                 id="outlined-required"
                 label="LastName"
                 variant="outlined"
+                defaultValue={user.lastName}
               />
               <TextField
                 required
@@ -73,6 +83,7 @@ export default function UserModal() {
                 id="outlined-required"
                 label="Country"
                 variant="outlined"
+                defaultValue={user.country}
               />
               <TextField
                 required
@@ -81,11 +92,11 @@ export default function UserModal() {
                 id="outlined-required"
                 label="Email"
                 variant="outlined"
+                defaultValue={user.email}
               />
               <TextField
                 required
                 autoComplete="off"
-                onKeyDown={false}
                 style={{ width: "20%", marginBottom: "10px" }}
                 inputProps={{
                   min: 18,
@@ -99,6 +110,7 @@ export default function UserModal() {
                 type="number"
                 label="Age"
                 variant="outlined"
+                defaultValue={user.age}
               />
               <div className="confirm-button">
                 <Button
