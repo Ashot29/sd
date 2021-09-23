@@ -1,6 +1,7 @@
-export const openDeleteDialog = () => {
+export const openDeleteDialog = (id) => {
     return {
-        type: "OPEN_DELETE_DIALOG"
+        type: "OPEN_DELETE_DIALOG",
+        payload: id
     }
 }
 

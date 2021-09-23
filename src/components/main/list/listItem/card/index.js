@@ -89,6 +89,7 @@ export default function MediaCard({ title, id, description, index, list_id }) {
                   display: "flex",
                   justifyContent: "space-between",
                   cursor: "pointer",
+                  padding: "10px"
                 }}
               >
                 <div className="card-title-and-delete">

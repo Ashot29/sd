@@ -4,8 +4,16 @@ import TableCell from "@material-ui/core/TableCell";
 import { Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import { useDispatch } from 'react-redux';
+import { openDeleteDialog } from "../../../../stateManagement/actions/deleteDialogActionCreator";
 
 const UserRow = ({user, handleDeleteEvent, handleOpen}) => {
+  const dispatch = useDispatch()
+
+  function handleDeleteEvent(userId) {
+    dispatch(openDeleteDialog(userId))
+  }
+
   return (
     <>
       <TableRow
@@ -38,7 +46,7 @@ const UserRow = ({user, handleDeleteEvent, handleOpen}) => {
             color="secondary"
             startIcon={<DeleteIcon />}
             onClick={() => {
-              handleDeleteEvent();
+              handleDeleteEvent(user.id);
             }}
           >
             Delete

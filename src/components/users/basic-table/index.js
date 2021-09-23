@@ -25,9 +25,7 @@ export default function BasicTable() {
     userSequenceService.getById(1);
   }, []);
 
-  function handleDeleteEvent() {
-    dispatch(openDeleteDialog())
-  }
+  
 
   return (
     <TableContainer component={Paper}>
@@ -47,7 +45,6 @@ export default function BasicTable() {
               key={user.id}
               user={user}
               handleOpen={handleOpen}
-              handleDeleteEvent={handleDeleteEvent}
             />
           ))}
         </TableBody>
