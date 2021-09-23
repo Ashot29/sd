@@ -1,4 +1,4 @@
-.user-modal-form {
+#user-modal-form {
     width: 100%;
 }
 
@@ -10,10 +10,15 @@
 }
 
 .firstname-input {
-    width: 90%;
+    width: 100%;
 }
 
 .user-modal-input {
     width: 100%;
     margin-bottom: 20px;
+}
+
+.confirm-button {
+    margin-top: 20px;
+    display: flex;
 }

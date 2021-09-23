@@ -5,6 +5,7 @@ import { Button } from "@material-ui/core";
 import UserModal from "./userModal";
 import { openUserModal } from "../../stateManagement/actions/userModalActionCreator";
 import { useDispatch } from "react-redux";
+import DeleteDialog from "./alert-dialog";
 import "./index.css";
 
 const Users = () => {
@@ -35,6 +36,7 @@ const Users = () => {
         </Button>
       </div>
       <UserModal />
+      <DeleteDialog />
     </div>
   );
 };

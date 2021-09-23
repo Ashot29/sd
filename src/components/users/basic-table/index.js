@@ -12,6 +12,7 @@ import { getUsers } from "../../../stateManagement/actions/usersActionCreator";
 import UserSequenceService from "./../../../services/user-sequence.service";
 import { openUserModal } from "../../../stateManagement/actions/userModalActionCreator";
 import UserRow from "./table-row";
+import { openDeleteDialog } from "../../../stateManagement/actions/deleteDialogActionCreator";
 
 export default function BasicTable() {
   const users = useSelector((state) => state.usersReducer.users);
@@ -25,8 +26,7 @@ export default function BasicTable() {
   }, []);
 
   function handleDeleteEvent() {
-    let confirmation = window.confirm("are you sure");
-    console.log(confirmation);
+    dispatch(openDeleteDialog())
   }
 
   return (

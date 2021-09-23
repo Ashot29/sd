@@ -26,15 +26,39 @@ const style = {
 export default function UserModal() {
   const open = useSelector((state) => state.userModalReducer.modalIsOpen);
   const user = useSelector((state) => state.userModalReducer);
-  const userInfo = React.useState({
+  const [userInfo, updateUserInfo] = React.useState({
     firstName: user.firstName,
-    lastName:user.lastName,
+    lastName: user.lastName,
     age: user.age,
     email: user.email,
     country: user.country,
-  })
+  });
+  console.log(userInfo);
   const dispatch = useDispatch();
   const handleClose = () => dispatch(closeUserModal());
+
+  React.useEffect(
+    () => [
+      updateUserInfo({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        age: user.age,
+        email: user.email,
+        country: user.country,
+      }),
+    ],
+    [user]
+  );
+
+  function handleChange(event) {
+    let { name, value } = event.target;
+    if (!isNaN(+value)) value = +value;
+
+    updateUserInfo((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  }
 
   return (
     <div>
@@ -54,50 +78,63 @@ export default function UserModal() {
             <Typography id="modal-modal-title" variant="h3" component="h2">
               User
             </Typography>
-            <form className="user-modal-form">
-              <div className="first-name-and-button">
-                <TextField
-                  className="firstname-input"
-                  required
-                  autoComplete="off"
-                  id="outlined-required"
-                  label="FirstName"
-                  variant="outlined"
-                  defaultValue={user.firstName}
-                />
-                <Button onClick={handleClose}>X</Button>
-              </div>
+            <form
+              id="user-modal-form"
+              onSubmit={(event) => {
+                event.preventDefault();
+                console.log(1);
+              }}
+            >
+              <TextField
+                style={{ width: "100%", margin: "30px 0 10px" }}
+                className="firstname-input"
+                required
+                name="firstName"
+                autoComplete="off"
+                id="outlined-required"
+                label="FirstName"
+                variant="outlined"
+                defaultValue={user.firstName}
+                onChange={(event) => handleChange(event)}
+              />
               <TextField
                 required
+                name="lastName"
                 autoComplete="off"
                 style={{ width: "100%", marginBottom: "10px" }}
                 id="outlined-required"
                 label="LastName"
                 variant="outlined"
                 defaultValue={user.lastName}
+                onChange={(event) => handleChange(event)}
               />
               <TextField
                 required
+                name="country"
                 autoComplete="off"
                 style={{ width: "100%", marginBottom: "10px" }}
                 id="outlined-required"
                 label="Country"
                 variant="outlined"
                 defaultValue={user.country}
+                onChange={(event) => handleChange(event)}
               />
               <TextField
                 required
+                name="email"
                 autoComplete="off"
-                style={{ width: "100%", marginBottom: "20px" }}
+                style={{ width: "100%", marginBottom: "10px" }}
                 id="outlined-required"
                 label="Email"
                 variant="outlined"
                 defaultValue={user.email}
+                onChange={(event) => handleChange(event)}
               />
               <TextField
                 required
+                name="age"
                 autoComplete="off"
-                style={{ width: "20%", marginBottom: "10px" }}
+                style={{ width: "100%", marginBottom: "10px" }}
                 inputProps={{
                   min: 18,
                   max: 100,
@@ -111,14 +148,26 @@ export default function UserModal() {
                 label="Age"
                 variant="outlined"
                 defaultValue={user.age}
+                onChange={(event) => handleChange(event)}
               />
               <div className="confirm-button">
                 <Button
+                  type="submit"
+                  form="user-modal-form"
                   variant="contained"
                   color="primary"
+                  size="large"
                   style={{ marginRight: "30px" }}
                 >
                   Confirm
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  size="large"
+                  onClick={handleClose}
+                >
+                  Cancel
                 </Button>
               </div>
             </form>

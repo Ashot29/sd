@@ -4,11 +4,13 @@ import { cardModalReducer } from "./cardModalReducer";
 import { fetchData } from "./fetchDataReducer";
 import { usersReducer } from "./usersReducer";
 import { userModalReducer } from "./userModalReducer";
+import { deleteDialogReducer } from "./deleteDialogReducer";
 
 export let rootReducer = combineReducers({
   isButtonClicked,
   fetchData,
   cardModalReducer,
   usersReducer,
-  userModalReducer
+  userModalReducer,
+  deleteDialogReducer
 });
