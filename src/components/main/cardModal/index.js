@@ -81,7 +81,7 @@ export default function CardModal() {
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
       className={classes.modal}
-      open={modalState.modalIsOpen}
+      open={modalState.cardModalIsOpen}
       onClose={handleClose}
       closeAfterTransition
       BackdropComponent={Backdrop}
@@ -89,7 +89,7 @@ export default function CardModal() {
         timeout: 500,
       }}
     >
-      <Fade in={modalState.modalIsOpen}>
+      <Fade in={modalState.cardModalIsOpen}>
         <div className={classes.paper}>
           <form className="card-modal-form">
             <div className="title-div">

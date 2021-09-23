@@ -24,7 +24,7 @@ const style = {
 };
 
 export default function UserModal() {
-  const open = useSelector((state) => state.userModalReducer.modalIsOpen);
+  const open = useSelector((state) => state.userModalReducer.userModalIsOpen);
   const user = useSelector((state) => state.userModalReducer);
   const [userInfo, updateUserInfo] = React.useState({
     firstName: user.firstName,
@@ -33,7 +33,6 @@ export default function UserModal() {
     email: user.email,
     country: user.country,
   });
-  console.log(userInfo);
   const dispatch = useDispatch();
   const handleClose = () => dispatch(closeUserModal());
 

@@ -12,20 +12,17 @@ import { getUsers } from "../../../stateManagement/actions/usersActionCreator";
 import UserSequenceService from "./../../../services/user-sequence.service";
 import { openUserModal } from "../../../stateManagement/actions/userModalActionCreator";
 import UserRow from "./table-row";
-import { openDeleteDialog } from "../../../stateManagement/actions/deleteDialogActionCreator";
 
 export default function BasicTable() {
   const users = useSelector((state) => state.usersReducer.users);
-  const dispatch = useDispatch();
   const userSequenceService = UserSequenceService.getInstance();
   const handleOpen = (args) => dispatch(openUserModal(args));
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getUsers());
     userSequenceService.getById(1);
   }, []);
-
-  
 
   return (
     <TableContainer component={Paper}>

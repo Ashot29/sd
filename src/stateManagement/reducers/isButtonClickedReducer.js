@@ -12,7 +12,7 @@ export default function isButtonClicked(state = initialState, action) {
     case "CHANGE_MODAL_STATE":
       return {
         ...state,
-        modalIsOpen: !state.modalIsOpen,
+        cardModalIsOpen: !state.cardModalIsOpen,
       };
     default:
       return state;

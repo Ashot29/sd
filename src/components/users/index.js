@@ -11,7 +11,7 @@ import "./index.css";
 const Users = () => {
   const dispatch = useDispatch();
   const data = {
-    modalIsOpen: true,
+    userModalIsOpen: true,
     country: "",
     firstName: "",
     lastName: "",
