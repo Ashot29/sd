@@ -12,13 +12,16 @@ const Users = () => {
   const dispatch = useDispatch();
   const data = {
     userModalIsOpen: true,
+    userModalMode: 'ADD',
     country: "",
     firstName: "",
     lastName: "",
     age: "",
     email: "",
   };
-  const handleOpen = () => dispatch(openUserModal(data));
+  const handleOpen = () => {
+    dispatch(openUserModal(data))
+  };
 
   return (
     <div className="users-section">

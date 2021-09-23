@@ -35,7 +35,9 @@ const UserRow = ({user, handleDeleteEvent, handleOpen}) => {
             startIcon={<EditIcon />}
             style={{ marginRight: "10px" }}
             onClick={() => {
-              handleOpen(user);
+              const userInfo = JSON.parse(JSON.stringify(user))
+              userInfo.userModalMode = 'EDIT';
+              handleOpen(userInfo);
             }}
           >
             Edit

@@ -10,6 +10,9 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { closeUserModal } from "./../../../stateManagement/actions/userModalActionCreator";
 import "./index.css";
+import UserService from "../../../services/user.service";
+import { addUser } from "../../../stateManagement/actions/usersActionCreator";
+import UserSequenceService from './../../../services/user-sequence.service';
 
 const style = {
   position: "absolute",
@@ -26,15 +29,23 @@ const style = {
 export default function UserModal() {
   const open = useSelector((state) => state.userModalReducer.userModalIsOpen);
   const user = useSelector((state) => state.userModalReducer);
+  const mode = useSelector((state) => state.userModalReducer.userModalMode);
+  const userService = UserService.getInstance();
+  const userSequenceService = UserSequenceService.getInstance();
   const [userInfo, updateUserInfo] = React.useState({
     firstName: user.firstName,
     lastName: user.lastName,
     age: user.age,
     email: user.email,
     country: user.country,
+    subscribed_to_cards: []
   });
   const dispatch = useDispatch();
-  const handleClose = () => dispatch(closeUserModal());
+  const handleClose = () => {
+    dispatch(closeUserModal())
+  };
+
+  console.log(userInfo, 'userInfo')
 
   React.useEffect(
     () => [
@@ -44,6 +55,7 @@ export default function UserModal() {
         age: user.age,
         email: user.email,
         country: user.country,
+        subscribed_to_cards: []
       }),
     ],
     [user]
@@ -57,6 +69,29 @@ export default function UserModal() {
       ...prevState,
       [name]: value,
     }));
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    switch(mode) {
+      case "ADD":
+        // arandzin funkcia
+        userService.post(userInfo);
+        userSequenceService.getById(1)
+        .then(data => {
+          const sequence = data.sequence;
+          sequence.push(userInfo.id)
+          userSequenceService.update(1, {sequence})
+        })
+        dispatch(addUser(userInfo));
+      case 'EDIT':
+        // arandzin funkcia
+        console.log(2);
+      default: handleClose()
+    }
+
+    handleClose()
+
   }
 
   return (
@@ -80,8 +115,7 @@ export default function UserModal() {
             <form
               id="user-modal-form"
               onSubmit={(event) => {
-                event.preventDefault();
-                console.log(1);
+                handleSubmit(event)
               }}
             >
               <TextField
