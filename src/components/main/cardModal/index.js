@@ -117,7 +117,7 @@ export default function CardModal() {
                 }}
               />
             </div>
-            <div className="card-users">
+            {!!users.length && <div className="card-users">
               <h3 className="card-users-title">Members</h3>
               <div className="users">
                 {users.map((user) => (
@@ -131,7 +131,7 @@ export default function CardModal() {
                   />
                 ))}
               </div>
-            </div>
+            </div>}
             <div className="card-modal-buttons">
               <Button
                 variant="contained"

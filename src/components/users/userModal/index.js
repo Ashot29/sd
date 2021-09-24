@@ -12,7 +12,9 @@ import { closeUserModal } from "./../../../stateManagement/actions/userModalActi
 import "./index.css";
 import UserService from "../../../services/user.service";
 import { addUser } from "../../../stateManagement/actions/usersActionCreator";
+import { updateUser } from "../../../stateManagement/actions/usersActionCreator";
 import UserSequenceService from "./../../../services/user-sequence.service";
+import { ContactsOutlined } from "@material-ui/icons";
 
 const style = {
   position: "absolute",
@@ -42,15 +44,16 @@ export default function UserModal() {
     email: user.email,
     country: user.country,
     subscribed_to_cards: [],
+    created_at: user.created_at,
   });
-  let [stateChanged, updateChangedState] = useState(false)
-  
+  let [stateChanged, updateChangedState] = useState(false);
+
   const handleClose = () => {
     updateUserInfo({
       ...userInfo,
       id: "",
     });
-    updateChangedState(false)
+    updateChangedState(false);
     dispatch(closeUserModal());
   };
 
@@ -64,10 +67,30 @@ export default function UserModal() {
         email: user.email,
         country: user.country,
         subscribed_to_cards: [],
+        created_at: user.created_at,
       }),
     ],
     [user]
   );
+
+  function postNewUser() {
+    userService.post(userInfo);
+    userSequenceService.getById(1).then((data) => {
+      const sequence = data.sequence;
+      sequence.push(userInfo.id);
+      userSequenceService.update(1, { sequence });
+    });
+    dispatch(addUser(userInfo));
+  }
+
+  function changeExistingUser() {
+    if (!stateChanged) return;
+    let updatedUser = JSON.parse(JSON.stringify(userInfo));
+    delete updatedUser.subscribed_to_cards;
+    userService.update(userInfo.id, updatedUser);
+
+    dispatch(updateUser(updatedUser))
+  }
 
   function handleChange(event) {
     let { name, value } = event.target;
@@ -77,33 +100,20 @@ export default function UserModal() {
       ...prevState,
       [name]: value,
     }));
-    updateChangedState(true)
+    updateChangedState(true);
   }
 
   function handleSubmit(event) {
     event.preventDefault();
     switch (mode) {
       case "ADD":
-        // seperate function
-        userService.post(userInfo);
-        userSequenceService.getById(1).then((data) => {
-          const sequence = data.sequence;
-          sequence.push(userInfo.id);
-          userSequenceService.update(1, { sequence });
-        });
-        dispatch(addUser(userInfo));
+        postNewUser();
       case "EDIT":
-        // seperate function
-        if (!stateChanged) return;
-        let updatedUser = JSON.parse(JSON.stringify(userInfo));
-        delete updatedUser.subscribed_to_cards;
-        
-        console.log(updatedUser, "updatedUser");
-        userService.update(userInfo.id, updatedUser)
-
+        changeExistingUser()
       default:
         handleClose();
     }
+
     handleClose();
   }
 

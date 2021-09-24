@@ -1,42 +1,39 @@
 {
   "users": [
     {
-      "id": "4603_0.800",
-      "firstName": "Thomas",
-      "lastName": "Eschweiler",
-      "country": "Germany",
-      "age": 20,
-      "email": "sebastian@codingthesmartway.com",
-      "subscribed_to_cards": []
-    },
-    {
-      "id": "2360azdqUbsA",
-      "firstName": "Steven",
-      "lastName": "Palmer",
-      "country": "UK",
-      "age": 20,
-      "email": "steve@codingthesmartway.com",
-      "subscribed_to_cards": [
-        "1632320599911_0.8872806054053404"
-      ]
-    },
-    {
-      "id": "1632406808115_0.15989493869770555",
-      "firstName": "Ashot",
-      "lastName": "Sargsyan",
-      "age": 19,
-      "email": "sargsyan.ashot19@gmail.com",
-      "country": "Armenia",
-      "subscribed_to_cards": []
-    },
-    {
-      "id": "1632459993797_0.44852289641416476",
+      "id": "1632479000325_0.9151629145661719",
       "firstName": "John",
       "lastName": "Terry",
-      "age": 39,
+      "age": 36,
       "email": "john@gmail.com",
       "country": "UK",
-      "subscribed_to_cards": []
+      "subscribed_to_cards": [
+        "1632460859795_0.667732879687005"
+      ],
+      "created_at": 1632479022077,
+      "updated_at": 1632483616989
+    },
+    {
+      "id": "1632480591042_0.5026966436211799",
+      "firstName": "James",
+      "lastName": "Bond",
+      "age": 24,
+      "email": "agent007@gmail.com",
+      "country": "UK",
+      "subscribed_to_cards": [],
+      "created_at": 1632480599111,
+      "updated_at": 1632480935831
+    },
+    {
+      "id": "1632481181803_0.9672692442573103",
+      "firstName": "Brad",
+      "lastName": "Pitt",
+      "age": 21,
+      "email": "brad@gmail.com",
+      "country": "USA",
+      "subscribed_to_cards": [],
+      "created_at": 1632481203265,
+      "updated_at": 1632483602981
     }
   ],
   "lists": [
@@ -44,55 +41,44 @@
       "id": "1632460784742_0.09630846097333201",
       "title": "title 1",
       "card_positions": [],
-      "position": 1
+      "position": 1,
+      "updated_at": 1632479094696
     },
     {
       "id": "1632460786885_0.44805634803249994",
       "title": "title 2",
       "card_positions": [
-        "1632460853611_0.7392564737273335",
-        "1632460856875_0.46708855038986896"
+        "1632460859795_0.667732879687005"
       ],
-      "position": 2
+      "position": 2,
+      "updated_at": 1632479094697
     },
     {
       "id": "1632460797125_0.041228696983538926",
       "title": "title 3",
-      "card_positions": [
-        "1632460859795_0.667732879687005"
-      ],
-      "position": 3
+      "card_positions": [],
+      "position": 2,
+      "updated_at": 1632479090483
     }
   ],
   "cards": [
     {
-      "id": "1632460853611_0.7392564737273335",
-      "title": "1",
-      "list_id": "1632460786885_0.44805634803249994",
-      "description": ""
-    },
-    {
-      "id": "1632460856875_0.46708855038986896",
-      "title": "2",
-      "list_id": "1632460786885_0.44805634803249994",
-      "description": "some description..."
-    },
-    {
       "id": "1632460859795_0.667732879687005",
       "title": "3",
-      "list_id": "1632460797125_0.041228696983538926",
-      "description": ""
+      "list_id": "1632460786885_0.44805634803249994",
+      "description": "some description...",
+      "updated_at": 1632479085064
     }
   ],
   "user-sequence": [
     {
       "id": 1,
       "sequence": [
-        "2360azdqUbsA",
-        "1632459993797_0.44852289641416476",
-        "4603_0.800",
-        "1632406808115_0.15989493869770555"
-      ]
+        "1632479000325_0.9151629145661719",
+        "1632480591042_0.5026966436211799",
+        "1632481181803_0.9672692442573103"
+      ],
+      "updated_at": 1632483632191
     }
   ]
 }

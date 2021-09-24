@@ -1,4 +1,4 @@
-import {BASE_URL} from '../stateManagement/url'
+import { BASE_URL } from "../stateManagement/url";
 
 export class BaseService {
   constructor(url) {
@@ -23,6 +23,7 @@ export class BaseService {
   }
 
   update(id, data) {
+    data.updated_at = Date.now();
     return fetch(`${BASE_URL}/${this.url}/${id}`, {
       method: "PATCH",
       headers: {
@@ -33,6 +34,7 @@ export class BaseService {
   }
 
   post(data) {
+    data.created_at = Date.now();
     return fetch(`${BASE_URL}/${this.url}`, {
       method: "POST",
       headers: {

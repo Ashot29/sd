@@ -12,6 +12,10 @@
   margin-bottom: 10px;
 }
 
+.card-modal-buttons {
+  margin-top: 25px;
+}
+
 .card-users {
   padding: 20px 0;
   width: 65%;

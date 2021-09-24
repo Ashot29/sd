@@ -1,3 +1,4 @@
+import { ADD_USER, DELETE_USER, UPDATE_USER } from "../../services/constants";
 import UserService from "./../../services/user.service";
 
 export const getUsers = () => {
@@ -18,14 +19,21 @@ export const fetchUsersSuccess = (users) => {
 
 export const deleteUser = (id) => {
   return {
-    type: 'DELETE_USER',
-    payload: { id }
-  }
-}
+    type: DELETE_USER,
+    payload: {id},
+  };
+};
 
 export const addUser = (user) => {
-    return {
-      type: 'ADD_USER',
-      payload: { user }
-    }
-}
+  return {
+    type: ADD_USER,
+    payload: {user},
+  };
+};
+
+export const updateUser = (updatedUser) => {
+  return {
+    type: UPDATE_USER,
+    payload: updatedUser,
+  };
+};

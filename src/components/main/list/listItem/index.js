@@ -36,7 +36,7 @@ const ListItem = ({ title, id, index }) => {
   });
 
   useEffect(() => {
-    fetchingAllLists(BASE_URL, dispatch);
+    fetchingAllLists(dispatch);
     // it is for fetching after deleting or adding card
   }, [cards.length]);
 
@@ -53,7 +53,7 @@ const ListItem = ({ title, id, index }) => {
       autoComplete="off"
       onSubmit={() => {
         listService.update(id, { title: value })
-        .then(() => fetchingAllLists(BASE_URL, dispatch))
+        .then(() => fetchingAllLists(dispatch))
         setIsClicked(!isClicked);
       }}
     >

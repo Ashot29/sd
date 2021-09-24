@@ -16,7 +16,7 @@ const cardService = CardService.getInstance();
 function deleteListWithItsCards(url, id, dispatch) {
   listService.delete(id).then(() => {
     cardService.getWithlistId(id).then((data) => {
-      fetchingAllLists(url, dispatch);
+      fetchingAllLists(dispatch);
       data.forEach((item) => {
         cardService.delete(item.id).then(() => fetchingAllCards(url, dispatch));
       });

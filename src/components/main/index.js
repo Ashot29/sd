@@ -40,8 +40,8 @@ function Main() {
   const dragEnd = (result) => {
     const { destination, source } = result;
     if (
-      (destination.droppableId === source.droppableId &&
-        destination.index === source.index) ||
+      (destination?.droppableId === source?.droppableId &&
+        destination?.index === source?.index) ||
       !destination
     ) {
       return;
@@ -56,6 +56,7 @@ function Main() {
 
   return (
     <div className="main-content">
+      {/* Remove DnD of members in the end, it is not useful  */}
       <DragDropContext onDragEnd={dragEnd}>
         <Droppable
           droppableId="all-members"

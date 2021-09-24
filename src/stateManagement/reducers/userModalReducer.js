@@ -7,6 +7,8 @@ export const userModalState = {
   lastName: "",
   age: "",
   email: "",
+  created_at: '',
+  updated_at: '',
 };
 
 export const userModalReducer = (state = userModalState, action) => {
@@ -21,6 +23,8 @@ export const userModalReducer = (state = userModalState, action) => {
         age: "",
         email: "",
         id: '',
+        created_at: '',
+        updated_at: '',
       };
     case "OPEN_USER_MODAL":
       return {
@@ -32,6 +36,8 @@ export const userModalReducer = (state = userModalState, action) => {
         lastName: action.payload.lastName,
         age: action.payload.age,
         email: action.payload.email,
+        created_at: action.payload.created_at,
+        updated_at: action.payload.updated_at,
       };
     default:
       return state;

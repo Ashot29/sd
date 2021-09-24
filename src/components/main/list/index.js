@@ -18,7 +18,7 @@ export const fetchingAllCards = (url, dispatch) => {
   cardService.get().then((data) => dispatch(getAllCards(data)));
 };
 
-export const fetchingAllLists = (url, dispatch) => {
+export const fetchingAllLists = (dispatch) => {
   listService.get().then((data) => {
     data.sort((a, b) => a.position - b.position);
     dispatch(setAllLists(data));
@@ -40,7 +40,7 @@ function List() {
   }, [lists]);
 
   useEffect(() => {
-    fetchingAllLists(BASE_URL, dispatch);
+    fetchingAllLists(dispatch);
     fetchingAllCards(BASE_URL, dispatch);
   }, []);
 
@@ -108,7 +108,7 @@ function changeSequenceOfCards(result, dispatch, fetchFunctions) {
       .update(source.droppableId, { card_positions: [...rightArrangedArray] })
       .then(() => {
         fetchingAllCards(BASE_URL, dispatch);
-        fetchingAllLists(BASE_URL, dispatch);
+        fetchingAllLists(dispatch);
       });
   });
 }
@@ -142,6 +142,7 @@ function changeListSequence(lists, result, dispatch) {
   dispatch(setAllLists(listArray));
 
   listArray.forEach((list, index) => {
+    // bug in this logic
     const position = cloned_lists[index].position;
     if (list.position === position) return;
 
@@ -168,7 +169,7 @@ function dispatchNewCardPositions(result, dispatch, fetchfunctions) {
     card_positions.splice(destination.index, 0, draggableId);
     listService.update(destination.droppableId, { card_positions }).then(() => {
       fetchingAllCards(BASE_URL, dispatch);
-      fetchingAllLists(BASE_URL, dispatch);
+      fetchingAllLists(dispatch);
     });
   });
 }
