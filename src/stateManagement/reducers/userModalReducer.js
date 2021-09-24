@@ -1,6 +1,7 @@
 export const userModalState = {
   userModalIsOpen: false,
   userModalMode: '',
+  id: '',
   country: "",
   firstName: "",
   lastName: "",
@@ -19,11 +20,13 @@ export const userModalReducer = (state = userModalState, action) => {
         lastName: "",
         age: "",
         email: "",
+        id: '',
       };
     case "OPEN_USER_MODAL":
       return {
         userModalIsOpen: true,
         userModalMode: action.payload.userModalMode,
+        id: action.payload.id,
         country: action.payload.country,
         firstName: action.payload.firstName,
         lastName: action.payload.lastName,

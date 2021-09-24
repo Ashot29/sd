@@ -25,19 +25,19 @@ const Users = () => {
 
   return (
     <div className="users-section">
-      <BasicTable />
       <div className="user-add-button">
         <Button
           variant="contained"
           color="primary"
           size="large"
           startIcon={<AddIcon />}
-          style={{ marginTop: "10px" }}
+          style={{ marginBottom: "10px" }}
           onClick={handleOpen}
         >
           Add new users
         </Button>
       </div>
+      <BasicTable />
       <UserModal />
       <DeleteDialog />
     </div>

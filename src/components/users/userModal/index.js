@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Backdrop from "@material-ui/core/Backdrop";
 import Box from "@material-ui/core/Box";
 import Modal from "@material-ui/core/Modal";
@@ -12,7 +12,7 @@ import { closeUserModal } from "./../../../stateManagement/actions/userModalActi
 import "./index.css";
 import UserService from "../../../services/user.service";
 import { addUser } from "../../../stateManagement/actions/usersActionCreator";
-import UserSequenceService from './../../../services/user-sequence.service';
+import UserSequenceService from "./../../../services/user-sequence.service";
 
 const style = {
   position: "absolute",
@@ -32,30 +32,38 @@ export default function UserModal() {
   const mode = useSelector((state) => state.userModalReducer.userModalMode);
   const userService = UserService.getInstance();
   const userSequenceService = UserSequenceService.getInstance();
-  const [userInfo, updateUserInfo] = React.useState({
+  const dispatch = useDispatch();
+
+  const [userInfo, updateUserInfo] = useState({
+    id: user.id,
     firstName: user.firstName,
     lastName: user.lastName,
     age: user.age,
     email: user.email,
     country: user.country,
-    subscribed_to_cards: []
+    subscribed_to_cards: [],
   });
-  const dispatch = useDispatch();
+  let [stateChanged, updateChangedState] = useState(false)
+  
   const handleClose = () => {
-    dispatch(closeUserModal())
+    updateUserInfo({
+      ...userInfo,
+      id: "",
+    });
+    updateChangedState(false)
+    dispatch(closeUserModal());
   };
 
-  console.log(userInfo, 'userInfo')
-
-  React.useEffect(
+  useEffect(
     () => [
       updateUserInfo({
+        id: mode === "ADD" ? `${Date.now()}_${Math.random()}` : user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         age: user.age,
         email: user.email,
         country: user.country,
-        subscribed_to_cards: []
+        subscribed_to_cards: [],
       }),
     ],
     [user]
@@ -69,29 +77,34 @@ export default function UserModal() {
       ...prevState,
       [name]: value,
     }));
+    updateChangedState(true)
   }
 
   function handleSubmit(event) {
     event.preventDefault();
-    switch(mode) {
+    switch (mode) {
       case "ADD":
-        // arandzin funkcia
+        // seperate function
         userService.post(userInfo);
-        userSequenceService.getById(1)
-        .then(data => {
+        userSequenceService.getById(1).then((data) => {
           const sequence = data.sequence;
-          sequence.push(userInfo.id)
-          userSequenceService.update(1, {sequence})
-        })
+          sequence.push(userInfo.id);
+          userSequenceService.update(1, { sequence });
+        });
         dispatch(addUser(userInfo));
-      case 'EDIT':
-        // arandzin funkcia
-        console.log(2);
-      default: handleClose()
+      case "EDIT":
+        // seperate function
+        if (!stateChanged) return;
+        let updatedUser = JSON.parse(JSON.stringify(userInfo));
+        delete updatedUser.subscribed_to_cards;
+        
+        console.log(updatedUser, "updatedUser");
+        userService.update(userInfo.id, updatedUser)
+
+      default:
+        handleClose();
     }
-
-    handleClose()
-
+    handleClose();
   }
 
   return (
@@ -115,7 +128,7 @@ export default function UserModal() {
             <form
               id="user-modal-form"
               onSubmit={(event) => {
-                handleSubmit(event)
+                handleSubmit(event);
               }}
             >
               <TextField
