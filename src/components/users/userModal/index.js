@@ -14,7 +14,6 @@ import UserService from "../../../services/user.service";
 import { addUser } from "../../../stateManagement/actions/usersActionCreator";
 import { updateUser } from "../../../stateManagement/actions/usersActionCreator";
 import UserSequenceService from "./../../../services/user-sequence.service";
-import { ContactsOutlined } from "@material-ui/icons";
 
 const style = {
   position: "absolute",
@@ -145,6 +144,9 @@ export default function UserModal() {
                 style={{ width: "100%", margin: "30px 0 10px" }}
                 className="firstname-input"
                 required
+                inputProps={{
+                  pattern: '[a-zA-Z]{1,30}',
+                }}
                 name="firstName"
                 autoComplete="off"
                 id="outlined-required"
@@ -155,6 +157,9 @@ export default function UserModal() {
               />
               <TextField
                 required
+                inputProps={{
+                  pattern: '[a-zA-Z]{1,30}'
+                }}
                 name="lastName"
                 autoComplete="off"
                 style={{ width: "100%", marginBottom: "10px" }}
@@ -168,6 +173,9 @@ export default function UserModal() {
                 required
                 name="country"
                 autoComplete="off"
+                inputProps={{
+                  pattern: '[a-zA-Z]{1,30}'
+                }}
                 style={{ width: "100%", marginBottom: "10px" }}
                 id="outlined-required"
                 label="Country"
@@ -179,6 +187,9 @@ export default function UserModal() {
                 required
                 name="email"
                 autoComplete="off"
+                inputProps={{
+                  pattern: '[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
+                }}
                 style={{ width: "100%", marginBottom: "10px" }}
                 id="outlined-required"
                 label="Email"
@@ -192,12 +203,10 @@ export default function UserModal() {
                 autoComplete="off"
                 style={{ width: "100%", marginBottom: "10px" }}
                 inputProps={{
+                  pattern: "[0-9]{3}",
                   min: 18,
                   max: 100,
                   step: 1,
-                  onKeyDown: (event) => {
-                    event.preventDefault();
-                  },
                 }}
                 id="outlined-required"
                 type="number"
