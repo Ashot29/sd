@@ -8,13 +8,15 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import { useSelector } from "react-redux";
 import { closeDeleteDialog } from "../../../stateManagement/actions/deleteDialogActionCreator";
 import { useDispatch } from "react-redux";
-import UserService from './../../../services/user.service';
+import UserService from "./../../../services/user.service";
 import { deleteUser } from "../../../stateManagement/actions/usersActionCreator";
 import UserSequenceService from "../../../services/user-sequence.service";
 
 export default function DeleteDialog() {
   const open = useSelector((state) => state.deleteDialogReducer.dialogIsOpen);
-  const user_id = useSelector((state) => state.deleteDialogReducer.deletingUserId)
+  const user_id = useSelector(
+    (state) => state.deleteDialogReducer.deletingUserId
+  );
   const userService = UserService.getInstance();
   const userSequenceService = UserSequenceService.getInstance();
   const dispatch = useDispatch();
@@ -24,17 +26,19 @@ export default function DeleteDialog() {
   };
 
   const deleteUserFromDialog = () => {
-    userSequenceService.getById(1)
-    .then(data => {
-      const sequence = data.sequence;
-      const index = sequence.findIndex(id => id === user_id);
-      sequence.splice(index, 1);
-      userSequenceService.update(1, {sequence});
-    })
-    userService.delete(user_id);
+    userSequenceService.getById(1).then((data) => {
+      const sequence = [...data.sequence];
+      console.log(sequence, "sequence during delete");
+      const index = sequence.findIndex((id) => id === user_id);
+      if (index !== -1) {
+        sequence.splice(index, 1);
+        console.log(sequence, "sequence after delete");
+        userSequenceService.update(1, { sequence });
+      }
+    }).then(() => userService.delete(user_id))
     dispatch(deleteUser(user_id));
     dispatch(closeDeleteDialog());
-  }
+  };
 
   return (
     <div>
@@ -57,7 +61,12 @@ export default function DeleteDialog() {
           <Button variant="outlined" color="primary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant='contained' color="secondary" onClick={deleteUserFromDialog} autoFocus>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={deleteUserFromDialog}
+            autoFocus
+          >
             Delete
           </Button>
         </DialogActions>
@@ -65,7 +74,6 @@ export default function DeleteDialog() {
     </div>
   );
 }
-
 
 // {
 //   "id": "08715_0.5828",
