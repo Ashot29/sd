@@ -32,12 +32,15 @@ const fetchFunctions = {
 
 function List() {
   const dispatch = useDispatch();
-  let lists = useSelector((state) => state.fetchData.lists);
+  let lists = useSelector((state) => {
+    let sortedListsByPositions = state.fetchData.lists.sort((a, b) => a.position - b.position)
+    return sortedListsByPositions
+  });
   let [listsArray, setListsArray] = useState([...lists]);
 
   useEffect(() => {
     setListsArray(lists);
-  }, [lists]);
+  }, [lists.length]);
 
   useEffect(() => {
     fetchingAllLists(dispatch);
@@ -64,7 +67,7 @@ function List() {
     }
 
     if (type === "LISTS") {
-      changeListSequence(lists, result, dispatch);
+      changeListSequence(listsArray, result, dispatch, setListsArray, lists);
     }
   };
 
@@ -132,23 +135,26 @@ function changeCardsSequenceBetwLists(result, dispatch, fetchFunctions) {
     });
 }
 
-function changeListSequence(lists, result, dispatch) {
-  const cloned_lists = JSON.parse(JSON.stringify(lists));
-  const listArray = JSON.parse(JSON.stringify(lists));
+function changeListSequence(listsArray, result, dispatch, setListsArray, startingLists) {
+  const cloned_lists = JSON.parse(JSON.stringify(startingLists));
+  const listArray = JSON.parse(JSON.stringify(listsArray));
 
   const [reorderedItem] = listArray.splice(result.source.index, 1);
   listArray.splice(result.destination.index, 0, reorderedItem);
 
+  console.log(cloned_lists, 'cloned_lists')
+  console.log(listArray, 'listarray')
+  setListsArray(listArray)
   dispatch(setAllLists(listArray));
 
   listArray.forEach((list, index) => {
-    // bug in this logic
     const position = cloned_lists[index].position;
-    if (list.position === position) return;
 
-    listService.update(list.id, { position });
+    listService.update(list.id, {position});
   });
+  console.log(result, 'result')
 }
+
 
 function arrayInRightSequence(data, result) {
   const { destination, draggableId } = result;
@@ -159,6 +165,7 @@ function arrayInRightSequence(data, result) {
   card_positions.splice(destination.index, 0, draggableId);
   return card_positions;
 }
+
 
 function dispatchNewCardPositions(result, dispatch, fetchfunctions) {
   const { destination, draggableId } = result;

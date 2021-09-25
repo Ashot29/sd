@@ -74,13 +74,3 @@ export default function DeleteDialog() {
     </div>
   );
 }
-
-// {
-//   "id": "08715_0.5828",
-//   "firstName": "Ann",
-//   "lastName": "Smith",
-//   "country": "Australia",
-//   "age": 34,
-//   "email": "ann@codingthesmartway.com",
-//   "subscribed_to_cards": []
-// }
