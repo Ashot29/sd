@@ -147,6 +147,8 @@ export default function UserModal() {
                 inputProps={{
                   pattern: '[a-zA-Z]{1,30}',
                 }}
+
+                
                 name="firstName"
                 autoComplete="off"
                 id="outlined-required"
