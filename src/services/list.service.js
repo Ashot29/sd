@@ -2,7 +2,7 @@ import { BaseService } from "./base.service";
 
 export default class ListService extends BaseService {
   constructor() {
-    super("lists")
+    super("lists");
   }
 
   static getInstance() {

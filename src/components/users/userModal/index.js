@@ -47,6 +47,8 @@ export default function UserModal() {
   });
   let [stateChanged, updateChangedState] = useState(false);
 
+  console.log(userInfo, 'userInfo')
+
   const handleClose = () => {
     updateUserInfo({
       ...userInfo,
@@ -75,9 +77,11 @@ export default function UserModal() {
   function postNewUser() {
     userService.post(userInfo);
     userSequenceService.getById(1).then((data) => {
+      console.log(data.sequence, 'data.sequence before')
       const sequence = data.sequence;
       sequence.push(userInfo.id);
-      userSequenceService.update(1, { sequence });
+      console.log(sequence, 'sequence after')
+      userSequenceService.update(1, {sequence});
     });
     dispatch(addUser(userInfo));
   }
@@ -107,13 +111,16 @@ export default function UserModal() {
     switch (mode) {
       case "ADD":
         postNewUser();
+        handleClose();
+        break;
       case "EDIT":
-        changeExistingUser()
+        changeExistingUser();
+        handleClose();
+        break;
       default:
         handleClose();
+        break;
     }
-
-    handleClose();
   }
 
   return (
@@ -147,8 +154,6 @@ export default function UserModal() {
                 inputProps={{
                   pattern: '[a-zA-Z]{1,30}',
                 }}
-
-                
                 name="firstName"
                 autoComplete="off"
                 id="outlined-required"

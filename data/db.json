@@ -1,59 +1,14 @@
 {
   "users": [
     {
-      "id": "1632484830080_0.1436603755430681",
-      "firstName": "John",
-      "lastName": "Smith",
-      "age": 30,
-      "email": "john@gmail.com",
-      "country": "UK",
-      "subscribed_to_cards": [],
-      "created_at": 1632484852856,
-      "updated_at": 1632492155619
-    },
-    {
-      "id": "1632484865312_0.7320341195220996",
-      "firstName": "David",
-      "lastName": "Pasqual",
-      "age": 40,
-      "email": "david@a.com",
-      "country": "France",
-      "subscribed_to_cards": [],
-      "created_at": 1632484902239,
-      "updated_at": 1632492777655
-    },
-    {
-      "id": "1632487715895_0.2670872401395783",
-      "firstName": "Vinch",
-      "lastName": "Chester",
-      "age": 78,
-      "email": "vinchchester@mail.ru",
-      "country": "UK",
-      "subscribed_to_cards": [],
-      "created_at": 1632487748853,
-      "updated_at": 1632495704362
-    },
-    {
-      "id": "1632492947593_0.5973338135246804",
-      "firstName": "Ashot",
-      "lastName": "Sargsyan",
-      "age": 45,
-      "email": "sargsyan.ashot19@gmail.com",
-      "country": "Armenia",
-      "subscribed_to_cards": [],
-      "created_at": 1632492967374,
-      "updated_at": 1632492989870
-    },
-    {
-      "id": "1632492991783_0.23302762286871292",
-      "firstName": "Gagik",
-      "lastName": "Simonyan",
+      "id": "1632555856113_0.9848300224764974",
+      "firstName": "Ash",
+      "lastName": "asas",
       "age": 18,
-      "email": "gagik.simonyan@gmail.com",
-      "country": "Armenia",
+      "email": "sas@asa.co",
+      "country": "asasa",
       "subscribed_to_cards": [],
-      "created_at": 1632493026677,
-      "updated_at": 1632495690810
+      "created_at": 1632555870112
     }
   ],
   "lists": [
@@ -79,11 +34,9 @@
     {
       "id": 1,
       "sequence": [
-        "1632492947593_0.5973338135246804",
-        "1632484865312_0.7320341195220996",
-        "1632484830080_0.1436603755430681"
+        "1632555856113_0.9848300224764974"
       ],
-      "updated_at": 1632551040782
+      "updated_at": 1632555945845
     }
   ]
 }
