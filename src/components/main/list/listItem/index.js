@@ -6,15 +6,20 @@ import CardForm from "./cardForm";
 import Input from "@material-ui/core/Input";
 import { fetchingAllLists } from "..";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import { BASE_URL } from "../../../../stateManagement/url";
 import ListService from "../../../../services/list.service";
 import "./index.css";
 
 const listService = ListService.getInstance();
 
-const ListItem = ({ title, id, index }) => {
+const ListItem = ({ id, index }) => {
   let [isClicked, setIsClicked] = useState(false);
-  let [value, setValue] = useState(title);
+  let listTitle = useSelector(state => {
+    let lists = state.fetchData.lists;
+    let currentList  = lists.find(list => list.id === id);
+    let title = currentList?.title
+    return title
+  })
+  let [value, setValue] = useState(listTitle);
   const dispatch = useDispatch();
 
   const cards = useSelector((state) => {
@@ -45,7 +50,7 @@ const ListItem = ({ title, id, index }) => {
       className="list-title"
       onClick={() => setIsClicked(!isClicked)}
     >
-      {title}
+      {listTitle}
     </div>
   ) : (
     <form
@@ -53,7 +58,7 @@ const ListItem = ({ title, id, index }) => {
       autoComplete="off"
       onSubmit={() => {
         listService.update(id, { title: value })
-        .then(() => fetchingAllLists(dispatch))
+        .then(() => fetchingAllLists(dispatch));
         setIsClicked(!isClicked);
       }}
     >
