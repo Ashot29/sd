@@ -6,7 +6,6 @@ import CardForm from "./cardForm";
 import Input from "@material-ui/core/Input";
 import { fetchingAllLists } from "..";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-import { BASE_URL } from "../../../../stateManagement/url";
 import ListService from "../../../../services/list.service";
 import "./index.css";
 

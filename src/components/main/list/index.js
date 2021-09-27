@@ -10,7 +10,6 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import CardService from "../../../services/cards.service";
 import ListService from "./../../../services/list.service";
 import "./index.css";
-import UserService from './../../../services/user.service';
 
 const cardService = CardService.getInstance();
 const listService = ListService.getInstance();
@@ -28,9 +27,8 @@ export const fetchingAllLists = (dispatch) => {
 
 function List() {
   const dispatch = useDispatch();
-  const listService = ListService.getInstance();
   let lists = useSelector((state) => state.fetchData.lists);
-  let [listsArray, setListsArray] = useState([...lists])
+  let [listsArray, setListsArray] = useState([...lists.sort((a, b) => a?.position - b?.position)])
 
   useEffect(() => {
     if (JSON.stringify(lists) !== JSON.stringify(listsArray)) {
@@ -58,6 +56,7 @@ function List() {
       if (source.droppableId === destination.droppableId) {
         // changeSequenceOfCards(result, dispatch, fetchFunctions);
         console.log('changeSequenceOfCards')
+
       } else {
         // changeCardsSequenceBetwLists(result, dispatch, fetchFunctions);
         console.log('changeCardsSequenceBetwLists')
