@@ -74,27 +74,30 @@ export default function UserModal() {
   );
 
   function postNewUser() {
-    userService.checkEmail(userInfo.email)
-      .then((data) => {
-        if (!data.length) {
-          userService.post(userInfo);
-          userSequenceService.getById(1).then((data) => {
-            const sequence = data.sequence;
-            sequence.push(userInfo.id);
-            userSequenceService.update(1, { sequence });
-          });
-          dispatch(addUser(userInfo));
-        } else alert(`User with current email: '${userInfo.email}' exists.`)
-      });
+    userService.checkEmail(userInfo.email).then((data) => {
+      if (!data.length) {
+        userService.post(userInfo);
+        userSequenceService.getById(1).then((data) => {
+          const sequence = data.sequence;
+          sequence.push(userInfo.id);
+          userSequenceService.update(1, { sequence });
+        });
+        dispatch(addUser(userInfo));
+      } else alert(`User with current email: '${userInfo.email}' exists.`);
+    });
   }
 
   function changeExistingUser() {
     if (!stateChanged) return;
-    let updatedUser = JSON.parse(JSON.stringify(userInfo));
-    delete updatedUser.subscribed_to_cards;
-    userService.update(userInfo.id, updatedUser);
+    userService.checkEmail(userInfo.email).then((data) => {
+      if (!data.length) {
+        let updatedUser = JSON.parse(JSON.stringify(userInfo));
+        delete updatedUser.subscribed_to_cards;
+        userService.update(userInfo.id, updatedUser);
 
-    dispatch(updateUser(updatedUser));
+        dispatch(updateUser(updatedUser));
+      } else alert(`User with current email: '${userInfo.email}' exists.`);
+    });
   }
 
   function handleChange(event) {
