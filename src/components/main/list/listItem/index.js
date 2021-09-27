@@ -35,10 +35,10 @@ const ListItem = ({ title, id, index }) => {
     return cardsInRightSequence;
   });
 
-  useEffect(() => {
-    fetchingAllLists(dispatch);
-    // it is for fetching after deleting or adding card
-  }, [cards.length]);
+  // useEffect(() => {
+  //   fetchingAllLists(dispatch);
+  //   // it is for fetching after deleting or adding card
+  // }, [cards.length]);
 
   let element = !isClicked ? (
     <div
