@@ -47,6 +47,13 @@ export const postLists = (title) => {
   };
 };
 
+export const updateListCardPositions = (id_and_positions) => {
+  return {
+    type: "UPDATE_LIST_CARD_POSITIONS",
+    payload: id_and_positions
+  }
+}
+
 ///////////////////////////////// Action creators for CARDS
 
 export const addCardsActionCreator = (data) => {
