@@ -54,6 +54,13 @@ export const updateListCardPositions = (id_and_positions) => {
   }
 }
 
+export const moveCardBetweenLists = (ids_and_lists) => {
+  return {
+    type: "MOVE_CARD_BETWEEN_LISTS",
+    payload: ids_and_lists
+  }
+}
+
 ///////////////////////////////// Action creators for CARDS
 
 export const addCardsActionCreator = (data) => {
@@ -93,6 +100,13 @@ export const getAllCards = (cards) => {
     payload: cards,
   };
 };
+
+export const changeCardsListId = (id_and_card) => {
+  return {
+    type: "CHANGE_CARDS_LIST_ID",
+    payload: id_and_card
+  }
+}
 
 // Helper Functions
 

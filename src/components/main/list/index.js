@@ -5,11 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setAllLists,
   getAllCards,
+  changeCardsListId,
 } from "../../../stateManagement/actions/fetchDataActionCreator";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import CardService from "../../../services/cards.service";
 import ListService from "./../../../services/list.service";
 import { updateListCardPositions } from "../../../stateManagement/actions/fetchDataActionCreator";
+import { moveCardBetweenLists } from "../../../stateManagement/actions/fetchDataActionCreator";
 import "./index.css";
 
 const cardService = CardService.getInstance();
@@ -29,6 +31,7 @@ export const fetchingAllLists = (dispatch) => {
 function List() {
   const dispatch = useDispatch();
   let lists = useSelector((state) => state.fetchData.lists);
+  let cards = useSelector((state) => state.fetchData.cards);
   let [listsArray, setListsArray] = useState([
     ...lists.sort((a, b) => a?.position - b?.position),
   ]);
@@ -45,7 +48,7 @@ function List() {
   }, []);
 
   const handleDragEnd = (result) => {
-    const { destination, source, type } = result;
+    const { destination, source, type, draggableId } = result;
     if (
       !destination ||
       (destination.droppableId === source.droppableId &&
@@ -56,10 +59,9 @@ function List() {
 
     if (type === "CARDS") {
       if (source.droppableId === destination.droppableId) {
-        changeCardsOrder(result, dispatch, lists)
+        changeCardsOrder(result, dispatch, lists);
       } else {
-        // changeCardsSequenceBetwLists(result, dispatch, fetchFunctions);
-        console.log("changeCardsSequenceBetwLists");
+        changeCardsOrderBetweenLists(result, dispatch, [cards, lists])
       }
     }
 
@@ -113,8 +115,6 @@ function changeListOrder(state, result, dispatch) {
     const position = list.position;
     listService.update(list.id, { position });
   });
-
-  console.log(changingLists, "changingLists");
 }
 
 function changeCardsOrder(result, dispatch, lists) {
@@ -126,85 +126,53 @@ function changeCardsOrder(result, dispatch, lists) {
   const [reorderedItem] = card_positions.splice(result.source.index, 1);
   card_positions.splice(result.destination.index, 0, reorderedItem);
 
-  console.log(card_positions, "card_positions");
-
   dispatch(updateListCardPositions({ id: list_id, card_positions }));
   listService.update(list_id, { card_positions });
 }
 
-// function changeSequenceOfCards(result, dispatch, fetchFunctions) {
-//   const { source } = result;
-//   const { fetchingAllCards, fetchingAllLists } = fetchFunctions;
+function changeCardsOrderBetweenLists(result, dispatch, cards_and_lists) {
+  const { destination, source, draggableId } = result;
+  const [cards, lists] = cards_and_lists
+  const current_card = JSON.parse(
+    JSON.stringify(cards.find((card) => card.id === draggableId))
+  );
+  const new_list_id = destination.droppableId;
+  const old_list_id = source.droppableId;
+  const new_list = lists.find((list) => list.id === new_list_id);
+  const old_list = lists.find((list) => list.id === old_list_id);
 
-//   listService.getById(source.droppableId).then((data) => {
-//     let rightArrangedArray = arrayInRightSequence(data, result);
+  current_card.list_id = new_list_id;
+  old_list.card_positions = [...old_list.card_positions].filter(
+    (pos) => pos !== draggableId
+  );
+  new_list.card_positions.splice(destination.index, 0, draggableId);
 
-//     listService
-//       .update(source.droppableId, { card_positions: [...rightArrangedArray] })
-//       .then(() => {
-//         fetchingAllCards(BASE_URL, dispatch);
-//         fetchingAllLists(dispatch);
-//       });
-//   });
-// }
+  let new_lists = {
+    olds_id: old_list_id,
+    news_id: new_list_id,
+    old_list: old_list,
+    new_list: new_list,
+  };
 
-// function changeCardsSequenceBetwLists(result, dispatch, fetchFunctions) {
-//   const { destination, source, draggableId } = result;
+  makeChangesOnServerAndState(dispatch, new_lists, current_card)
+}
 
-//   cardService
-//     .update(draggableId, { list_id: destination.droppableId })
-//     .then(() => {
-//       listService.getById(source.droppableId).then((data) => {
-//         const card_positions = [...data.card_positions];
-//         const index = card_positions.findIndex(
-//           (cardId) => cardId === draggableId
-//         );
-//         card_positions.splice(index, 1);
-//         listService.update(source.droppableId, { card_positions }).then(() => {
-//           dispatchNewCardPositions(result, dispatch, fetchFunctions);
-//         });
-//       });
-//     });
-// }
+////////////////////////////////////////////
 
-// function changeListSequence(lists, result, dispatch) {
-//   const cloned_lists = JSON.parse(JSON.stringify(lists));
-//   const listArray = JSON.parse(JSON.stringify(lists));
+function makeChangesOnServerAndState(dispatch, new_lists, current_card) {
+  let {old_list_id, new_list_id, new_list, old_list} = new_lists;
+  const draggableId = current_card.id
+  makeChangesOnState(dispatch, draggableId, [current_card, new_lists])
 
-//   const [reorderedItem] = listArray.splice(result.source.index, 1);
-//   listArray.splice(result.destination.index, 0, reorderedItem);
+  cardService.update(draggableId, current_card).then(() => {
+    listService
+      .update(old_list_id, old_list)
+      .then(listService.update(new_list_id, new_list));
+  });
+}
 
-//   dispatch(setAllLists(listArray));
-
-//   listArray.forEach((list, index) => {
-//     // bug in this logic
-//     const position = cloned_lists[index].position;
-//     if (list.position === position) return;
-
-//     listService.update(list.id, { position });
-//   });
-// }
-
-// function arrayInRightSequence(data, result) {
-//   const { destination, draggableId } = result;
-
-//   const card_positions = [...data.card_positions];
-//   const index = card_positions.findIndex((cardId) => cardId === draggableId);
-//   card_positions.splice(index, 1);
-//   card_positions.splice(destination.index, 0, draggableId);
-//   return card_positions;
-// }
-
-// function dispatchNewCardPositions(result, dispatch, fetchfunctions) {
-//   const { destination, draggableId } = result;
-//   const { fetchingAllCards, fetchingAllLists } = fetchfunctions;
-
-//   listService.getById(destination.droppableId).then((data) => {
-//     const card_positions = [...data.card_positions];
-//     card_positions.splice(destination.index, 0, draggableId);
-//     listService.update(destination.droppableId, { card_positions }).then(() => {
-//       fetchingAllCards(BASE_URL, dispatch);
-//       fetchingAllLists(dispatch);
-//     });
-//   });
-// }
+function makeChangesOnState(dispatch, id, card_and_list) {
+  let [current_card, new_lists] = card_and_list;
+  dispatch(changeCardsListId({ id, card: current_card }));
+  dispatch(moveCardBetweenLists(new_lists));
+}

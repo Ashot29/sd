@@ -23,6 +23,27 @@ export function fetchData(state = dataState, action) {
         lists: [...action.payload],
         isLoading: false,
       };
+    case "UPDATE_LIST_CARD_POSITIONS":
+      const user = JSON.parse(
+        JSON.stringify(
+          [...state.lists].find((list) => list.id === action.payload.id)
+        )
+      );
+      user.card_positions = action.payload.card_positions;
+      const lists = [...state.lists].filter(
+        (list) => list.id !== action.payload.id
+      );
+      return {
+        ...state,
+        lists: [...lists, user],
+      };
+    case "MOVE_CARD_BETWEEN_LISTS":
+      const lists_without_old_list = [...state.lists].filter(list => list.id !== action.payload.olds_id);
+      const lists_without_new_list = [...lists_without_old_list].filter(list => list.id !== action.payload.news_id);
+      return {
+        ...state,
+        lists: [...lists_without_new_list, action.payload.new_list, action.payload.old_list]
+      }
     case "ADD_CARD":
       return {
         ...state,
@@ -33,13 +54,11 @@ export function fetchData(state = dataState, action) {
         ...state,
         cards: [...action.payload],
       };
-    case "UPDATE_LIST_CARD_POSITIONS":
-      const user = JSON.parse(JSON.stringify([...state.lists].find(list => list.id === action.payload.id)));
-      user.card_positions = action.payload.card_positions;
-      const lists = [...state.lists].filter(list => list.id !== action.payload.id)
+    case "CHANGE_CARDS_LIST_ID":
+      const cards = state.cards.filter(card => card.id !== action.payload.id)
       return {
         ...state,
-        lists: [...lists, user]
+        cards: [...cards, action.payload.card]
       };
     default:
       return state;
