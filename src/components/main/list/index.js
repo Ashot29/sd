@@ -61,6 +61,7 @@ function List() {
       if (source.droppableId === destination.droppableId) {
         changeCardsOrder(result, dispatch, lists);
       } else {
+        // changeCardsSequenceBetwLists(result, dispatch, fetchFunctions);
         changeCardsOrderBetweenLists(result, dispatch, [cards, lists])
       }
     }
@@ -154,15 +155,8 @@ function changeCardsOrderBetweenLists(result, dispatch, cards_and_lists) {
     new_list: new_list,
   };
 
-  makeChangesOnServerAndState(dispatch, new_lists, current_card)
-}
-
-////////////////////////////////////////////
-
-function makeChangesOnServerAndState(dispatch, new_lists, current_card) {
-  let {old_list_id, new_list_id, new_list, old_list} = new_lists;
-  const draggableId = current_card.id
-  makeChangesOnState(dispatch, draggableId, [current_card, new_lists])
+  dispatch(changeCardsListId({ id: draggableId, card: current_card }));
+  dispatch(moveCardBetweenLists(new_lists));
 
   cardService.update(draggableId, current_card).then(() => {
     listService
@@ -171,8 +165,20 @@ function makeChangesOnServerAndState(dispatch, new_lists, current_card) {
   });
 }
 
-function makeChangesOnState(dispatch, id, card_and_list) {
-  let [current_card, new_lists] = card_and_list;
-  dispatch(changeCardsListId({ id, card: current_card }));
-  dispatch(moveCardBetweenLists(new_lists));
-}
+// function makeChangesOnServerAndState(dispatch, new_lists, current_card) {
+//   let {old_list_id, new_list_id, new_list, old_list} = new_lists;
+//   const draggableId = current_card
+//   makeChangesOnState(dispatch, draggableId, [current_card, new_lists])
+
+//   cardService.update(draggableId, current_card).then(() => {
+//     listService
+//       .update(old_list_id, old_list)
+//       .then(listService.update(new_list_id, new_list));
+//   });
+// }
+
+// function makeChangesOnState(dispatch, id, card_and_list) {
+//   let [current_card, new_lists] = card_and_list;
+//   dispatch(changeCardsListId({ id, card: current_card }));
+//   dispatch(moveCardBetweenLists(new_lists));
+// }
