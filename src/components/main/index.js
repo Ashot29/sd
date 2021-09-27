@@ -56,7 +56,6 @@ function Main() {
 
   return (
     <div className="main-content">
-      {/* Remove DnD of members in the end, it is not useful  */}
       <DragDropContext onDragEnd={dragEnd}>
         <Droppable
           droppableId="all-members"
@@ -69,10 +68,11 @@ function Main() {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {!!users.length && users.map((user, index) => {
-                if (!user) return;
-                return <Member index={index} user={user} key={user.id} />;
-              })}
+              {!!users.length &&
+                users.map((user, index) => {
+                  if (!user) return;
+                  return <Member index={index} user={user} key={user.id} />;
+                })}
               {provided.placeholder}
             </div>
           )}
@@ -83,7 +83,7 @@ function Main() {
         <List />
         {!state.isButtonClicked ? (
           <Button
-          style={{backgroundColor: '#e0e0e0'}}
+            style={{ backgroundColor: "#e0e0e0" }}
             className="add-list-button"
             variant="outlined"
             onClick={changeButtonIntoForm}
@@ -94,7 +94,7 @@ function Main() {
           <ListForm />
         )}
       </div>
-      
+
       <CardModal />
     </div>
   );

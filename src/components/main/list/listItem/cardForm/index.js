@@ -9,7 +9,7 @@ function CardForm({ id }) {
   const dispatch = useDispatch();
   let [inputValue, setInputValue] = useState("");
   let [isClicked, setIsClicked] = useState(false);
-  let buttonStyles = {
+  const buttonStyles = {
     marginTop: "12px",
     marginRight: "4px",
   };

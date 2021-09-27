@@ -9,12 +9,11 @@ import { TextField } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { closeUserModal } from "./../../../stateManagement/actions/userModalActionCreator";
-import "./index.css";
 import UserService from "../../../services/user.service";
 import { addUser } from "../../../stateManagement/actions/usersActionCreator";
 import { updateUser } from "../../../stateManagement/actions/usersActionCreator";
 import UserSequenceService from "./../../../services/user-sequence.service";
-import { BASE_URL } from "./../../../stateManagement/url";
+import "./index.css";
 
 const style = {
   position: "absolute",
@@ -29,11 +28,14 @@ const style = {
 };
 
 export default function UserModal() {
+  const userService = UserService.getInstance();
+  const userSequenceService = UserSequenceService.getInstance();
+
   const open = useSelector((state) => state.userModalReducer.userModalIsOpen);
   const user = useSelector((state) => state.userModalReducer);
   const mode = useSelector((state) => state.userModalReducer.userModalMode);
-  const userService = UserService.getInstance();
-  const userSequenceService = UserSequenceService.getInstance();
+  let [stateChanged, updateChangedState] = useState(false);
+
   const dispatch = useDispatch();
 
   const [userInfo, updateUserInfo] = useState({
@@ -46,7 +48,6 @@ export default function UserModal() {
     subscribed_to_cards: [],
     created_at: user.created_at,
   });
-  let [stateChanged, updateChangedState] = useState(false);
 
   const handleClose = () => {
     updateUserInfo({

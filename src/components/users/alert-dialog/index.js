@@ -5,9 +5,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { closeDeleteDialog } from "../../../stateManagement/actions/deleteDialogActionCreator";
-import { useDispatch } from "react-redux";
 import UserService from "./../../../services/user.service";
 import { deleteUser } from "../../../stateManagement/actions/usersActionCreator";
 import UserSequenceService from "../../../services/user-sequence.service";
@@ -74,13 +73,3 @@ export default function DeleteDialog() {
     </div>
   );
 }
-
-// {
-//   "id": "08715_0.5828",
-//   "firstName": "Ann",
-//   "lastName": "Smith",
-//   "country": "Australia",
-//   "age": 34,
-//   "email": "ann@codingthesmartway.com",
-//   "subscribed_to_cards": []
-// }

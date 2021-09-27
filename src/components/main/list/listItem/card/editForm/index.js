@@ -9,7 +9,7 @@ import './index.css'
 
 const cardService = CardService.getInstance();
 
-let buttonStyles = {
+const buttonStyles = {
     marginTop: "12px",
     marginRight: "4px",
   };

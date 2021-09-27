@@ -20,7 +20,7 @@ const ListItem = ({ title, id, index }) => {
     const lists = state.fetchData.lists;
     const cards = state.fetchData.cards;
     const cardsInRightSequence = [];
-    let parentList = lists.find((list) => list.id === id);
+    const parentList = lists.find((list) => list.id === id);
     const card_positions = parentList ? parentList.card_positions : [];
     let cardsBelongingToThisList = [
       ...cards.filter((card) => card.list_id == id),
@@ -33,11 +33,6 @@ const ListItem = ({ title, id, index }) => {
     });
     return cardsInRightSequence;
   });
-
-  // useEffect(() => {
-  //   fetchingAllLists(dispatch);
-  //   // it is for fetching after deleting or adding card
-  // }, [cards.length]);
 
   let element = !isClicked ? (
     <div
