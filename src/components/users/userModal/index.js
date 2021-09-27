@@ -14,6 +14,7 @@ import UserService from "../../../services/user.service";
 import { addUser } from "../../../stateManagement/actions/usersActionCreator";
 import { updateUser } from "../../../stateManagement/actions/usersActionCreator";
 import UserSequenceService from "./../../../services/user-sequence.service";
+import { BASE_URL } from "./../../../stateManagement/url";
 
 const style = {
   position: "absolute",
@@ -73,13 +74,18 @@ export default function UserModal() {
   );
 
   function postNewUser() {
-    userService.post(userInfo);
-    userSequenceService.getById(1).then((data) => {
-      const sequence = data.sequence;
-      sequence.push(userInfo.id);
-      userSequenceService.update(1, { sequence });
-    });
-    dispatch(addUser(userInfo));
+    userService.checkEmail(userInfo.email)
+      .then((data) => {
+        if (!data.length) {
+          userService.post(userInfo);
+          userSequenceService.getById(1).then((data) => {
+            const sequence = data.sequence;
+            sequence.push(userInfo.id);
+            userSequenceService.update(1, { sequence });
+          });
+          dispatch(addUser(userInfo));
+        } else alert(`User with current email: '${userInfo.email}' exists.`)
+      });
   }
 
   function changeExistingUser() {
@@ -88,7 +94,7 @@ export default function UserModal() {
     delete updatedUser.subscribed_to_cards;
     userService.update(userInfo.id, updatedUser);
 
-    dispatch(updateUser(updatedUser))
+    dispatch(updateUser(updatedUser));
   }
 
   function handleChange(event) {
@@ -107,13 +113,16 @@ export default function UserModal() {
     switch (mode) {
       case "ADD":
         postNewUser();
+        handleClose();
+        break;
       case "EDIT":
-        changeExistingUser()
+        changeExistingUser();
+        handleClose();
+        break;
       default:
         handleClose();
+        break;
     }
-
-    handleClose();
   }
 
   return (
@@ -145,10 +154,8 @@ export default function UserModal() {
                 className="firstname-input"
                 required
                 inputProps={{
-                  pattern: '[a-zA-Z]{1,30}',
+                  pattern: "[a-zA-Z]{1,30}",
                 }}
-
-                
                 name="firstName"
                 autoComplete="off"
                 id="outlined-required"
@@ -160,7 +167,7 @@ export default function UserModal() {
               <TextField
                 required
                 inputProps={{
-                  pattern: '[a-zA-Z]{1,30}'
+                  pattern: "[a-zA-Z]{1,30}",
                 }}
                 name="lastName"
                 autoComplete="off"
@@ -176,7 +183,7 @@ export default function UserModal() {
                 name="country"
                 autoComplete="off"
                 inputProps={{
-                  pattern: '[a-zA-Z]{1,30}'
+                  pattern: "[a-zA-Z]{1,30}",
                 }}
                 style={{ width: "100%", marginBottom: "10px" }}
                 id="outlined-required"
@@ -190,7 +197,7 @@ export default function UserModal() {
                 name="email"
                 autoComplete="off"
                 inputProps={{
-                  pattern: '[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
+                  pattern: "[a-zA-Z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$",
                 }}
                 style={{ width: "100%", marginBottom: "10px" }}
                 id="outlined-required"
