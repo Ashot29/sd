@@ -18,6 +18,7 @@ import ListService from "../../../../../services/list.service";
 import EditForm from "./editForm";
 import "./index.css";
 import UserService from "./../../../../../services/user.service";
+import { deleteFromListsPositions } from './../../../../../stateManagement/actions/fetchDataActionCreator';
 
 const cardService = CardService.getInstance();
 const listService = ListService.getInstance();
@@ -146,11 +147,12 @@ export default function MediaCard({ title, id, description, index, list_id }) {
   }
 }
 
-export const deleteCard = (args) => {
-  let { id } = args;
+export const deleteCard = (args, dispatch) => {
+  let { id, list_id } = args;
   cardService
     .delete(id)
     .then(() => {
+      dispatch(deleteFromListsPositions({card_id: id, list_id: list_id}))
       deleteFromlistCardPositions(args);
     })
     .then(() => deleteUserSubscription(id));
@@ -167,7 +169,7 @@ function handlingCardClick(args) {
     event.target.closest("button").classList.contains("card-delete-button")
   ) {
     let argsForCardDeleting = { url, id, dispatch, list_id };
-    deleteCard(argsForCardDeleting);
+    deleteCard(argsForCardDeleting, dispatch);
   } else if (
     event.target.closest("button").classList.contains("card-edit-button")
   ) {

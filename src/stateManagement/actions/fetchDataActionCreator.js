@@ -61,6 +61,13 @@ export const moveCardBetweenLists = (ids_and_lists) => {
   }
 }
 
+export const deleteFromListsPositions = (list_and_card_ids) => {
+  return {
+    type: "DELETE_CARD_FROM_LISTS_POSITIONS",
+    payload: list_and_card_ids
+  }
+}
+
 ///////////////////////////////// Action creators for CARDS
 
 export const addCardsActionCreator = (data) => {

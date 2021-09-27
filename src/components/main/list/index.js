@@ -100,6 +100,8 @@ function List() {
 
 export default List;
 
+
+
 function changeListOrder(state, result, dispatch) {
   let [listsArray, setListsArray] = state;
   const changingLists = JSON.parse(JSON.stringify(listsArray));
@@ -118,6 +120,8 @@ function changeListOrder(state, result, dispatch) {
   });
 }
 
+
+
 function changeCardsOrder(result, dispatch, lists) {
   let { destination } = result;
   const list_id = destination.droppableId;
@@ -130,6 +134,8 @@ function changeCardsOrder(result, dispatch, lists) {
   dispatch(updateListCardPositions({ id: list_id, card_positions }));
   listService.update(list_id, { card_positions });
 }
+
+
 
 function changeCardsOrderBetweenLists(result, dispatch, cards_and_lists) {
   const { destination, source, draggableId } = result;
