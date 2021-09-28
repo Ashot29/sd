@@ -26,3 +26,9 @@
     margin-top: 20px;
     display: flex;
 }
+
+.country-png {
+    width: 25px;
+    height: 15px;
+    margin-right: 10px;
+}

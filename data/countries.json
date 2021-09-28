@@ -21,11 +21,6 @@
       "id": 4
     },
     {
-      "country_name": "United Arab Emirates",
-      "flag_url": "https://restcountries.com/data/png/are.png",
-      "id": 5
-    },
-    {
       "country_name": "Argentina",
       "flag_url": "https://restcountries.com/data/png/arg.png",
       "id": 6
@@ -49,11 +44,6 @@
       "country_name": "Austria",
       "flag_url": "https://restcountries.com/data/png/aut.png",
       "id": 10
-    },
-    {
-      "country_name": "Azerbaijan",
-      "flag_url": "https://restcountries.com/data/png/aze.png",
-      "id": 11
     },
     {
       "country_name": "Burundi",

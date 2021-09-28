@@ -8,7 +8,10 @@ import { TextField } from "@material-ui/core";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Box from "@mui/material/Box";
-import Autocomplete from "@mui/material/Autocomplete";
+import InputLabel from "@mui/material/InputLabel";
+import FormControl from "@mui/material/FormControl";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 import { useSelector, useDispatch } from "react-redux";
 import { closeUserModal } from "./../../../stateManagement/actions/userModalActionCreator";
 import UserService from "../../../services/user.service";
@@ -53,6 +56,8 @@ export default function UserModal() {
     created_at: user.created_at,
   });
 
+  console.log(userInfo, "userInfo");
+
   const handleClose = () => {
     updateUserInfo({
       ...userInfo,
@@ -66,8 +71,8 @@ export default function UserModal() {
   useEffect(() => {
     // create service
     fetch(`http://localhost:9000/countries`)
-    .then(resp => resp.json())
-    .then(data => setCountries(data))
+      .then((resp) => resp.json())
+      .then((data) => setCountries(data));
   }, []);
 
   useEffect(
@@ -188,6 +193,20 @@ export default function UserModal() {
                 label="LastName"
                 variant="outlined"
                 defaultValue={user.lastName}
+                onChange={(event) => handleChange(event)}
+              />
+              <TextField
+                required
+                name="country"
+                autoComplete="off"
+                inputProps={{
+                  pattern: "[a-zA-Z]{1,30}",
+                }}
+                style={{ width: "100%", marginBottom: "10px" }}
+                id="outlined-required"
+                label="Country"
+                variant="outlined"
+                defaultValue={user.country}
                 onChange={(event) => handleChange(event)}
               />
               <TextField
