@@ -27,11 +27,9 @@ export default function DeleteDialog() {
   const deleteUserFromDialog = () => {
     userSequenceService.getById(1).then((data) => {
       const sequence = [...data.sequence];
-      console.log(sequence, "sequence during delete");
       const index = sequence.findIndex((id) => id === user_id);
       if (index !== -1) {
         sequence.splice(index, 1);
-        console.log(sequence, "sequence after delete");
         userSequenceService.update(1, { sequence });
       }
     }).then(() => userService.delete(user_id))

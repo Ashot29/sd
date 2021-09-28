@@ -30,7 +30,6 @@ export function fetchData(state = dataState, action) {
       const listsArr = state.lists.filter(list => list.id !== action.payload.list_id);
       const list = [...state.lists].find(list => list.id === action.payload.list_id);
       list.card_positions.splice(list.card_positions.indexOf(action.payload.card_id), 1);
-      console.log(list)
       return {
         ...state,
         lists: [...listsArr, list]

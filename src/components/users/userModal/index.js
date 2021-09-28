@@ -94,16 +94,12 @@ export default function UserModal() {
 
   function changeExistingUser() {
     if (!stateChanged) return;
-    userService.checkEmail(userInfo.email).then((data) => {
-      if (!data.length) {
-        let updatedUser = JSON.parse(JSON.stringify(userInfo));
-        delete updatedUser.subscribed_to_cards;
-        userService.update(userInfo.id, updatedUser);
+    let updatedUser = JSON.parse(JSON.stringify(userInfo));
+    delete updatedUser.subscribed_to_cards;
+    userService.update(userInfo.id, updatedUser);
 
-        dispatch(updateUser(updatedUser));
-        handleClose();
-      } else setEmailError(true);
-    });
+    dispatch(updateUser(updatedUser));
+    handleClose();
   }
 
   function handleChange(event) {
@@ -201,7 +197,8 @@ export default function UserModal() {
               />
               <TextField
                 required
-                error={emailError}
+                error={mode === "ADD" ? emailError : false}
+                disabled={mode === "EDIT" ? true : false}
                 name="email"
                 autoComplete="off"
                 inputProps={{
