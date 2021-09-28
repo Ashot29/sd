@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Backdrop from "@material-ui/core/Backdrop";
-import Box from "@material-ui/core/Box";
 import Modal from "@material-ui/core/Modal";
 import Fade from "@material-ui/core/Fade";
 import { Button } from "@material-ui/core";
@@ -8,6 +7,8 @@ import { Typography } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
+import Box from "@mui/material/Box";
+import Autocomplete from "@mui/material/Autocomplete";
 import { useSelector, useDispatch } from "react-redux";
 import { closeUserModal } from "./../../../stateManagement/actions/userModalActionCreator";
 import UserService from "../../../services/user.service";
@@ -37,6 +38,7 @@ export default function UserModal() {
   const mode = useSelector((state) => state.userModalReducer.userModalMode);
   let [stateChanged, updateChangedState] = useState(false);
   let [emailError, setEmailError] = useState(false);
+  const [countries, setCountries] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -60,6 +62,13 @@ export default function UserModal() {
     setEmailError(false);
     dispatch(closeUserModal());
   };
+
+  useEffect(() => {
+    // create service
+    fetch(`http://localhost:9000/countries`)
+    .then(resp => resp.json())
+    .then(data => setCountries(data))
+  }, []);
 
   useEffect(
     () => [
@@ -183,20 +192,6 @@ export default function UserModal() {
               />
               <TextField
                 required
-                name="country"
-                autoComplete="off"
-                inputProps={{
-                  pattern: "[a-zA-Z]{1,30}",
-                }}
-                style={{ width: "100%", marginBottom: "10px" }}
-                id="outlined-required"
-                label="Country"
-                variant="outlined"
-                defaultValue={user.country}
-                onChange={(event) => handleChange(event)}
-              />
-              <TextField
-                required
                 error={mode === "ADD" ? emailError : false}
                 disabled={mode === "EDIT" ? true : false}
                 name="email"
@@ -204,7 +199,7 @@ export default function UserModal() {
                 inputProps={{
                   pattern: "[a-zA-Z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$",
                 }}
-                style={{ width: "100%", marginBottom: "10px" }}
+                style={{ width: "100%", margin: "10px 0" }}
                 id="outlined-required"
                 label="Email"
                 variant="outlined"
