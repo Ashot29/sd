@@ -2,6 +2,10 @@
     width: 100%;
 }
 
+.modal-error-message {
+    margin: 100px 0;
+}
+
 .first-name-and-button {
     width: 100%;
     display: flex;

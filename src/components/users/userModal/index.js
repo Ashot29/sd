@@ -6,8 +6,9 @@ import Fade from "@material-ui/core/Fade";
 import { Button } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import { useSelector, useDispatch } from "react-redux";
 import { closeUserModal } from "./../../../stateManagement/actions/userModalActionCreator";
 import UserService from "../../../services/user.service";
 import { addUser } from "../../../stateManagement/actions/usersActionCreator";
@@ -35,6 +36,7 @@ export default function UserModal() {
   const user = useSelector((state) => state.userModalReducer);
   const mode = useSelector((state) => state.userModalReducer.userModalMode);
   let [stateChanged, updateChangedState] = useState(false);
+  let [emailError, setEmailError] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -55,6 +57,7 @@ export default function UserModal() {
       id: "",
     });
     updateChangedState(false);
+    setEmailError(false);
     dispatch(closeUserModal());
   };
 
@@ -84,7 +87,8 @@ export default function UserModal() {
           userSequenceService.update(1, { sequence });
         });
         dispatch(addUser(userInfo));
-      } else alert(`User with current email: '${userInfo.email}' exists.`);
+        handleClose();
+      } else setEmailError(true);
     });
   }
 
@@ -97,7 +101,8 @@ export default function UserModal() {
         userService.update(userInfo.id, updatedUser);
 
         dispatch(updateUser(updatedUser));
-      } else alert(`User with current email: '${userInfo.email}' exists.`);
+        handleClose();
+      } else setEmailError(true);
     });
   }
 
@@ -117,11 +122,9 @@ export default function UserModal() {
     switch (mode) {
       case "ADD":
         postNewUser();
-        handleClose();
         break;
       case "EDIT":
         changeExistingUser();
-        handleClose();
         break;
       default:
         handleClose();
@@ -198,6 +201,7 @@ export default function UserModal() {
               />
               <TextField
                 required
+                error={emailError}
                 name="email"
                 autoComplete="off"
                 inputProps={{
@@ -210,6 +214,12 @@ export default function UserModal() {
                 defaultValue={user.email}
                 onChange={(event) => handleChange(event)}
               />
+              {!!emailError && (
+                <Alert severity="error" style={{ marginBottom: "10px" }}>
+                  <AlertTitle>Error</AlertTitle>
+                  User with entered email already exists.
+                </Alert>
+              )}
               <TextField
                 required
                 name="age"
