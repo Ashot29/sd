@@ -1,754 +1,984 @@
 {
   "countries": [
     {
-      "country_name": "Afghanistan",
-      "flag_url": "https://restcountries.com/data/png/afg.png",
+      "code": "AD",
+      "label": "Andorra",
+      "phone": "376",
       "id": 1
     },
     {
-      "country_name": "Angola",
-      "flag_url": "https://restcountries.com/data/png/ago.png",
+      "code": "AE",
+      "label": "United Arab Emirates",
+      "phone": "971",
       "id": 2
     },
     {
-      "country_name": "Albania",
-      "flag_url": "https://restcountries.com/data/png/alb.png",
+      "code": "AF",
+      "label": "Afghanistan",
+      "phone": "93",
       "id": 3
     },
     {
-      "country_name": "Andorra",
-      "flag_url": "https://restcountries.com/data/png/and.png",
+      "code": "AG",
+      "label": "Antigua and Barbuda",
+      "phone": "1-268",
       "id": 4
     },
     {
-      "country_name": "Argentina",
-      "flag_url": "https://restcountries.com/data/png/arg.png",
+      "code": "AI",
+      "label": "Anguilla",
+      "phone": "1-264",
+      "id": 5
+    },
+    {
+      "code": "AL",
+      "label": "Albania",
+      "phone": "355",
       "id": 6
     },
     {
-      "country_name": "Armenia",
-      "flag_url": "https://restcountries.com/data/png/arm.png",
+      "code": "AM",
+      "label": "Armenia",
+      "phone": "374",
       "id": 7
     },
     {
-      "country_name": "Antigua and Barbuda",
-      "flag_url": "https://restcountries.com/data/png/atg.png",
+      "code": "AO",
+      "label": "Angola",
+      "phone": "244",
       "id": 8
     },
     {
-      "country_name": "Australia",
-      "flag_url": "https://restcountries.com/data/png/aus.png",
+      "code": "AQ",
+      "label": "Antarctica",
+      "phone": "672",
       "id": 9
     },
     {
-      "country_name": "Austria",
-      "flag_url": "https://restcountries.com/data/png/aut.png",
+      "code": "AR",
+      "label": "Argentina",
+      "phone": "54",
       "id": 10
     },
     {
-      "country_name": "Burundi",
-      "flag_url": "https://restcountries.com/data/png/bdi.png",
+      "code": "AS",
+      "label": "American Samoa",
+      "phone": "1-684",
+      "id": 11
+    },
+    {
+      "code": "AT",
+      "label": "Austria",
+      "phone": "43",
       "id": 12
     },
     {
-      "country_name": "Belgium",
-      "flag_url": "https://restcountries.com/data/png/bel.png",
+      "code": "SI",
+      "label": "Slovenia",
+      "phone": "386",
       "id": 13
     },
     {
-      "country_name": "Bosnia and Herzegovina",
-      "flag_url": "https://restcountries.com/data/png/bih.png",
+      "code": "SJ",
+      "label": "Svalbard and Jan Mayen",
+      "phone": "47",
       "id": 14
     },
     {
-      "country_name": "Belarus",
-      "flag_url": "https://restcountries.com/data/png/blr.png",
-      "id": 15
-    },
-    {
-      "country_name": "Belize",
-      "flag_url": "https://restcountries.com/data/png/blz.png",
-      "id": 16
-    },
-    {
-      "country_name": "Bolivia",
-      "flag_url": "https://restcountries.com/data/png/bol.png",
-      "id": 17
-    },
-    {
-      "country_name": "Brazil",
-      "flag_url": "https://restcountries.com/data/png/bra.png",
-      "id": 18
-    },
-    {
-      "country_name": "Barbados",
-      "flag_url": "https://restcountries.com/data/png/brb.png",
-      "id": 19
-    },
-    {
-      "country_name": "Brunei",
-      "flag_url": "https://restcountries.com/data/png/brn.png",
-      "id": 20
-    },
-    {
-      "country_name": "Bhutan",
-      "flag_url": "https://restcountries.com/data/png/btn.png",
-      "id": 21
-    },
-    {
-      "country_name": "Botswana",
-      "flag_url": "https://restcountries.com/data/png/bwa.png",
-      "id": 22
-    },
-    {
-      "country_name": "Central African Republic",
-      "flag_url": "https://restcountries.com/data/png/caf.png",
-      "id": 23
-    },
-    {
-      "country_name": "Canada",
-      "flag_url": "https://restcountries.com/data/png/can.png",
-      "id": 24
-    },
-    {
-      "country_name": "Switzerland",
-      "flag_url": "https://restcountries.com/data/png/che.png",
+      "code": "AU",
+      "label": "Australia",
+      "phone": "61",
+      "suggested": true,
       "id": 25
     },
     {
-      "country_name": "Chile",
-      "flag_url": "https://restcountries.com/data/png/chl.png",
+      "code": "AW",
+      "label": "Aruba",
+      "phone": "297",
       "id": 26
     },
     {
-      "country_name": "Comoros",
-      "flag_url": "https://restcountries.com/data/png/com.png",
+      "code": "BF",
+      "label": "Burkina Faso",
+      "phone": "226",
       "id": 27
     },
     {
-      "country_name": "Cape Verde",
-      "flag_url": "https://restcountries.com/data/png/cpv.png",
+      "code": "BG",
+      "label": "Bulgaria",
+      "phone": "359",
       "id": 28
     },
     {
-      "country_name": "Costa Rica",
-      "flag_url": "https://restcountries.com/data/png/cri.png",
+      "code": "BH",
+      "label": "Bahrain",
+      "phone": "973",
       "id": 29
     },
     {
-      "country_name": "Cuba",
-      "flag_url": "https://restcountries.com/data/png/cub.png",
+      "code": "BI",
+      "label": "Burundi",
+      "phone": "257",
       "id": 30
     },
     {
-      "country_name": "Cyprus",
-      "flag_url": "https://restcountries.com/data/png/cyp.png",
+      "code": "BJ",
+      "label": "Benin",
+      "phone": "229",
       "id": 31
     },
     {
-      "country_name": "Czechia",
-      "flag_url": "https://restcountries.com/data/png/cze.png",
+      "code": "BL",
+      "label": "Saint Barthelemy",
+      "phone": "590",
       "id": 32
     },
     {
-      "country_name": "Germany",
-      "flag_url": "https://restcountries.com/data/png/deu.png",
+      "code": "BM",
+      "label": "Bermuda",
+      "phone": "1-441",
       "id": 33
     },
     {
-      "country_name": "Djibouti",
-      "flag_url": "https://restcountries.com/data/png/dji.png",
+      "code": "BN",
+      "label": "Brunei Darussalam",
+      "phone": "673",
       "id": 34
     },
     {
-      "country_name": "Dominica",
-      "flag_url": "https://restcountries.com/data/png/dma.png",
+      "code": "BO",
+      "label": "Bolivia",
+      "phone": "591",
       "id": 35
     },
     {
-      "country_name": "Denmark",
-      "flag_url": "https://restcountries.com/data/png/dnk.png",
+      "code": "BR",
+      "label": "Brazil",
+      "phone": "55",
       "id": 36
     },
     {
-      "country_name": "Dominican Republic",
-      "flag_url": "https://restcountries.com/data/png/dom.png",
+      "code": "CA",
+      "label": "Canada",
+      "phone": "1",
       "id": 37
     },
     {
-      "country_name": "Algeria",
-      "flag_url": "https://restcountries.com/data/png/dza.png",
+      "code": "CC",
+      "label": "Cocos (Keeling) Islands",
+      "phone": "61",
       "id": 38
     },
     {
-      "country_name": "Ecuador",
-      "flag_url": "https://restcountries.com/data/png/ecu.png",
+      "code": "CD",
+      "label": "Congo, Democratic Republic of the",
+      "phone": "243",
       "id": 39
     },
     {
-      "country_name": "Egypt",
-      "flag_url": "https://restcountries.com/data/png/egy.png",
+      "code": "CF",
+      "label": "Central African Republic",
+      "phone": "236",
       "id": 40
     },
     {
-      "country_name": "Eritrea",
-      "flag_url": "https://restcountries.com/data/png/eri.png",
+      "code": "CG",
+      "label": "Congo, Republic of the",
+      "phone": "242",
       "id": 41
     },
     {
-      "country_name": "Spain",
-      "flag_url": "https://restcountries.com/data/png/esp.png",
+      "code": "CH",
+      "label": "Switzerland",
+      "phone": "41",
       "id": 42
     },
     {
-      "country_name": "Estonia",
-      "flag_url": "https://restcountries.com/data/png/est.png",
+      "code": "CI",
+      "label": "Cote d'Ivoire",
+      "phone": "225",
       "id": 43
     },
     {
-      "country_name": "Finland",
-      "flag_url": "https://restcountries.com/data/png/fin.png",
+      "code": "CK",
+      "label": "Cook Islands",
+      "phone": "682",
       "id": 44
     },
     {
-      "country_name": "Fiji",
-      "flag_url": "https://restcountries.com/data/png/fji.png",
+      "code": "CL",
+      "label": "Chile",
+      "phone": "56",
       "id": 45
     },
     {
-      "country_name": "France",
-      "flag_url": "https://restcountries.com/data/png/fra.png",
+      "code": "CM",
+      "label": "Cameroon",
+      "phone": "237",
       "id": 46
     },
     {
-      "country_name": "Micronesia",
-      "flag_url": "https://restcountries.com/data/png/fsm.png",
+      "code": "CN",
+      "label": "China",
+      "phone": "86",
       "id": 47
     },
     {
-      "country_name": "Gabon",
-      "flag_url": "https://restcountries.com/data/png/gab.png",
+      "code": "CO",
+      "label": "Colombia",
+      "phone": "57",
       "id": 48
     },
     {
-      "country_name": "United Kingdom",
-      "flag_url": "https://restcountries.com/data/png/gbr.png",
+      "code": "CR",
+      "label": "Costa Rica",
+      "phone": "506",
       "id": 49
     },
     {
-      "country_name": "Georgia",
-      "flag_url": "https://restcountries.com/data/png/geo.png",
+      "code": "CU",
+      "label": "Cuba",
+      "phone": "53",
       "id": 50
     },
     {
-      "country_name": "Ghana",
-      "flag_url": "https://restcountries.com/data/png/gha.png",
+      "code": "CV",
+      "label": "Cape Verde",
+      "phone": "238",
       "id": 51
     },
     {
-      "country_name": "Guinea",
-      "flag_url": "https://restcountries.com/data/png/gnq.png",
+      "code": "CZ",
+      "label": "Czech Republic",
+      "phone": "420",
       "id": 52
     },
     {
-      "country_name": "Gambia",
-      "flag_url": "https://restcountries.com/data/png/gmb.png",
+      "code": "DE",
+      "label": "Germany",
+      "phone": "49",
+      "suggested": true,
       "id": 53
     },
     {
-      "country_name": "Guinea-Bissau",
-      "flag_url": "https://restcountries.com/data/png/gnb.png",
+      "code": "DJ",
+      "label": "Djibouti",
+      "phone": "253",
       "id": 54
     },
     {
-      "country_name": "Equatorial Guinea",
-      "flag_url": "https://restcountries.com/data/png/gnq.png",
+      "code": "DK",
+      "label": "Denmark",
+      "phone": "45",
       "id": 55
     },
     {
-      "country_name": "Greece",
-      "flag_url": "https://restcountries.com/data/png/grc.png",
+      "code": "DM",
+      "label": "Dominica",
+      "phone": "1-767",
       "id": 56
     },
     {
-      "country_name": "Grenada",
-      "flag_url": "https://restcountries.com/data/png/grd.png",
+      "code": "DO",
+      "label": "Dominican Republic",
+      "phone": "1-809",
       "id": 57
     },
     {
-      "country_name": "Guatemala",
-      "flag_url": "https://restcountries.com/data/png/gtm.png",
+      "code": "DZ",
+      "label": "Algeria",
+      "phone": "213",
       "id": 58
     },
     {
-      "country_name": "Guyana",
-      "flag_url": "https://restcountries.com/data/png/guy.png",
+      "code": "EC",
+      "label": "Ecuador",
+      "phone": "593",
       "id": 59
     },
     {
-      "country_name": "Honduras",
-      "flag_url": "https://restcountries.com/data/png/hnd.png",
+      "code": "EE",
+      "label": "Estonia",
+      "phone": "372",
       "id": 60
     },
     {
-      "country_name": "Croatia",
-      "flag_url": "https://restcountries.com/data/png/hrv.png",
+      "code": "EG",
+      "label": "Egypt",
+      "phone": "20",
       "id": 61
     },
     {
-      "country_name": "Haiti",
-      "flag_url": "https://restcountries.com/data/png/hti.png",
+      "code": "EH",
+      "label": "Western Sahara",
+      "phone": "212",
       "id": 62
     },
     {
-      "country_name": "Hungary",
-      "flag_url": "https://restcountries.com/data/png/hun.png",
+      "code": "ER",
+      "label": "Eritrea",
+      "phone": "291",
       "id": 63
     },
     {
-      "country_name": "Indonesia",
-      "flag_url": "https://restcountries.com/data/png/idn.png",
+      "code": "ES",
+      "label": "Spain",
+      "phone": "34",
       "id": 64
     },
     {
-      "country_name": "India",
-      "flag_url": "https://restcountries.com/data/png/ind.png",
+      "code": "ET",
+      "label": "Ethiopia",
+      "phone": "251",
       "id": 65
     },
     {
-      "country_name": "Ireland",
-      "flag_url": "https://restcountries.com/data/png/irl.png",
+      "code": "FI",
+      "label": "Finland",
+      "phone": "358",
       "id": 66
     },
     {
-      "country_name": "Iran",
-      "flag_url": "https://restcountries.com/data/png/irn.png",
+      "code": "FJ",
+      "label": "Fiji",
+      "phone": "679",
       "id": 67
     },
     {
-      "country_name": "Iraq",
-      "flag_url": "https://restcountries.com/data/png/irq.png",
+      "code": "FK",
+      "label": "Falkland Islands (Malvinas)",
+      "phone": "500",
       "id": 68
     },
     {
-      "country_name": "Iceland",
-      "flag_url": "https://restcountries.com/data/png/isl.png",
+      "code": "FM",
+      "label": "Micronesia, Federated States of",
+      "phone": "691",
       "id": 69
     },
     {
-      "country_name": "Israel",
-      "flag_url": "https://restcountries.com/data/png/isr.png",
+      "code": "FO",
+      "label": "Faroe Islands",
+      "phone": "298",
       "id": 70
     },
     {
-      "country_name": "Italy",
-      "flag_url": "https://restcountries.com/data/png/ita.png",
+      "code": "FR",
+      "label": "France",
+      "phone": "33",
       "id": 71
     },
     {
-      "country_name": "Jamaica",
-      "flag_url": "https://restcountries.com/data/png/jam.png",
+      "code": "GA",
+      "label": "Gabon",
+      "phone": "241",
       "id": 72
     },
     {
-      "country_name": "Jordan",
-      "flag_url": "https://restcountries.com/data/png/jor.png",
+      "code": "GB",
+      "label": "United Kingdom",
+      "phone": "44",
       "id": 73
     },
     {
-      "country_name": "Saint Kitts and Nevis",
-      "flag_url": "https://restcountries.com/data/png/kna.png",
+      "code": "GD",
+      "label": "Grenada",
+      "phone": "1-473",
       "id": 74
     },
     {
-      "country_name": "South Korea",
-      "flag_url": "https://restcountries.com/data/png/kor.png",
+      "code": "GE",
+      "label": "Georgia",
+      "phone": "995",
       "id": 75
     },
     {
-      "country_name": "Kuwait",
-      "flag_url": "https://restcountries.com/data/png/kwt.png",
+      "code": "GF",
+      "label": "French Guiana",
+      "phone": "594",
       "id": 76
     },
     {
-      "country_name": "Laos",
-      "flag_url": "https://restcountries.com/data/png/lao.png",
+      "code": "GG",
+      "label": "Guernsey",
+      "phone": "44",
       "id": 77
     },
     {
-      "country_name": "Lebanon",
-      "flag_url": "https://restcountries.com/data/png/lbn.png",
+      "code": "GH",
+      "label": "Ghana",
+      "phone": "233",
       "id": 78
     },
     {
-      "country_name": "Liberia",
-      "flag_url": "https://restcountries.com/data/png/lbr.png",
+      "code": "GI",
+      "label": "Gibraltar",
+      "phone": "350",
       "id": 79
     },
     {
-      "country_name": "Libya",
-      "flag_url": "https://restcountries.com/data/png/lby.png",
+      "code": "GL",
+      "label": "Greenland",
+      "phone": "299",
       "id": 80
     },
     {
-      "country_name": "Saint Lucia",
-      "flag_url": "https://restcountries.com/data/png/lca.png",
+      "code": "GM",
+      "label": "Gambia",
+      "phone": "220",
       "id": 81
     },
     {
-      "country_name": "Liechtenstein",
-      "flag_url": "https://restcountries.com/data/png/lie.png",
+      "code": "GN",
+      "label": "Guinea",
+      "phone": "224",
       "id": 82
     },
     {
-      "country_name": "Sri Lanka",
-      "flag_url": "https://restcountries.com/data/png/lka.png",
+      "code": "GW",
+      "label": "Guinea-Bissau",
+      "phone": "245",
       "id": 83
     },
     {
-      "country_name": "Lesotho",
-      "flag_url": "https://restcountries.com/data/png/lso.png",
+      "code": "GY",
+      "label": "Guyana",
+      "phone": "592",
       "id": 84
     },
     {
-      "country_name": "Lithuania",
-      "flag_url": "https://restcountries.com/data/png/ltu.png",
+      "code": "HK",
+      "label": "Hong Kong",
+      "phone": "852",
       "id": 85
     },
     {
-      "country_name": "Luxembourg",
-      "flag_url": "https://restcountries.com/data/png/lux.png",
+      "code": "HM",
+      "label": "Heard Island and McDonald Islands",
+      "phone": "672",
       "id": 86
     },
     {
-      "country_name": "Latvia",
-      "flag_url": "https://restcountries.com/data/png/lva.png",
+      "code": "HN",
+      "label": "Honduras",
+      "phone": "504",
       "id": 87
     },
     {
-      "country_name": "Morocco",
-      "flag_url": "https://restcountries.com/data/png/mar.png",
+      "code": "HR",
+      "label": "Croatia",
+      "phone": "385",
       "id": 88
     },
     {
-      "country_name": "Monaco",
-      "flag_url": "https://restcountries.com/data/png/mco.png",
+      "code": "HT",
+      "label": "Haiti",
+      "phone": "509",
       "id": 89
     },
     {
-      "country_name": "Moldova",
-      "flag_url": "https://restcountries.com/data/png/mda.png",
+      "code": "HU",
+      "label": "Hungary",
+      "phone": "36",
       "id": 90
     },
     {
-      "country_name": "Madagascar",
-      "flag_url": "https://restcountries.com/data/png/mdg.png",
+      "code": "ID",
+      "label": "Indonesia",
+      "phone": "62",
       "id": 91
     },
     {
-      "country_name": "Maldives",
-      "flag_url": "https://restcountries.com/data/png/mdv.png",
+      "code": "IE",
+      "label": "Ireland",
+      "phone": "353",
       "id": 92
     },
     {
-      "country_name": "Mexico",
-      "flag_url": "https://restcountries.com/data/png/mex.png",
+      "code": "IL",
+      "label": "Israel",
+      "phone": "972",
       "id": 93
     },
     {
-      "country_name": "Marshall Islands",
-      "flag_url": "https://restcountries.com/data/png/mhl.png",
+      "code": "IM",
+      "label": "Isle of Man",
+      "phone": "44",
       "id": 94
     },
     {
-      "country_name": "North Macedonia",
-      "flag_url": "https://restcountries.com/data/png/mkd.png",
+      "code": "IN",
+      "label": "India",
+      "phone": "91",
       "id": 95
     },
     {
-      "country_name": "Mali",
-      "flag_url": "https://restcountries.com/data/png/mli.png",
+      "code": "IO",
+      "label": "British Indian Ocean Territory",
+      "phone": "246",
       "id": 96
     },
     {
-      "country_name": "Malta",
-      "flag_url": "https://restcountries.com/data/png/mlt.png",
+      "code": "IQ",
+      "label": "Iraq",
+      "phone": "964",
       "id": 97
     },
     {
-      "country_name": "Myanmar",
-      "flag_url": "https://restcountries.com/data/png/mmr.png",
+      "code": "IR",
+      "label": "Iran, Islamic Republic of",
+      "phone": "98",
       "id": 98
     },
     {
-      "country_name": "Montenegro",
-      "flag_url": "https://restcountries.com/data/png/mne.png",
+      "code": "IS",
+      "label": "Iceland",
+      "phone": "354",
       "id": 99
     },
     {
-      "country_name": "Mongolia",
-      "flag_url": "https://restcountries.com/data/png/mng.png",
+      "code": "IT",
+      "label": "Italy",
+      "phone": "39",
       "id": 100
     },
     {
-      "country_name": "Mozambique",
-      "flag_url": "https://restcountries.com/data/png/moz.png",
+      "code": "JE",
+      "label": "Jersey",
+      "phone": "44",
       "id": 101
     },
     {
-      "country_name": "Mauritania",
-      "flag_url": "https://restcountries.com/data/png/mrt.png",
+      "code": "JM",
+      "label": "Jamaica",
+      "phone": "1-876",
       "id": 102
     },
     {
-      "country_name": "Mauritius",
-      "flag_url": "https://restcountries.com/data/png/mus.png",
+      "code": "JO",
+      "label": "Jordan",
+      "phone": "962",
       "id": 103
     },
     {
-      "country_name": "Malawi",
-      "flag_url": "https://restcountries.com/data/png/mwi.png",
+      "code": "JP",
+      "label": "Japan",
+      "phone": "81",
       "id": 104
     },
     {
-      "country_name": "Malaysia",
-      "flag_url": "https://restcountries.com/data/png/mys.png",
+      "code": "KE",
+      "label": "Kenya",
+      "phone": "254",
       "id": 105
     },
     {
-      "country_name": "Namibia",
-      "flag_url": "https://restcountries.com/data/png/nam.png",
+      "code": "KG",
+      "label": "Kyrgyzstan",
+      "phone": "996",
       "id": 106
     },
     {
-      "country_name": "Netherlands",
-      "flag_url": "https://restcountries.com/data/png/nld.png",
+      "code": "KH",
+      "label": "Cambodia",
+      "phone": "855",
       "id": 107
     },
     {
-      "country_name": "Norway",
-      "flag_url": "https://restcountries.com/data/png/nor.png",
+      "code": "KI",
+      "label": "Kiribati",
+      "phone": "686",
       "id": 108
     },
     {
-      "country_name": "Nepal",
-      "flag_url": "https://restcountries.com/data/png/npl.png",
+      "code": "KM",
+      "label": "Comoros",
+      "phone": "269",
       "id": 109
     },
     {
-      "country_name": "Nauru",
-      "flag_url": "https://restcountries.com/data/png/nru.png",
+      "code": "KN",
+      "label": "Saint Kitts and Nevis",
+      "phone": "1-869",
       "id": 110
     },
     {
-      "country_name": "New Zealand",
-      "flag_url": "https://restcountries.com/data/png/nzl.png",
+      "code": "KP",
+      "label": "Korea, Democratic People's Republic of",
+      "phone": "850",
       "id": 111
     },
     {
-      "country_name": "Oman",
-      "flag_url": "https://restcountries.com/data/png/omn.png",
+      "code": "KR",
+      "label": "Korea, Republic of",
+      "phone": "82",
       "id": 112
     },
     {
-      "country_name": "Pakistan",
-      "flag_url": "https://restcountries.com/data/png/pak.png",
+      "code": "KW",
+      "label": "Kuwait",
+      "phone": "965",
       "id": 113
     },
     {
-      "country_name": "Panama",
-      "flag_url": "https://restcountries.com/data/png/pan.png",
+      "code": "KY",
+      "label": "Cayman Islands",
+      "phone": "1-345",
       "id": 114
     },
     {
-      "country_name": "Peru",
-      "flag_url": "https://restcountries.com/data/png/per.png",
-      "id": 115
-    },
-    {
-      "country_name": "Philippines",
-      "flag_url": "https://restcountries.com/data/png/phl.png",
-      "id": 116
-    },
-    {
-      "country_name": "Palau",
-      "flag_url": "https://restcountries.com/data/png/plw.png",
+      "code": "KZ",
+      "label": "Kazakhstan",
+      "phone": "7",
       "id": 117
     },
     {
-      "country_name": "Papua New Guinea",
-      "flag_url": "https://restcountries.com/data/png/png.png",
+      "code": "LA",
+      "label": "Lao People's Democratic Republic",
+      "phone": "856",
       "id": 118
     },
     {
-      "country_name": "Poland",
-      "flag_url": "https://restcountries.com/data/png/pol.png",
+      "code": "LB",
+      "label": "Lebanon",
+      "phone": "961",
       "id": 119
     },
     {
-      "country_name": "North Korea",
-      "flag_url": "https://restcountries.com/data/png/prk.png",
+      "code": "LC",
+      "label": "Saint Lucia",
+      "phone": "1-758",
       "id": 120
     },
     {
-      "country_name": "Portugal",
-      "flag_url": "https://restcountries.com/data/png/prt.png",
+      "code": "LI",
+      "label": "Liechtenstein",
+      "phone": "423",
       "id": 121
     },
     {
-      "country_name": "Paraguay",
-      "flag_url": "https://restcountries.com/data/png/pry.png",
+      "code": "LK",
+      "label": "Sri Lanka",
+      "phone": "94",
       "id": 122
     },
     {
-      "country_name": "Qatar",
-      "flag_url": "https://restcountries.com/data/png/qat.png",
+      "code": "LR",
+      "label": "Liberia",
+      "phone": "231",
       "id": 123
     },
     {
-      "country_name": "Romania",
-      "flag_url": "https://restcountries.com/data/png/rou.png",
+      "code": "LS",
+      "label": "Lesotho",
+      "phone": "266",
       "id": 124
     },
     {
-      "country_name": "Russia",
-      "flag_url": "https://restcountries.com/data/png/rus.png",
+      "code": "LT",
+      "label": "Lithuania",
+      "phone": "370",
       "id": 125
     },
     {
-      "country_name": "Rwanda",
-      "flag_url": "https://restcountries.com/data/png/rwa.png",
+      "code": "LU",
+      "label": "Luxembourg",
+      "phone": "352",
       "id": 126
     },
     {
-      "country_name": "Saudi Arabia",
-      "flag_url": "https://restcountries.com/data/png/sau.png",
+      "code": "LV",
+      "label": "Latvia",
+      "phone": "371",
       "id": 127
     },
     {
-      "country_name": "Sudan",
-      "flag_url": "https://restcountries.com/data/png/sdn.png",
+      "code": "LY",
+      "label": "Libya",
+      "phone": "218",
       "id": 128
     },
     {
-      "country_name": "Senegal",
-      "flag_url": "https://restcountries.com/data/png/sen.png",
+      "code": "MA",
+      "label": "Morocco",
+      "phone": "212",
       "id": 129
     },
     {
-      "country_name": "Singapore",
-      "flag_url": "https://restcountries.com/data/png/sgp.png",
+      "code": "MC",
+      "label": "Monaco",
+      "phone": "377",
       "id": 130
     },
     {
-      "country_name": "Solomon Islands",
-      "flag_url": "https://restcountries.com/data/png/slb.png",
+      "code": "ML",
+      "label": "Mali",
+      "phone": "223",
       "id": 131
     },
     {
-      "country_name": "Sierra Leone",
-      "flag_url": "https://restcountries.com/data/png/sle.png",
+      "code": "MM",
+      "label": "Myanmar",
+      "phone": "95",
       "id": 132
     },
     {
-      "country_name": "El Salvador",
-      "flag_url": "https://restcountries.com/data/png/slv.png",
+      "code": "MN",
+      "label": "Mongolia",
+      "phone": "976",
       "id": 133
     },
     {
-      "country_name": "San Marino",
-      "flag_url": "https://restcountries.com/data/png/smr.png",
+      "code": "MO",
+      "label": "Macao",
+      "phone": "853",
       "id": 134
     },
     {
-      "country_name": "Somalia",
-      "flag_url": "https://restcountries.com/data/png/som.png",
+      "code": "MP",
+      "label": "Northern Mariana Islands",
+      "phone": "1-670",
       "id": 135
     },
     {
-      "country_name": "Serbia",
-      "flag_url": "https://restcountries.com/data/png/srb.png",
+      "code": "MQ",
+      "label": "Martinique",
+      "phone": "596",
       "id": 136
     },
     {
-      "country_name": "South Sudan",
-      "flag_url": "https://restcountries.com/data/png/ssd.png",
+      "code": "MR",
+      "label": "Mauritania",
+      "phone": "222",
       "id": 137
     },
     {
-      "country_name": "São Tomé and Príncipe",
-      "flag_url": "https://restcountries.com/data/png/stp.png",
+      "code": "MS",
+      "label": "Montserrat",
+      "phone": "1-664",
       "id": 138
     },
     {
-      "country_name": "Suriname",
-      "flag_url": "https://restcountries.com/data/png/sur.png",
+      "code": "MT",
+      "label": "Malta",
+      "phone": "356",
       "id": 139
     },
     {
-      "country_name": "Slovakia",
-      "flag_url": "https://restcountries.com/data/png/svk.png",
+      "code": "MU",
+      "label": "Mauritius",
+      "phone": "230",
       "id": 140
     },
     {
-      "country_name": "Eswatini",
-      "flag_url": "https://restcountries.com/data/png/swz.png",
+      "code": "MV",
+      "label": "Maldives",
+      "phone": "960",
       "id": 141
     },
     {
-      "country_name": "Seychelles",
-      "flag_url": "https://restcountries.com/data/png/syc.png",
+      "code": "MW",
+      "label": "Malawi",
+      "phone": "265",
       "id": 142
     },
     {
-      "country_name": "Syria",
-      "flag_url": "https://restcountries.com/data/png/syr.png",
+      "code": "NF",
+      "label": "Norfolk Island",
+      "phone": "672",
       "id": 143
     },
     {
-      "country_name": "Chad",
-      "flag_url": "https://restcountries.com/data/png/tcd.png",
+      "code": "NG",
+      "label": "Nigeria",
+      "phone": "234",
       "id": 144
     },
     {
-      "country_name": "Togo",
-      "flag_url": "https://restcountries.com/data/png/tgo.png",
+      "code": "NI",
+      "label": "Nicaragua",
+      "phone": "505",
       "id": 145
     },
     {
-      "country_name": "Thailand",
-      "flag_url": "https://restcountries.com/data/png/tha.png",
+      "code": "NL",
+      "label": "Netherlands",
+      "phone": "31",
       "id": 146
     },
     {
-      "country_name": "Tajikistan",
-      "flag_url": "https://restcountries.com/data/png/tjk.png",
+      "code": "NO",
+      "label": "Norway",
+      "phone": "47",
       "id": 147
     },
     {
-      "country_name": "Turkmenistan",
-      "flag_url": "https://restcountries.com/data/png/tkm.png",
+      "code": "NP",
+      "label": "Nepal",
+      "phone": "977",
       "id": 148
     },
     {
-      "country_name": "Timor-Leste",
-      "flag_url": "https://restcountries.com/data/png/tls.png",
+      "code": "NR",
+      "label": "Nauru",
+      "phone": "674",
       "id": 149
     },
     {
-      "country_name": "Tonga",
-      "flag_url": "https://restcountries.com/data/png/ton.png",
+      "code": "NU",
+      "label": "Niue",
+      "phone": "683",
       "id": 150
     },
     {
-      "country_name": "Trinidad and Tobago",
-      "flag_url": "https://restcountries.com/data/png/tto.png",
+      "code": "NZ",
+      "label": "New Zealand",
+      "phone": "64",
       "id": 151
     },
     {
-      "country_name": "Tunisia",
-      "flag_url": "https://restcountries.com/data/png/tun.png",
+      "code": "OM",
+      "label": "Oman",
+      "phone": "968",
       "id": 152
+    },
+    {
+      "code": "PA",
+      "label": "Panama",
+      "phone": "507",
+      "id": 153
+    },
+    {
+      "code": "PE",
+      "label": "Peru",
+      "phone": "51",
+      "id": 154
+    },
+    {
+      "code": "PF",
+      "label": "French Polynesia",
+      "phone": "689",
+      "id": 155
+    },
+    {
+      "code": "PG",
+      "label": "Papua New Guinea",
+      "phone": "675",
+      "id": 156
+    },
+    {
+      "code": "PR",
+      "label": "Puerto Rico",
+      "phone": "1",
+      "id": 157
+    },
+    {
+      "code": "PS",
+      "label": "Palestine, State of",
+      "phone": "970",
+      "id": 158
+    },
+    {
+      "code": "PT",
+      "label": "Portugal",
+      "phone": "351",
+      "id": 159
+    },
+    {
+      "code": "PW",
+      "label": "Palau",
+      "phone": "680",
+      "id": 160
+    },
+    {
+      "code": "PY",
+      "label": "Paraguay",
+      "phone": "595",
+      "id": 161
+    },
+    {
+      "code": "QA",
+      "label": "Qatar",
+      "phone": "974",
+      "id": 162
+    },
+    {
+      "code": "RE",
+      "label": "Reunion",
+      "phone": "262",
+      "id": 163
+    },
+    {
+      "code": "RO",
+      "label": "Romania",
+      "phone": "40",
+      "id": 164
+    },
+    {
+      "code": "RS",
+      "label": "Serbia",
+      "phone": "381",
+      "id": 165
+    },
+    {
+      "code": "RU",
+      "label": "Russian Federation",
+      "phone": "7",
+      "id": 166
+    },
+    {
+      "code": "RW",
+      "label": "Rwanda",
+      "phone": "250",
+      "id": 167
+    },
+    {
+      "code": "SA",
+      "label": "Saudi Arabia",
+      "phone": "966",
+      "id": 168
+    },
+    {
+      "code": "WS",
+      "label": "Samoa",
+      "phone": "685",
+      "id": 169
+    },
+    {
+      "code": "WF",
+      "label": "Wallis and Futuna",
+      "phone": "681",
+      "id": 170
+    },
+    {
+      "code": "XK",
+      "label": "Kosovo",
+      "phone": "383",
+      "id": 171
+    },
+    {
+      "code": "YE",
+      "label": "Yemen",
+      "phone": "967",
+      "id": 172
+    },
+    {
+      "code": "YT",
+      "label": "Mayotte",
+      "phone": "262",
+      "id": 173
+    },
+    {
+      "code": "ZA",
+      "label": "South Africa",
+      "phone": "27",
+      "id": 174
+    },
+    {
+      "code": "ZM",
+      "label": "Zambia",
+      "phone": "260",
+      "id": 175
     }
   ]
 }

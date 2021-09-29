@@ -8,10 +8,8 @@ import { TextField } from "@material-ui/core";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
+import CountryAutocomplete from "./countryAutocomplete";
+import CountrySelect from "./countrySelect";
 import { useSelector, useDispatch } from "react-redux";
 import { closeUserModal } from "./../../../stateManagement/actions/userModalActionCreator";
 import UserService from "../../../services/user.service";
@@ -72,7 +70,12 @@ export default function UserModal() {
     // create service
     fetch(`http://localhost:9000/countries`)
       .then((resp) => resp.json())
-      .then((data) => setCountries(data));
+      .then((data) => {
+          console.log(data)
+          let names = data.map(country => country.country_name)
+          console.log(names)
+          setCountries(names);
+        });
   }, []);
 
   useEffect(
@@ -192,23 +195,11 @@ export default function UserModal() {
                 id="outlined-required"
                 label="LastName"
                 variant="outlined"
-                defaultValue={user.lastName}
+                value={user.lastName}
                 onChange={(event) => handleChange(event)}
               />
-              <TextField
-                required
-                name="country"
-                autoComplete="off"
-                inputProps={{
-                  pattern: "[a-zA-Z]{1,30}",
-                }}
-                style={{ width: "100%", marginBottom: "10px" }}
-                id="outlined-required"
-                label="Country"
-                variant="outlined"
-                defaultValue={user.country}
-                onChange={(event) => handleChange(event)}
-              />
+              <CountrySelect />
+              {/* <CountryAutocomplete /> */}
               <TextField
                 required
                 error={mode === "ADD" ? emailError : false}
