@@ -11,9 +11,12 @@ export const userModalState = {
   updated_at: '',
 };
 
+export const CLOSE_USER_MODAL = 'CLOSE_USER_MODAL';
+export const OPEN_USER_MODAL = 'OPEN_USER_MODAL';
+
 export const userModalReducer = (state = userModalState, action) => {
   switch (action.type) {
-    case "CLOSE_USER_MODAL":
+    case CLOSE_USER_MODAL:
       return {
         userModalIsOpen: false,
         userModalMode: '',
@@ -26,7 +29,7 @@ export const userModalReducer = (state = userModalState, action) => {
         created_at: '',
         updated_at: '',
       };
-    case "OPEN_USER_MODAL":
+    case OPEN_USER_MODAL:
       return {
         userModalIsOpen: true,
         userModalMode: action.payload.userModalMode,

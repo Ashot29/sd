@@ -15,7 +15,6 @@ const ListItem = ({ title, id, index }) => {
   let [isClicked, setIsClicked] = useState(false);
   let [value, setValue] = useState(title);
   const dispatch = useDispatch();
-
   const cards = useSelector((state) => {
     const lists = state.fetchData.lists;
     const cards = state.fetchData.cards;

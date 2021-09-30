@@ -1,4 +1,4 @@
-import { ADD_USER, DELETE_USER, UPDATE_USER } from "../../services/constants";
+import { DELETE_USER, ADD_USER, UPDATE_USER, DISPATCH_USERS_TO_STORE } from "../reducers/usersReducer";
 import UserService from "./../../services/user.service";
 
 export const getUsers = () => {
@@ -10,7 +10,7 @@ export const getUsers = () => {
 
 export const fetchUsersSuccess = (users) => {
   return {
-    type: "DISPATCH_USERS_TO_STORE",
+    type: DISPATCH_USERS_TO_STORE,
     payload: {
       users,
     },

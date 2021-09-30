@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ListItem from "./listItem";
-import { BASE_URL } from "../../../stateManagement/url";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setAllLists,
@@ -48,7 +47,7 @@ function List() {
   }, []);
 
   const handleDragEnd = (result) => {
-    const { destination, source, type, draggableId } = result;
+    const { destination, source, type } = result;
     if (
       !destination ||
       (destination.droppableId === source.droppableId &&
@@ -164,21 +163,3 @@ function changeCardsOrderBetweenLists(result, dispatch, cards_and_lists) {
       .then(listService.update(new_list_id, new_list));
   });
 }
-
-// function makeChangesOnServerAndState(dispatch, new_lists, current_card) {
-//   let {old_list_id, new_list_id, new_list, old_list} = new_lists;
-//   const draggableId = current_card
-//   makeChangesOnState(dispatch, draggableId, [current_card, new_lists])
-
-//   cardService.update(draggableId, current_card).then(() => {
-//     listService
-//       .update(old_list_id, old_list)
-//       .then(listService.update(new_list_id, new_list));
-//   });
-// }
-
-// function makeChangesOnState(dispatch, id, card_and_list) {
-//   let [current_card, new_lists] = card_and_list;
-//   dispatch(changeCardsListId({ id, card: current_card }));
-//   dispatch(moveCardBetweenLists(new_lists));
-// }

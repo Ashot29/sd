@@ -6,9 +6,12 @@ export const cardModalState = {
   modalListId: '',
 };
 
+export const CLOSE_MODAL = 'CLOSE_MODAL';
+export const OPEN_MODAL = 'OPEN_MODAL'
+
 export const cardModalReducer = (state = cardModalState, action) => {
   switch (action.type) {
-    case "CLOSE_MODAL":
+    case CLOSE_MODAL:
       return {
         cardModalIsOpen: false,
         modalTitle: "",
@@ -16,7 +19,7 @@ export const cardModalReducer = (state = cardModalState, action) => {
         modalDescription: "",
         modalListId: ''
       };
-    case "OPEN_MODAL":
+    case OPEN_MODAL:
       return {
         cardModalIsOpen: true,
         modalTitle: action.payload.title,

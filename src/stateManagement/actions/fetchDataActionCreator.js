@@ -1,5 +1,16 @@
 import CardService from "../../services/cards.service";
 import ListService from "../../services/list.service";
+import {
+  FETCH_LISTS_REQUEST,
+  FETCH_LISTS_SUCCESS,
+  FETCH_ALL_LISTS,
+  DELETE_CARD_FROM_LISTS_POSITIONS,
+  UPDATE_LIST_CARD_POSITIONS,
+  MOVE_CARD_BETWEEN_LISTS,
+  ADD_CARD,
+  GET_ALL_CARDS,
+  CHANGE_CARDS_LIST_ID,
+} from "../reducers/fetchDataReducer";
 
 const cardService = CardService.getInstance();
 const listService = ListService.getInstance();
@@ -8,20 +19,20 @@ const listService = ListService.getInstance();
 
 export const fetchListsRequest = () => {
   return {
-    type: "FETCH_LISTS_REQUEST",
+    type: FETCH_LISTS_REQUEST,
   };
 };
 
 export const fetchListsSuccess = (list) => {
   return {
-    type: "FETCH_LISTS_SUCCESS",
+    type: FETCH_LISTS_SUCCESS,
     payload: list,
   };
 };
 
 export const setAllLists = (list) => {
   return {
-    type: "FETCH_ALL_LISTS",
+    type: FETCH_ALL_LISTS,
     payload: list,
   };
 };
@@ -49,30 +60,30 @@ export const postLists = (title) => {
 
 export const updateListCardPositions = (id_and_positions) => {
   return {
-    type: "UPDATE_LIST_CARD_POSITIONS",
-    payload: id_and_positions
-  }
-}
+    type: UPDATE_LIST_CARD_POSITIONS,
+    payload: id_and_positions,
+  };
+};
 
 export const moveCardBetweenLists = (ids_and_lists) => {
   return {
-    type: "MOVE_CARD_BETWEEN_LISTS",
-    payload: ids_and_lists
-  }
-}
+    type: MOVE_CARD_BETWEEN_LISTS,
+    payload: ids_and_lists,
+  };
+};
 
 export const deleteFromListsPositions = (list_and_card_ids) => {
   return {
-    type: "DELETE_CARD_FROM_LISTS_POSITIONS",
-    payload: list_and_card_ids
-  }
-}
+    type: DELETE_CARD_FROM_LISTS_POSITIONS,
+    payload: list_and_card_ids,
+  };
+};
 
 ///////////////////////////////// Action creators for CARDS
 
 export const addCardsActionCreator = (data) => {
   return {
-    type: "ADD_CARD",
+    type: ADD_CARD,
     payload: data,
   };
 };
@@ -103,17 +114,17 @@ export const addCard = (inputValue, locationListId) => {
 
 export const getAllCards = (cards) => {
   return {
-    type: "GET_ALL_CARDS",
+    type: GET_ALL_CARDS,
     payload: cards,
   };
 };
 
 export const changeCardsListId = (id_and_card) => {
   return {
-    type: "CHANGE_CARDS_LIST_ID",
-    payload: id_and_card
-  }
-}
+    type: CHANGE_CARDS_LIST_ID,
+    payload: id_and_card,
+  };
+};
 
 // Helper Functions
 

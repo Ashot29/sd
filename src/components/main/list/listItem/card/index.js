@@ -16,9 +16,9 @@ import Avatar from "@material-ui/core/Avatar";
 import CardService from "../../../../../services/cards.service";
 import ListService from "../../../../../services/list.service";
 import EditForm from "./editForm";
-import "./index.css";
 import UserService from "./../../../../../services/user.service";
 import { deleteFromListsPositions } from './../../../../../stateManagement/actions/fetchDataActionCreator';
+import "./index.css";
 
 const cardService = CardService.getInstance();
 const listService = ListService.getInstance();
@@ -39,7 +39,6 @@ export default function MediaCard({ title, id, description, index, list_id }) {
   let [hoverState, updateHoverState] = useState(false);
   let [formIsOpen, updateFormState] = useState(false);
   let [inputValue, changeInputValue] = useState(title);
-
   const usersSubscribedOnCard = useSelector((state) => {
     const allUsers = state.usersReducer.users;
     let userSet = new Set();
@@ -152,7 +151,7 @@ export const deleteCard = (args, dispatch) => {
   cardService
     .delete(id)
     .then(() => {
-      dispatch(deleteFromListsPositions({card_id: id, list_id: list_id}))
+      dispatch(deleteFromListsPositions({card_id: id, list_id}))
       deleteFromlistCardPositions(args);
     })
     .then(() => deleteUserSubscription(id));
@@ -192,7 +191,7 @@ function deleteUserSubscription(id) {
 }
 
 function deleteFromlistCardPositions(argsForList) {
-  let { id, list_id, url, dispatch } = argsForList;
+  let { id, list_id, dispatch } = argsForList;
   listService
     .getById(list_id)
     .then((dataOfList) => {

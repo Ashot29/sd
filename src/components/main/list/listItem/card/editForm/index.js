@@ -3,7 +3,6 @@ import { TextField } from "@material-ui/core";
 import { Button } from "@material-ui/core";
 import CardService from "../../../../../../services/cards.service";
 import { fetchingAllCards } from "../../..";
-import { BASE_URL } from "../../../../../../stateManagement/url";
 import { useDispatch } from "react-redux";
 import './index.css'
 
