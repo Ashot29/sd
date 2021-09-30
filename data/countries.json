@@ -979,6 +979,12 @@
       "label": "Zambia",
       "phone": "260",
       "id": 175
+    },
+    {
+      "code": "AM",
+      "label": "Arcakh",
+      "phone": "374",
+      "id": 176
     }
   ]
 }

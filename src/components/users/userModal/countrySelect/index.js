@@ -1,24 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
-export default function CountryAutocomplete() {
-  let [countries, setCountries] = useState([]);
-  useEffect(() => {
-    // another service
-    fetch("http://localhost:9000/countries")
-      .then((resp) => resp.json())
-      .then((data) => setCountries([...data]));
-  }, []);
+export default function CountryAutocomplete({ userInfo, updateUserInfo, countries }) {
+  const user = useSelector((state) => state.userModalReducer);
+  const [value, setValue] = useState('');
+
+  function handleInputChange(event, inpValue) {
+    updateUserInfo({
+      ...userInfo,
+      country: inpValue,
+    });
+    setValue(inpValue);
+  }
 
   return (
     <Autocomplete
+      required
+      disabled={user.userModalMode === "EDIT" ? true : false}
+      onInputChange={handleInputChange}
       id="country-select-demo"
       sx={{ width: "100%" }}
       options={countries}
       autoHighlight
       getOptionLabel={(option) => option.label}
+      inputValue={user.userModalMode === "EDIT" ? user.country : value}
+      onChange={(event) => setValue(event.target.inputValue)}
       renderOption={(props, option) => (
         <Box
           component="li"
@@ -44,6 +53,7 @@ export default function CountryAutocomplete() {
             ...params.inputProps,
             autoComplete: "new-password",
           }}
+          required={true}
         />
       )}
     />

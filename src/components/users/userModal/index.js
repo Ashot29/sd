@@ -8,8 +8,7 @@ import { TextField } from "@material-ui/core";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Box from "@mui/material/Box";
-import CountryAutocomplete from "./countryAutocomplete";
-import CountrySelect from "./countrySelect";
+import Autocomplete from "@mui/material/Autocomplete";
 import { useSelector, useDispatch } from "react-redux";
 import { closeUserModal } from "./../../../stateManagement/actions/userModalActionCreator";
 import UserService from "../../../services/user.service";
@@ -37,9 +36,8 @@ export default function UserModal() {
   const open = useSelector((state) => state.userModalReducer.userModalIsOpen);
   const user = useSelector((state) => state.userModalReducer);
   const mode = useSelector((state) => state.userModalReducer.userModalMode);
-  let [stateChanged, updateChangedState] = useState(false);
   let [emailError, setEmailError] = useState(false);
-  const [countries, setCountries] = useState([]);
+  let [countries, setCountries] = useState([]);
 
   const dispatch = useDispatch();
 
@@ -56,30 +54,8 @@ export default function UserModal() {
 
   console.log(userInfo, "userInfo");
 
-  const handleClose = () => {
-    updateUserInfo({
-      ...userInfo,
-      id: "",
-    });
-    updateChangedState(false);
-    setEmailError(false);
-    dispatch(closeUserModal());
-  };
-
   useEffect(() => {
-    // create service
-    fetch(`http://localhost:9000/countries`)
-      .then((resp) => resp.json())
-      .then((data) => {
-          console.log(data)
-          let names = data.map(country => country.country_name)
-          console.log(names)
-          setCountries(names);
-        });
-  }, []);
-
-  useEffect(
-    () => [
+    console.log(user.country, 'user.country')
       updateUserInfo({
         id: mode === "ADD" ? `${Date.now()}_${Math.random()}` : user.id,
         firstName: user.firstName,
@@ -89,10 +65,45 @@ export default function UserModal() {
         country: user.country,
         subscribed_to_cards: [],
         created_at: user.created_at,
-      }),
-    ],
-    [user]
-  );
+      })
+  },[user]);
+
+  useEffect(() => {
+    fetch("http://localhost:9000/countries")
+      .then((resp) => resp.json())
+      .then((data) => {
+        let countries = data.sort(compare)
+        setCountries([...data]);
+      });
+  }, []);
+
+  function compare( a, b ) {
+    if ( a.label < b.label ) {
+      return -1;
+    }
+    if ( a.label > b.label ) {
+      return 1;
+    }
+    return 0;
+  }
+
+  const handleClose = () => {
+    updateUserInfo({
+      ...userInfo,
+      id: "",
+    });
+    setEmailError(false);
+    dispatch(closeUserModal());
+  };
+
+  function handleInputChange(event, inpValue) {
+    // console.log(userInfo, inpValue)
+    if (user.country) return;
+    updateUserInfo({
+      ...userInfo,
+      country: inpValue,
+    });
+  }
 
   function postNewUser() {
     userService.checkEmail(userInfo.email).then((data) => {
@@ -110,7 +121,6 @@ export default function UserModal() {
   }
 
   function changeExistingUser() {
-    if (!stateChanged) return;
     let updatedUser = JSON.parse(JSON.stringify(userInfo));
     delete updatedUser.subscribed_to_cards;
     userService.update(userInfo.id, updatedUser);
@@ -127,7 +137,6 @@ export default function UserModal() {
       ...prevState,
       [name]: value,
     }));
-    updateChangedState(true);
   }
 
   function handleSubmit(event) {
@@ -195,11 +204,49 @@ export default function UserModal() {
                 id="outlined-required"
                 label="LastName"
                 variant="outlined"
-                value={user.lastName}
+                defaultValue={user.lastName}
                 onChange={(event) => handleChange(event)}
               />
-              <CountrySelect />
-              {/* <CountryAutocomplete /> */}
+              <Autocomplete
+                required
+                disabled={user.userModalMode === "EDIT" ? true : false}
+                inputValue={userInfo.country}
+                onInputChange={handleInputChange}
+                id="country-select-demo"
+                sx={{ width: "100%" }}
+                options={countries}
+                autoHighlight
+                getOptionLabel={(option) => option.label}
+                renderOption={(props, option) => (
+                  <Box
+                    component="li"
+                    sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                    key={countries.id}
+                    {...props}
+                  >
+                    <img
+                      loading="lazy"
+                      width="20"
+                      src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                      srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                      alt=""
+                    />
+                    {option.label}
+                  </Box>
+                )}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Choose a country"
+                    variant="outlined"
+                    inputProps={{
+                      ...params.inputProps,
+                      autoComplete: "new-password",
+                    }}
+                    required={true}
+                  />
+                )}
+              />
               <TextField
                 required
                 error={mode === "ADD" ? emailError : false}
