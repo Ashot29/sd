@@ -1,102 +1,62 @@
 {
   "users": [
     {
-      "id": "1632996663029_0.8255105138526688",
-      "firstName": "Thierry",
-      "lastName": "Henry",
-      "age": 41,
-      "email": "henry14@gmail.com",
-      "country": "France",
+      "id": "1632998236606_0.2042052679149471",
+      "firstName": "Gagik",
+      "lastName": "Simonyan",
+      "age": 29,
+      "email": "gago242@gmail.com",
+      "country": "Arcakh",
       "subscribed_to_cards": [],
-      "created_at": 1632996693981
+      "created_at": 1632998264656
     },
     {
-      "id": "1632997609824_0.556526657271379",
-      "firstName": "Didier",
-      "lastName": "Drogba",
-      "age": 43,
-      "email": "didier11@gmail.com",
-      "country": "Cote d'Ivoire",
-      "subscribed_to_cards": [],
-      "created_at": 1632997633223
-    },
-    {
-      "id": "1632997695295_0.6928904759628574",
-      "firstName": "Henrikh",
-      "lastName": "Mkhitaryan",
-      "age": 31,
-      "email": "gago@gmail.com",
+      "id": "1632998278054_0.6735912960981421",
+      "firstName": "Ashot",
+      "lastName": "Sargsyan",
+      "age": 20,
+      "email": "gago24@gmail.com",
       "country": "Armenia",
       "subscribed_to_cards": [],
-      "created_at": 1632997718654,
-      "updated_at": 1632997775844
+      "created_at": 1632998317338,
+      "updated_at": 1632998427252
     }
   ],
   "lists": [
     {
       "id": "1632926235910_0.18034413672713456",
       "title": "2",
-      "card_positions": [
-        "1632926240218_0.8330492978291264",
-        "1632921750049_0.2901193356089806",
-        "1632926246106_0.648371442920137"
-      ],
+      "card_positions": [],
       "position": 2,
       "created_at": 1632926235919,
-      "updated_at": 1632996655877
+      "updated_at": 1633003262824
     },
     {
-      "id": "1632996652259_0.0398336192367319",
+      "id": "1632998368357_0.2752123441780101",
       "title": "1",
       "card_positions": [],
       "position": 1,
-      "created_at": 1632996652267,
-      "updated_at": 1632996655876
+      "created_at": 1632998368364,
+      "updated_at": 1633003262822
     },
     {
-      "id": "1632996653936_0.8942918862423717",
+      "id": "1632998369419_0.5199927472124983",
       "title": "3",
       "card_positions": [],
       "position": 3,
-      "created_at": 1632996653947,
-      "updated_at": 1632996655878
+      "created_at": 1632998369429,
+      "updated_at": 1633003262825
     }
   ],
-  "cards": [
-    {
-      "id": "1632921750049_0.2901193356089806",
-      "title": "2",
-      "list_id": "1632926235910_0.18034413672713456",
-      "description": "",
-      "created_at": 1632921750049,
-      "updated_at": 1632926237687
-    },
-    {
-      "id": "1632926240218_0.8330492978291264",
-      "title": "1",
-      "list_id": "1632926235910_0.18034413672713456",
-      "description": "",
-      "created_at": 1632926240218,
-      "updated_at": 1632926248937
-    },
-    {
-      "id": "1632926246106_0.648371442920137",
-      "title": "3",
-      "list_id": "1632926235910_0.18034413672713456",
-      "description": "",
-      "created_at": 1632926246106,
-      "updated_at": 1632926247804
-    }
-  ],
+  "cards": [],
   "user-sequence": [
     {
       "id": 1,
       "sequence": [
-        "1632996663029_0.8255105138526688",
-        "1632997609824_0.556526657271379",
-        "1632997695295_0.6928904759628574"
+        "1632998278054_0.6735912960981421",
+        "1632998236606_0.2042052679149471"
       ],
-      "updated_at": 1632997718718
+      "updated_at": 1633002788943
     }
   ]
 }

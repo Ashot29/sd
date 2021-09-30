@@ -71,7 +71,7 @@ export default function CardModal() {
     };
     cardService
       .update(id, data)
-      .then(() => fetchingAllCards(BASE_URL, dispatch));
+      .then(() => fetchingAllCards(dispatch));
     setDesc("");
     dispatch(closeCardModal());
   }

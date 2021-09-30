@@ -32,15 +32,12 @@ const style = {
 export default function UserModal() {
   const userService = UserService.getInstance();
   const userSequenceService = UserSequenceService.getInstance();
-
   const open = useSelector((state) => state.userModalReducer.userModalIsOpen);
   const user = useSelector((state) => state.userModalReducer);
   const mode = useSelector((state) => state.userModalReducer.userModalMode);
   let [emailError, setEmailError] = useState(false);
   let [countries, setCountries] = useState([]);
-
   const dispatch = useDispatch();
-
   const [userInfo, updateUserInfo] = useState({
     id: user.id,
     firstName: user.firstName,
@@ -52,36 +49,33 @@ export default function UserModal() {
     created_at: user.created_at,
   });
 
-  console.log(userInfo, "userInfo");
-
   useEffect(() => {
-    console.log(user.country, 'user.country')
-      updateUserInfo({
-        id: mode === "ADD" ? `${Date.now()}_${Math.random()}` : user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        age: user.age,
-        email: user.email,
-        country: user.country,
-        subscribed_to_cards: [],
-        created_at: user.created_at,
-      })
-  },[user]);
+    updateUserInfo({
+      id: mode === "ADD" ? `${Date.now()}_${Math.random()}` : user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      age: user.age,
+      email: user.email,
+      country: user.country,
+      subscribed_to_cards: [],
+      created_at: user.created_at,
+    });
+  }, [user]);
 
   useEffect(() => {
     fetch("http://localhost:9000/countries")
       .then((resp) => resp.json())
       .then((data) => {
-        let countries = data.sort(compare)
-        setCountries([...data]);
+        let countries = data.sort(compare);
+        setCountries([...countries]);
       });
   }, []);
 
-  function compare( a, b ) {
-    if ( a.label < b.label ) {
+  function compare(a, b) {
+    if (a.label < b.label) {
       return -1;
     }
-    if ( a.label > b.label ) {
+    if (a.label > b.label) {
       return 1;
     }
     return 0;
@@ -97,7 +91,6 @@ export default function UserModal() {
   };
 
   function handleInputChange(event, inpValue) {
-    // console.log(userInfo, inpValue)
     if (user.country) return;
     updateUserInfo({
       ...userInfo,
@@ -107,6 +100,7 @@ export default function UserModal() {
 
   function postNewUser() {
     userService.checkEmail(userInfo.email).then((data) => {
+      // if there is such mail registered, dont post anything
       if (!data.length) {
         userService.post(userInfo);
         userSequenceService.getById(1).then((data) => {
@@ -180,10 +174,10 @@ export default function UserModal() {
             >
               <TextField
                 style={{ width: "100%", margin: "30px 0 10px" }}
-                className="firstname-input"
                 required
                 inputProps={{
                   pattern: "[a-zA-Z]{1,30}",
+                  className: "firstname-input",
                 }}
                 name="firstName"
                 autoComplete="off"
@@ -197,6 +191,7 @@ export default function UserModal() {
                 required
                 inputProps={{
                   pattern: "[a-zA-Z]{1,30}",
+                  className: "user-modal-input",
                 }}
                 name="lastName"
                 autoComplete="off"

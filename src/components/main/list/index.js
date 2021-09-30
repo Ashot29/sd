@@ -17,7 +17,7 @@ import "./index.css";
 const cardService = CardService.getInstance();
 const listService = ListService.getInstance();
 
-export const fetchingAllCards = (url, dispatch) => {
+export const fetchingAllCards = (dispatch) => {
   cardService.get().then((data) => dispatch(getAllCards(data)));
 };
 
@@ -44,7 +44,7 @@ function List() {
 
   useEffect(() => {
     fetchingAllLists(dispatch);
-    fetchingAllCards(BASE_URL, dispatch);
+    fetchingAllCards(dispatch);
   }, []);
 
   const handleDragEnd = (result) => {
@@ -62,7 +62,7 @@ function List() {
         changeCardsOrder(result, dispatch, lists);
       } else {
         // changeCardsSequenceBetwLists(result, dispatch, fetchFunctions);
-        changeCardsOrderBetweenLists(result, dispatch, [cards, lists])
+        changeCardsOrderBetweenLists(result, dispatch, [cards, lists]);
       }
     }
 
@@ -100,8 +100,6 @@ function List() {
 
 export default List;
 
-
-
 function changeListOrder(state, result, dispatch) {
   let [listsArray, setListsArray] = state;
   const changingLists = JSON.parse(JSON.stringify(listsArray));
@@ -120,8 +118,6 @@ function changeListOrder(state, result, dispatch) {
   });
 }
 
-
-
 function changeCardsOrder(result, dispatch, lists) {
   let { destination } = result;
   const list_id = destination.droppableId;
@@ -135,11 +131,9 @@ function changeCardsOrder(result, dispatch, lists) {
   listService.update(list_id, { card_positions });
 }
 
-
-
 function changeCardsOrderBetweenLists(result, dispatch, cards_and_lists) {
   const { destination, source, draggableId } = result;
-  const [cards, lists] = cards_and_lists
+  const [cards, lists] = cards_and_lists;
   const current_card = JSON.parse(
     JSON.stringify(cards.find((card) => card.id === draggableId))
   );

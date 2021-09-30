@@ -15,11 +15,12 @@
 
 .firstname-input {
     width: 100%;
+    margin: 30px 0;
 }
 
 .user-modal-input {
     width: 100%;
-    margin-bottom: 20px;
+    margin: 10px 0;
 }
 
 .confirm-button {

@@ -20,7 +20,7 @@ function EditForm(props) {
     const dispatch = useDispatch();
     const changeCardTitle = () => {
         cardService.update(id, { title: inputValue })
-        .then(() => fetchingAllCards(BASE_URL, dispatch))
+        .then(() => fetchingAllCards(dispatch))
         updateFormState(false);
       };
 

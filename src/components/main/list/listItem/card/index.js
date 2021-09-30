@@ -201,5 +201,5 @@ function deleteFromlistCardPositions(argsForList) {
       card_positions.splice(index, 1);
       listService.update(list_id, { card_positions });
     })
-    .then(() => fetchingAllCards(url, dispatch));
+    .then(() => fetchingAllCards(dispatch));
 }
