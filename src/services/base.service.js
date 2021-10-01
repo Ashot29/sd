@@ -1,20 +1,21 @@
 import { BASE_URL } from "../stateManagement/url";
 
 export class BaseService {
-  constructor(url) {
+  constructor(prefix, url = BASE_URL) {
     this.url = url;
+    this.prefix = prefix
   }
 
   get() {
-    return fetch(`${BASE_URL}/${this.url}`).then((resp) => resp.json());
+    return fetch(`${this.url}/${this.prefix}`).then((resp) => resp.json());
   }
 
   getById(id) {
-    return fetch(`${BASE_URL}/${this.url}/${id}`).then((resp) => resp.json());
+    return fetch(`${this.url}/${this.prefix}/${id}`).then((resp) => resp.json());
   }
 
   delete(id) {
-    return fetch(`${BASE_URL}/${this.url}/${id}`, {
+    return fetch(`${this.url}/${this.prefix}/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -24,7 +25,7 @@ export class BaseService {
 
   update(id, data) {
     data.updated_at = Date.now();
-    return fetch(`${BASE_URL}/${this.url}/${id}`, {
+    return fetch(`${this.url}/${this.prefix}/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +36,7 @@ export class BaseService {
 
   post(data) {
     data.created_at = Date.now();
-    return fetch(`${BASE_URL}/${this.url}`, {
+    return fetch(`${this.url}/${this.prefix}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

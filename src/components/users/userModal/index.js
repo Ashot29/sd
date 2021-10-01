@@ -15,6 +15,7 @@ import UserService from "../../../services/user.service";
 import { addUser } from "../../../stateManagement/actions/usersActionCreator";
 import { updateUser } from "../../../stateManagement/actions/usersActionCreator";
 import UserSequenceService from "./../../../services/user-sequence.service";
+import CountryService from "./../../../services/countries.service";
 import "./index.css";
 
 const style = {
@@ -31,6 +32,7 @@ const style = {
 
 export default function UserModal() {
   const userService = UserService.getInstance();
+  const countryService = CountryService.getInstance();
   const userSequenceService = UserSequenceService.getInstance();
   const open = useSelector((state) => state.userModalReducer.userModalIsOpen);
   const user = useSelector((state) => state.userModalReducer);
@@ -63,12 +65,10 @@ export default function UserModal() {
   }, [user]);
 
   useEffect(() => {
-    fetch("http://localhost:9000/countries")
-      .then((resp) => resp.json())
-      .then((data) => {
-        let countries = data.sort(compare);
-        setCountries([...countries]);
-      });
+    countryService.get().then((data) => {
+      let countries = data.sort(compare);
+      setCountries([...countries]);
+    });
   }, []);
 
   function compare(a, b) {

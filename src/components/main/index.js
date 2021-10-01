@@ -16,7 +16,6 @@ function Main() {
   const dispatch = useDispatch();
   let [userSequence, setUserSequence] = useState([]);
   let state = useSelector((state) => state.isButtonClicked);
-
   const users = useSelector((state) => {
     const allUsers = state.usersReducer.users;
     const usersInRightArrange = [];
