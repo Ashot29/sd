@@ -102,6 +102,7 @@ export default List;
 function changeListOrder(state, result, dispatch) {
   let [listsArray, setListsArray] = state;
   const changingLists = JSON.parse(JSON.stringify(listsArray));
+  
   const [reorderedItem] = changingLists.splice(result.source.index, 1);
   changingLists.splice(result.destination.index, 0, reorderedItem);
   changingLists.forEach((list, index) => {
