@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import MenuButton from "./menuButton";
 import { useDispatch, useSelector } from "react-redux";  
 import MediaCard from "./card";    
@@ -8,28 +8,37 @@ import { fetchingAllLists } from "..";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import ListService from "../../../../services/list.service";
 import "./index.css";
+import { RootState } from "../../../../stateManagement/reducers/rootReducer";
+import { ICard } from "../../../../services/cards.service";
 
 const listService = ListService.getInstance();
 
-const ListItem = ({ title, id, index }) => {
+interface ListItemProps {
+  title: string
+  id: string
+  index: number
+}
+
+const ListItem = ({ title, id, index }: ListItemProps) => {
   let [isClicked, setIsClicked] = useState(false);
   let [value, setValue] = useState(title);
   const dispatch = useDispatch();
-  const cards = useSelector((state) => {
+  const cards = useSelector((state: RootState) => {
     const lists = state.fetchData.lists;
     const cards = state.fetchData.cards;
-    const cardsInRightSequence = [];
+    const cardsInRightSequence: string[] = [];
     const parentList = lists.find((list) => list.id === id);
     const card_positions = parentList ? parentList.card_positions : [];
     let cardsBelongingToThisList = [
       ...cards.filter((card) => card.list_id == id),
     ];
-    card_positions.forEach((position) => {
+    card_positions.forEach((position: string) => {
       let card = cardsBelongingToThisList.find((card) => card.id === position);
       if (card) {
         cardsInRightSequence.push(card);
       }
     });
+    console.log(cardsInRightSequence, 'cardsInRightSequence')
     return cardsInRightSequence;
   });
 
@@ -82,7 +91,7 @@ const ListItem = ({ title, id, index }) => {
                   ref={provided.innerRef}
                 >
                   {!!cards.length &&
-                    cards.map((card, index) => {
+                    cards.map((card: any, index: number) => { //change any to ICard
                       return (
                         <div className="card-wrapper" key={card.id}>
                           <MediaCard
