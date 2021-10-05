@@ -6,7 +6,7 @@ export const closeCardModal = () => {
   };
 };
 
-export const openCardModal = (title, id, description, list_id) => {
+export const openCardModal = (title: string, id: string, description: string, list_id: string) => {
   return {
     type: OPEN_MODAL,
     payload: {

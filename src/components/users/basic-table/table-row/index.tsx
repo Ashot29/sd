@@ -6,23 +6,11 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { useDispatch } from "react-redux";
 import { openDeleteDialog } from "../../../../stateManagement/actions/deleteDialogActionCreator";
-
-type User = {
-  age: number;
-  country: string;
-  created_at: number;
-  email: string;
-  firstName: string;
-  id: string;
-  lastName: string;
-  subscribed_to_cards: any[];
-  updated_at: number;
-  userModalMode: string;
-};
+import { IUser } from '../../../../services/user.service'
 
 interface UserRowProps {
-  handleOpen: (userInfo: User) => void;
-  user: User;
+  handleOpen: (userInfo: IUser) => void;
+  user: IUser;
 }
 
 const UserRow: React.FC<UserRowProps> = ({ user, handleOpen }) => {

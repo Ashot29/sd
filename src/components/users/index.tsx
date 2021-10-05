@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import BasicTable from "./basic-table";
 import AddIcon from "@material-ui/icons/Add";
@@ -9,37 +9,41 @@ import { useDispatch } from "react-redux";
 import DeleteDialog from "./alert-dialog";
 import { getUsers } from "../../stateManagement/actions/usersActionCreator";
 import { RootState } from "../../stateManagement/reducers/rootReducer";
+import { IUser } from "../../services/user.service";
 import "./index.css";
 
-interface UserModalData {
-  userModalIsOpen: boolean
-  userModalMode: string
-  country: string
-  firstName: string
-  lastName: string
-  age: string | number
-  email: string
-}
+// interface UserModalData {
+//   userModalIsOpen: boolean;
+//   userModalMode: string;
+//   country: string;
+//   firstName: string;
+//   lastName: string;
+//   age: string | number;
+//   email: string;
+// }
 
 const Users: React.FC = () => {
   const users = useSelector((state: RootState) => state.usersReducer.users);
   const dispatch = useDispatch();
-  const data: UserModalData = {
+  const data: IUser = {
     userModalIsOpen: true,
-    userModalMode: 'ADD',
+    userModalMode: "ADD",
+    id: "",
     country: "",
     firstName: "",
     lastName: "",
     age: "",
     email: "",
+    created_at: "",
+    updated_at: "",
   };
 
   useEffect(() => {
     dispatch(getUsers());
-  }, [])
+  }, []);
 
   const handleOpen = () => {
-    dispatch(openUserModal(data))
+    dispatch(openUserModal(data));
   };
 
   return (

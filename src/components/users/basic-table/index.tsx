@@ -12,24 +12,12 @@ import UserSequenceService from "../../../services/user-sequence.service";
 import { openUserModal } from "../../../stateManagement/actions/userModalActionCreator";
 import { RootState } from "../../../stateManagement/reducers/rootReducer";
 import UserRow from "./table-row";
-
-interface User {
-  age: number
-  country: string
-  created_at: number
-  email: string
-  firstName: string
-  id: string
-  lastName: string
-  subscribed_to_cards: any[]
-  updated_at: number
-  userModalMode: string
-}
+import { IUser } from '../../../services/user.service';
 
 export default function BasicTable() {
   const users = useSelector((state: RootState) => {
     const sortedUsers = state.usersReducer.users.sort(
-      (a: User, b: User) => {
+      (a: IUser, b: IUser) => {
         if (!b.created_at || !a.created_at) return 1;
         return b.created_at - a.created_at
       }
@@ -37,7 +25,7 @@ export default function BasicTable() {
     return sortedUsers;
   });
   const userSequenceService: any = UserSequenceService.getInstance();
-  const handleOpen = (args: User) => dispatch(openUserModal(args));
+  const handleOpen = (args: IUser) => dispatch(openUserModal(args));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -58,7 +46,7 @@ export default function BasicTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {users.map((user: User) => (
+          {users.map((user: IUser) => (
             <UserRow key={user.id} user={user} handleOpen={handleOpen} />
           ))}
         </TableBody>

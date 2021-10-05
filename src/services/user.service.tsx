@@ -26,10 +26,12 @@ export interface IUser {
   id: string;
   firstName: string;
   lastName: string;
-  age: number;
+  age: number | string;
   email: string;
   country: string;
-  subscribed_to_cards: string[];
-  created_at: number;
-  updated_at?: number;
+  subscribed_to_cards?: string[];
+  created_at: any;
+  updated_at: any;
+  userModalMode: string
+  userModalIsOpen: boolean
 }

@@ -1,23 +1,10 @@
 import { Draggable } from "react-beautiful-dnd";
 import { Avatar } from "@material-ui/core";
 import './index.css'
-import User from '../../users/basic-table';
-
-interface User {
-  age: number
-  country: string
-  created_at: number
-  email: string
-  firstName: string
-  id: string
-  lastName: string
-  subscribed_to_cards: any[]
-  updated_at?: number
-  userModalMode: string
-}
+import { IUser } from "../../../services/user.service";
 
 interface MemberProps {
-  user: User
+  user: IUser
   index: number
 }
 
