@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { TextField } from "@material-ui/core";
 import { addCard } from "../../../../../stateManagement/actions/fetchDataActionCreator";
 import { useDispatch } from "react-redux";
 import Button from "@material-ui/core/Button";
 import "./index.css";
 
-function CardForm({ id }) {
+interface CardFormProps {
+  id : string
+}
+
+function CardForm({ id }: CardFormProps) {
   const dispatch = useDispatch();
-  let [inputValue, setInputValue] = useState("");
-  let [isClicked, setIsClicked] = useState(false);
+  let [inputValue, setInputValue] = useState<string>("");
+  let [isClicked, setIsClicked] = useState<boolean>(false);
   const buttonStyles = {
     marginTop: "12px",
     marginRight: "4px",

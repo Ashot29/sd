@@ -23,7 +23,6 @@ interface MemberCheckboxProps {
 
 export default function MemberCheckbox(props: MemberCheckboxProps) {
   const { user, cardId, dispatch, users, handleCheckboxClicks } = props;
-  console.log(user, 'user')
   const set = new Set(user.subscribed_to_cards);
   const userHasTheId = set.has(cardId);
   
