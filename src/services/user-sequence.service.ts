@@ -12,5 +12,11 @@ export default class UserSequenceService extends BaseService {
     return UserSequenceService.instance;
   }
 
-  static instance = null;
+  static instance: UserSequenceService;
+}
+
+export interface UserSequenceData {
+  id: Number
+  sequence: string[]
+  updated_at: number
 }

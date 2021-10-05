@@ -7,17 +7,19 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { useSelector, useDispatch } from "react-redux";
 import { closeDeleteDialog } from "../../../stateManagement/actions/deleteDialogActionCreator";
-import UserService from "./../../../services/user.service";
+import UserService from "../../../services/user.service";
 import { deleteUser } from "../../../stateManagement/actions/usersActionCreator";
 import UserSequenceService from "../../../services/user-sequence.service";
+import { RootState } from "../../../stateManagement/reducers/rootReducer";
+import { UserSequenceData } from "../../../services/user-sequence.service";
 
 export default function DeleteDialog() {
-  const open = useSelector((state) => state.deleteDialogReducer.dialogIsOpen);
+  const open = useSelector((state: RootState) => state.deleteDialogReducer.dialogIsOpen);
   const user_id = useSelector(
-    (state) => state.deleteDialogReducer.deletingUserId
+    (state: RootState) => state.deleteDialogReducer.deletingUserId
   );
-  const userService = UserService.getInstance();
-  const userSequenceService = UserSequenceService.getInstance();
+  const userService: any = UserService.getInstance();
+  const userSequenceService: any = UserSequenceService.getInstance();
   const dispatch = useDispatch();
 
   const handleClose = () => {
@@ -25,9 +27,9 @@ export default function DeleteDialog() {
   };
 
   const deleteUserFromDialog = () => {
-    userSequenceService.getById(1).then((data) => {
+    userSequenceService.getById(1).then((data: UserSequenceData) => {
       const sequence = [...data.sequence];
-      const index = sequence.findIndex((id) => id === user_id);
+      const index = sequence.findIndex((id: string) => id === user_id);
       if (index !== -1) {
         sequence.splice(index, 1);
         userSequenceService.update(1, { sequence });

@@ -2,12 +2,16 @@ export const usersInitialData = {
   users: [],
 };
 
+interface UsersInitialData {
+  users: any[]
+}
+
 export const DISPATCH_USERS_TO_STORE = 'DISPATCH_USERS_TO_STORE';
 export const DELETE_USER = 'DELETE_USER';
 export const ADD_USER = 'ADD_USER';
 export const UPDATE_USER = 'UPDATE_USER';
 
-export function usersReducer(state = usersInitialData, action) {
+export function usersReducer(state: UsersInitialData = usersInitialData, action: any) {
   switch (action.type) {
     case DISPATCH_USERS_TO_STORE:
       return {

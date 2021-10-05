@@ -10,10 +10,20 @@ import DeleteDialog from "./alert-dialog";
 import { getUsers } from "../../stateManagement/actions/usersActionCreator";
 import "./index.css";
 
-const Users = () => {
-  const users = useSelector((state) => state.usersReducer.users);
+interface UserModalData {
+  userModalIsOpen: boolean
+  userModalMode: string
+  country: string
+  firstName: string
+  lastName: string
+  age: string | number
+  email: string
+}
+
+const Users: React.FC = () => {
+  const users = useSelector((state: any) => state.usersReducer.users);
   const dispatch = useDispatch();
-  const data = {
+  const data: UserModalData = {
     userModalIsOpen: true,
     userModalMode: 'ADD',
     country: "",

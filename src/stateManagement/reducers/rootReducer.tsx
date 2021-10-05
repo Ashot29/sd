@@ -14,3 +14,5 @@ export let rootReducer = combineReducers({
   userModalReducer,
   deleteDialogReducer
 });
+
+export type RootState = ReturnType<typeof rootReducer>

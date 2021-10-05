@@ -4,23 +4,37 @@ import TableCell from "@material-ui/core/TableCell";
 import { Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import { openDeleteDialog } from "../../../../stateManagement/actions/deleteDialogActionCreator";
 
-const UserRow = ({user, handleDeleteEvent, handleOpen}) => {
-  const dispatch = useDispatch()
+type User = {
+  age: number;
+  country: string;
+  created_at: number;
+  email: string;
+  firstName: string;
+  id: string;
+  lastName: string;
+  subscribed_to_cards: any[];
+  updated_at: number;
+  userModalMode: string;
+};
 
-  function handleDeleteEvent(userId) {
-    dispatch(openDeleteDialog(userId))
+interface UserRowProps {
+  handleOpen: (userInfo: User) => void;
+  user: User;
+}
+
+const UserRow: React.FC<UserRowProps> = ({ user, handleOpen }) => {
+  const dispatch = useDispatch();
+
+  function handleDeleteEvent(userId: string) {
+    dispatch(openDeleteDialog(userId));
   }
 
   return (
     <>
-      <TableRow
-        key={user.id}
-        data-id={user.id}
-        sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-      >
+      <TableRow key={user.id} data-id={user.id}>
         <TableCell component="th" scope="row" align="center">
           {user.firstName + " " + user.lastName[0] + "."}
         </TableCell>
@@ -35,8 +49,8 @@ const UserRow = ({user, handleDeleteEvent, handleOpen}) => {
             startIcon={<EditIcon />}
             style={{ marginRight: "10px" }}
             onClick={() => {
-              const userInfo = JSON.parse(JSON.stringify(user))
-              userInfo.userModalMode = 'EDIT';
+              const userInfo = JSON.parse(JSON.stringify(user));
+              userInfo.userModalMode = "EDIT";
               handleOpen(userInfo);
             }}
           >

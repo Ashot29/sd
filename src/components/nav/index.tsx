@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./index.css";
 
-function Nav() {
+const Nav: React.FC = () => {
   return (
     <>
       <nav className="navbar">
