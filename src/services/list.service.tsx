@@ -17,8 +17,9 @@ export default class ListService extends BaseService {
 
 export interface IList {
   created_at: number
-  description: string
+  position: number | string
   id: string
-  list_id: string;
   title: string;
+  updated_at?: string | number
+  subscribed_to_cards: string[]
 }
