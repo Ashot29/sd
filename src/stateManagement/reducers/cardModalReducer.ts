@@ -1,3 +1,11 @@
+interface ICardModalState {
+  cardModalIsOpen: boolean
+  modalTitle: string
+  modalId: string
+  modalDescription: string
+  modalListId: string
+}
+
 export const cardModalState = {
   cardModalIsOpen: false,
   modalTitle: "",
@@ -9,7 +17,7 @@ export const cardModalState = {
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const OPEN_MODAL = 'OPEN_MODAL'
 
-export const cardModalReducer = (state = cardModalState, action) => {
+export const cardModalReducer = (state: ICardModalState = cardModalState, action: any) => {
   switch (action.type) {
     case CLOSE_MODAL:
       return {

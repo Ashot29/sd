@@ -1,10 +1,14 @@
 import { CHANGE_BUTTON_STATE } from "../actions/buttonActionCreator";
 
-const initialState = {
+const buttonInitialState = {
   isButtonClicked: false,
 };
 
-export default function isButtonClicked(state = initialState, action) {
+interface IButtonInitialState {
+  isButtonClicked: boolean
+}
+
+export default function isButtonClicked(state: IButtonInitialState = buttonInitialState, action: any) {
   switch (action.type) {
     case CHANGE_BUTTON_STATE:
       return {

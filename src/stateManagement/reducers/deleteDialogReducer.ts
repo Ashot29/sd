@@ -1,3 +1,8 @@
+interface IDeleteDialogState {
+  dialogIsOpen: boolean
+  deletingUserId: string
+}
+
 export const deleteDialogState = {
   dialogIsOpen: false,
   deletingUserId: "",
@@ -6,7 +11,7 @@ export const deleteDialogState = {
 export const CLOSE_DELETE_DIALOG = 'CLOSE_DELETE_DIALOG';
 export const OPEN_DELETE_DIALOG = 'OPEN_DELETE_DIALOG'
 
-export const deleteDialogReducer = (state = deleteDialogState, action) => {
+export const deleteDialogReducer = (state: IDeleteDialogState = deleteDialogState, action: any) => {
   switch (action.type) {
     case CLOSE_DELETE_DIALOG:
       return {

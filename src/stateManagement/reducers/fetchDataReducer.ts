@@ -4,6 +4,12 @@ const dataState = {
   isLoading: false,
 };
 
+interface IDataState {
+  lists: any[]
+  cards: any[]
+  isLoading: boolean
+}
+
 export const FETCH_LISTS_REQUEST = 'FETCH_LISTS_REQUEST';
 export const FETCH_LISTS_SUCCESS = 'FETCH_LISTS_SUCCESS';
 export const FETCH_ALL_LISTS = 'FETCH_ALL_LISTS';
@@ -14,7 +20,7 @@ export const ADD_CARD = 'ADD_CARD';
 export const GET_ALL_CARDS = 'GET_ALL_CARDS';
 export const CHANGE_CARDS_LIST_ID = 'CHANGE_CARDS_LIST_ID';
 
-export function fetchData(state = dataState, action) {
+export function fetchData(state: IDataState = dataState, action: any) {
   switch (action.type) {
     case FETCH_LISTS_REQUEST:
       return {
