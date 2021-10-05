@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Backdrop from "@material-ui/core/Backdrop";
 import Modal from "@material-ui/core/Modal";
 import Fade from "@material-ui/core/Fade";
@@ -10,16 +10,18 @@ import AlertTitle from "@mui/material/AlertTitle";
 import Box from "@mui/material/Box";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useSelector, useDispatch } from "react-redux";
-import { closeUserModal } from "./../../../stateManagement/actions/userModalActionCreator";
+import { closeUserModal } from "../../../stateManagement/actions/userModalActionCreator";
 import UserService from "../../../services/user.service";
 import { addUser } from "../../../stateManagement/actions/usersActionCreator";
 import { updateUser } from "../../../stateManagement/actions/usersActionCreator";
-import UserSequenceService from "./../../../services/user-sequence.service";
-import CountryService from "./../../../services/countries.service";
+import UserSequenceService from "../../../services/user-sequence.service";
+import CountryService from "../../../services/countries.service";
+import { RootState } from "../../../stateManagement/reducers/rootReducer";
 import "./index.css";
+import ICountry from '../../../services/countries.service'
 
 const style = {
-  position: "absolute",
+  position: "absolute" as 'absolute',
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -34,11 +36,11 @@ export default function UserModal() {
   const userService = UserService.getInstance();
   const countryService = CountryService.getInstance();
   const userSequenceService = UserSequenceService.getInstance();
-  const open = useSelector((state) => state.userModalReducer.userModalIsOpen);
-  const user = useSelector((state) => state.userModalReducer);
-  const mode = useSelector((state) => state.userModalReducer.userModalMode);
+  const open = useSelector((state: RootState) => state.userModalReducer.userModalIsOpen);
+  const user = useSelector((state: RootState) => state.userModalReducer);
+  const mode = useSelector((state: RootState) => state.userModalReducer.userModalMode);
   let [emailError, setEmailError] = useState(false);
-  let [countries, setCountries] = useState([]);
+  let [countries, setCountries] = useState<any[]>([]);
   const dispatch = useDispatch();
   const [userInfo, updateUserInfo] = useState({
     id: user.id,
@@ -67,11 +69,11 @@ export default function UserModal() {
   useEffect(() => {
     countryService.get().then((data) => {
       let countries = data.sort(compare);
-      setCountries([...countries]);
+      setCountries(countries);
     });
   }, []);
 
-  function compare(a, b) {
+  function compare(a: ICountry, b: ICountry) {
     if (a.label < b.label) {
       return -1;
     }
@@ -90,7 +92,7 @@ export default function UserModal() {
     dispatch(closeUserModal());
   };
 
-  function handleInputChange(event, inpValue) {
+  function handleInputChange(event: any, inpValue: string) {
     if (user.country) return;
     updateUserInfo({
       ...userInfo,
@@ -123,7 +125,7 @@ export default function UserModal() {
     handleClose();
   }
 
-  function handleChange(event) {
+  function handleChange(event: any) {
     let { name, value } = event.target;
     if (!isNaN(+value)) value = +value;
 
@@ -133,7 +135,7 @@ export default function UserModal() {
     }));
   }
 
-  function handleSubmit(event) {
+  function handleSubmit(event: any) {
     event.preventDefault();
     switch (mode) {
       case "ADD":
@@ -203,7 +205,7 @@ export default function UserModal() {
                 onChange={(event) => handleChange(event)}
               />
               <Autocomplete
-                required
+                // required
                 disabled={user.userModalMode === "EDIT" ? true : false}
                 inputValue={userInfo.country}
                 onInputChange={handleInputChange}
@@ -211,12 +213,12 @@ export default function UserModal() {
                 sx={{ width: "100%" }}
                 options={countries}
                 autoHighlight
-                getOptionLabel={(option) => option.label}
+                getOptionLabel={(option: any) => option.label}
                 renderOption={(props, option) => (
                   <Box
                     component="li"
                     sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-                    key={countries.id}
+                    key={option.id}
                     {...props}
                   >
                     <img

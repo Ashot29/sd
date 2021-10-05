@@ -2,6 +2,7 @@ import { BaseService } from "./base.service";
 import { COUNTRY_URL } from "../stateManagement/url";
 
 export default class CountryService extends BaseService {
+  label: any;
   constructor() {
     super("countries", COUNTRY_URL);
   }
@@ -18,4 +19,11 @@ export default class CountryService extends BaseService {
   }
 
   static instance : CountryService
+}
+
+export interface ICountry {
+  code: string
+  label: string
+  phone: string
+  id: number
 }

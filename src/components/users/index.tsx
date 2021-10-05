@@ -8,6 +8,7 @@ import { openUserModal } from "../../stateManagement/actions/userModalActionCrea
 import { useDispatch } from "react-redux";
 import DeleteDialog from "./alert-dialog";
 import { getUsers } from "../../stateManagement/actions/usersActionCreator";
+import { RootState } from "../../stateManagement/reducers/rootReducer";
 import "./index.css";
 
 interface UserModalData {
@@ -21,7 +22,7 @@ interface UserModalData {
 }
 
 const Users: React.FC = () => {
-  const users = useSelector((state: any) => state.usersReducer.users);
+  const users = useSelector((state: RootState) => state.usersReducer.users);
   const dispatch = useDispatch();
   const data: UserModalData = {
     userModalIsOpen: true,

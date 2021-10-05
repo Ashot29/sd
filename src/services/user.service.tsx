@@ -14,8 +14,22 @@ export default class UserService extends BaseService {
   }
 
   checkEmail(email: string) {
-    return fetch(`${BASE_URL}/users?email=${email}`).then((resp) => resp.json());
+    return fetch(`${BASE_URL}/users?email=${email}`).then((resp) =>
+      resp.json()
+    );
   }
 
   static instance: UserService;
+}
+
+export interface IUser {
+  id: string;
+  firstName: string;
+  lastName: string;
+  age: number;
+  email: string;
+  country: string;
+  subscribed_to_cards: string[];
+  created_at: number;
+  updated_at?: number;
 }
