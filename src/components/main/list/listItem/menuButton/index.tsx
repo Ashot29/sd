@@ -3,33 +3,38 @@ import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Fade from "@material-ui/core/Fade";
-import { BASE_URL } from "../../../../../stateManagement/url";
 import { fetchingAllLists } from "../..";
 import { useDispatch } from "react-redux";
 import { fetchingAllCards } from "../..";
-import ListService from "./../../../../../services/list.service";
-import CardService from "./../../../../../services/cards.service";
+import ListService from "../../../../../services/list.service";
+import CardService from "../../../../../services/cards.service";
+import ICard from'../../../../../services/cards.service'
 
-const listService = ListService.getInstance();
-const cardService = CardService.getInstance();
+const listService: any = ListService.getInstance();
+const cardService: any = CardService.getInstance();
 
-function deleteListWithItsCards(url, id, dispatch) {
+function deleteListWithItsCards(id: string, dispatch: any) {
   listService.delete(id).then(() => {
-    cardService.getWithlistId(id).then((data) => {
+    cardService.getWithlistId(id).then((data: ICard[]) => {
       fetchingAllLists(dispatch);
-      data.forEach((item) => {
+      data.forEach((item: ICard) => {
         cardService.delete(item.id).then(() => fetchingAllCards(dispatch));
       });
     });
   });
 }
 
-export default function MenuButton({ id }) {
+interface MenuButtonProps {
+  id: string;
+}
+
+export default function MenuButton({ id }: MenuButtonProps) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
 
-  const handleClick = (event) => {
+  const handleClick = (event: any) => {
+    event.preventDefault();
     setAnchorEl(event.currentTarget);
   };
 
@@ -38,7 +43,7 @@ export default function MenuButton({ id }) {
   };
 
   const deletingList = () => {
-    deleteListWithItsCards(BASE_URL, id, dispatch);
+    deleteListWithItsCards(id, dispatch);
     handleClose();
   };
 
@@ -59,12 +64,8 @@ export default function MenuButton({ id }) {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={deletingList}>
-          Delete This List
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          Move This List
-        </MenuItem>
+        <MenuItem onClick={deletingList}>Delete This List</MenuItem>
+        <MenuItem onClick={handleClose}>Move This List</MenuItem>
       </Menu>
     </>
   );

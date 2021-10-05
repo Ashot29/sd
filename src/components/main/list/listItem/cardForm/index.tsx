@@ -9,7 +9,7 @@ interface CardFormProps {
   id : string
 }
 
-function CardForm({ id }: CardFormProps) {
+function CardForm({id}: CardFormProps) {
   const dispatch = useDispatch();
   let [inputValue, setInputValue] = useState<string>("");
   let [isClicked, setIsClicked] = useState<boolean>(false);

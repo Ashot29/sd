@@ -13,9 +13,9 @@ export default class UserService extends BaseService {
     return UserService.instance;
   }
 
-  checkEmail(email) {
+  checkEmail(email: string) {
     return fetch(`${BASE_URL}/users?email=${email}`).then((resp) => resp.json());
   }
 
-  static instance = null;
+  static instance: UserService;
 }

@@ -13,9 +13,9 @@ export default class CountryService extends BaseService {
     return CountryService.instance;
   }
 
-  checkEmail(email) {
+  checkEmail(email: string) {
     return fetch(`${COUNTRY_URL}/users?email=${email}`).then((resp) => resp.json());
   }
 
-  static instance = null;
+  static instance : CountryService
 }

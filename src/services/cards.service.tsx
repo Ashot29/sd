@@ -2,13 +2,13 @@ import { BaseService } from "./base.service";
 import { BASE_URL } from "../stateManagement/url";
 
 export default class CardService extends BaseService {
+  id: any;
   constructor() {
     super("cards");
   }
 
-  getWithlistId(id) {
-      return fetch(`${BASE_URL}/cards?list_id=${id}`)
-      .then((resp) => resp.json())
+  getWithlistId(id: string) {
+    return fetch(`${BASE_URL}/cards?list_id=${id}`).then((resp) => resp.json());
   }
 
   static getInstance() {
@@ -18,5 +18,14 @@ export default class CardService extends BaseService {
     return CardService.instance;
   }
 
-  static instance = null;
+  static instance: CardService;
+}
+
+export interface ICard {
+  created_at: number
+  description: string
+  id: string
+  list_id: string
+  title: string
+  updated_at?: number
 }

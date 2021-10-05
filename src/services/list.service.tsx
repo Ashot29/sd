@@ -12,5 +12,13 @@ export default class ListService extends BaseService {
     return ListService.instance;
   }
 
-  static instance = null;
+  static instance: ListService;
+}
+
+export interface IList {
+  created_at: number
+  description: string
+  id: string
+  list_id: string;
+  title: string;
 }
