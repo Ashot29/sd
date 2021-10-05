@@ -38,7 +38,6 @@ const ListItem = ({ title, id, index }: ListItemProps) => {
         cardsInRightSequence.push(card);
       }
     });
-    console.log(cardsInRightSequence, 'cardsInRightSequence')
     return cardsInRightSequence;
   });
 

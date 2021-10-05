@@ -60,8 +60,6 @@ export default function MediaCard({ title, id, description, index, list_id }: Me
     });
     userSet = Array.from(userSet);
 
-    console.log(userSet, 'userSet')
-
     return userSet;
   });
 
