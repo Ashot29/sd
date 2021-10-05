@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import IconButton from "@material-ui/core/IconButton";
@@ -16,9 +16,11 @@ import Avatar from "@material-ui/core/Avatar";
 import CardService from "../../../../../services/cards.service";
 import ListService from "../../../../../services/list.service";
 import EditForm from "./editForm";
-import UserService from "./../../../../../services/user.service";
-import { deleteFromListsPositions } from './../../../../../stateManagement/actions/fetchDataActionCreator';
+import UserService from "../../../../../services/user.service";
+import { deleteFromListsPositions } from '../../../../../stateManagement/actions/fetchDataActionCreator';
 import "./index.css";
+import { RootState } from "../../../../../stateManagement/reducers/rootReducer";
+import { UserWithoutModalInfo } from "../../../../../services/user.service";
 
 const cardService = CardService.getInstance();
 const listService = ListService.getInstance();
@@ -33,15 +35,23 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MediaCard({ title, id, description, index, list_id }) {
+interface MediaCardProps {
+  title: string
+  id: string
+  description: string
+  index: number
+  list_id: string
+}
+
+export default function MediaCard({ title, id, description, index, list_id }: MediaCardProps) {
   const classes = useStyles();
   const dispatch = useDispatch();
   let [hoverState, updateHoverState] = useState(false);
   let [formIsOpen, updateFormState] = useState(false);
   let [inputValue, changeInputValue] = useState(title);
-  const usersSubscribedOnCard = useSelector((state) => {
+  const usersSubscribedOnCard = useSelector((state: RootState) => {
     const allUsers = state.usersReducer.users;
-    let userSet = new Set();
+    let userSet: any = new Set();
     allUsers.forEach((user) => {
       const subscribed_to_cards = new Set(user.subscribed_to_cards);
       if (subscribed_to_cards.has(id)) {
@@ -49,6 +59,8 @@ export default function MediaCard({ title, id, description, index, list_id }) {
       }
     });
     userSet = Array.from(userSet);
+
+    console.log(userSet, 'userSet')
 
     return userSet;
   });
@@ -120,7 +132,7 @@ export default function MediaCard({ title, id, description, index, list_id }) {
                     {!!description && <FormatAlignLeftIcon fontSize="small" />}
                   </div>
                   <div className="card-avatars">
-                    {usersSubscribedOnCard.map((user) => {
+                    {usersSubscribedOnCard.map((user: UserWithoutModalInfo) => {
                       return (
                         <Avatar
                           key={user.id}
@@ -146,8 +158,14 @@ export default function MediaCard({ title, id, description, index, list_id }) {
   }
 }
 
-export const deleteCard = (args, dispatch) => {
-  let { id, list_id } = args;
+type DeleteCardArgs = {
+  id : string
+  list_id: string
+  dispatch: any
+}
+
+export const deleteCard = (args: DeleteCardArgs) => {
+  let { id, list_id, dispatch } = args;
   cardService
     .delete(id)
     .then(() => {
@@ -157,7 +175,8 @@ export const deleteCard = (args, dispatch) => {
     .then(() => deleteUserSubscription(id));
 };
 
-function handlingCardClick(args) {
+// Must change
+function handlingCardClick(args: any) {
   let { event, id, url, dispatch, title, description, list_id } = args;
   if (
     !event.target.closest("button") ||
@@ -168,7 +187,7 @@ function handlingCardClick(args) {
     event.target.closest("button").classList.contains("card-delete-button")
   ) {
     let argsForCardDeleting = { url, id, dispatch, list_id };
-    deleteCard(argsForCardDeleting, dispatch);
+    deleteCard(argsForCardDeleting);
   } else if (
     event.target.closest("button").classList.contains("card-edit-button")
   ) {
@@ -176,12 +195,12 @@ function handlingCardClick(args) {
   }
 }
 
-function deleteUserSubscription(id) {
+function deleteUserSubscription(id: string) {
   userService.get().then((data) => {
-    data.forEach((user) => {
+    data.forEach((user: any) => {
       const subscribed_to_cards = user.subscribed_to_cards;
       const cardIdIndex = subscribed_to_cards.findIndex(
-        (cardId) => cardId === id
+        (cardId: string) => cardId === id
       );
       if (cardIdIndex === -1) return;
       subscribed_to_cards.splice(cardIdIndex, 1);
@@ -190,7 +209,13 @@ function deleteUserSubscription(id) {
   });
 }
 
-function deleteFromlistCardPositions(argsForList) {
+type DeleteFromlistCardPositionsArgs = {
+  id: string
+  list_id: string
+  dispatch: any
+}
+
+function deleteFromlistCardPositions(argsForList: DeleteFromlistCardPositionsArgs) {
   let { id, list_id, dispatch } = argsForList;
   listService
     .getById(list_id)

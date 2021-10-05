@@ -32,6 +32,18 @@ export interface IUser {
   subscribed_to_cards?: string[];
   created_at: any;
   updated_at: any;
-  userModalMode: string
-  userModalIsOpen: boolean
+  userModalMode: string;
+  userModalIsOpen: boolean;
+}
+
+export interface UserWithoutModalInfo {
+  id: string;
+  firstName: string;
+  lastName: string;
+  age: number | string;
+  email: string;
+  country: string;
+  subscribed_to_cards?: string[];
+  created_at: any;
+  updated_at: any;
 }
