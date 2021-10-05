@@ -1,16 +1,17 @@
 import "./index.css";
 import { IUser } from '../../../../services/user.service';
+import { useDispatch } from 'react-redux';
 
 interface MemberCheckboxProps {
   cardId: string
   users: any[]
-  dispatch: void
   user: IUser
   handleCheckboxClicks: any // Wrong
 }
 
 export default function MemberCheckbox(props: MemberCheckboxProps) {
-  const { user, cardId, dispatch, users, handleCheckboxClicks } = props;
+  const { user, cardId, users, handleCheckboxClicks } = props;
+  const dispatch = useDispatch()
   const set = new Set(user.subscribed_to_cards);
   const userHasTheId = set.has(cardId);
   

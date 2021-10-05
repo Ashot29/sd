@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { SyntheticEvent, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -14,6 +14,7 @@ import CardService from "../../../services/cards.service";
 import UserService from "../../../services/user.service";
 import MemberCheckbox from "./memberCheckbox";
 import "./index.css";
+import { RootState } from "../../../stateManagement/reducers/rootReducer";
 
 const cardService = CardService.getInstance();
 const userServices = UserService.getInstance();
@@ -33,8 +34,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CardModal() {
-  const modalState = useSelector((state) => state.cardModalReducer);
-  const users = useSelector((state) => state.usersReducer.users);
+  const modalState = useSelector((state: RootState) => state.cardModalReducer);
+  const users = useSelector((state: RootState) => state.usersReducer.users);
   const {
     modalTitle: title,
     modalId: id,
@@ -60,7 +61,7 @@ export default function CardModal() {
   };
 
   function deletingCardFromModal() {
-    deleteCard(BASE_URL, id, dispatch, list_id);
+    deleteCard({id, dispatch, list_id});
     handleClose();
   }
 
@@ -126,7 +127,6 @@ export default function CardModal() {
                     key={user.id}
                     user={user}
                     cardId={id}
-                    dispatch={dispatch}
                     users={users}
                     handleCheckboxClicks={handleCheckboxClicks}
                   />
@@ -158,7 +158,13 @@ export default function CardModal() {
   );
 }
 
-const handleCheckboxClicks = (event, data, dispatch) => {
+type HandleCheckboxClick = {
+  users: any[]
+  user: any
+  cardId: string
+}
+
+const handleCheckboxClicks = (event: any, data: HandleCheckboxClick, dispatch: any) => {
   let { users, user, cardId } = data;
 
   const checked = event.target.checked;
@@ -174,13 +180,13 @@ const handleCheckboxClicks = (event, data, dispatch) => {
   };
 
   if (checked) {
-    changeUserSubscription("ADD", argsForHandling, event);
+    changeUserSubscription("ADD", argsForHandling);
   } else {
-    changeUserSubscription("DELETE", argsForHandling, event);
+    changeUserSubscription("DELETE", argsForHandling);
   }
 };
 
-function changeUserSubscription(type, args) {
+function changeUserSubscription(type: string, args: any) {
   let { user, cardId, subscribed_to_cards, dispatch } = args;
 
   if (type === "DELETE") {
