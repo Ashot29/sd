@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { changeButtonState } from "../../../stateManagement/actions/buttonActionCreator";
 import { postLists } from "../../../stateManagement/actions/fetchDataActionCreator";
@@ -8,7 +8,7 @@ import "./index.css";
 
 function ListForm() {
   const dispatch = useDispatch();
-  let [inputValue, setInputValue] = useState("");
+  let [inputValue, setInputValue] = useState<string>("");
   const buttonStyles = {
     marginTop: "12px",
     marginRight: "4px",

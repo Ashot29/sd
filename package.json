@@ -59,6 +59,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-router-dom": "^5.3.0"
   }
 }

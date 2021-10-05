@@ -13,7 +13,7 @@ import { openUserModal } from "../../../stateManagement/actions/userModalActionC
 import { RootState } from "../../../stateManagement/reducers/rootReducer";
 import UserRow from "./table-row";
 
-export type User = {
+interface User {
   age: number
   country: string
   created_at: number
@@ -24,13 +24,15 @@ export type User = {
   subscribed_to_cards: any[]
   updated_at: number
   userModalMode: string
-
 }
 
 export default function BasicTable() {
   const users = useSelector((state: RootState) => {
     const sortedUsers = state.usersReducer.users.sort(
-      (a: User, b: User) => b.created_at - a.created_at
+      (a: User, b: User) => {
+        if (!b.created_at || !a.created_at) return 1;
+        return b.created_at - a.created_at
+      }
     );
     return sortedUsers;
   });

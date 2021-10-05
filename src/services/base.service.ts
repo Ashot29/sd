@@ -1,7 +1,10 @@
 import { BASE_URL } from "../stateManagement/url";
 
 export class BaseService {
-  constructor(prefix, url = BASE_URL) {
+  prefix: string
+  url: string
+  
+  constructor(prefix: string, url: string = BASE_URL) {
     this.url = url;
     this.prefix = prefix
   }
@@ -10,11 +13,11 @@ export class BaseService {
     return fetch(`${this.url}/${this.prefix}`).then((resp) => resp.json());
   }
 
-  getById(id) {
+  getById(id : string | number) {
     return fetch(`${this.url}/${this.prefix}/${id}`).then((resp) => resp.json());
   }
 
-  delete(id) {
+  delete(id: string | number) {
     return fetch(`${this.url}/${this.prefix}/${id}`, {
       method: "DELETE",
       headers: {
@@ -23,7 +26,7 @@ export class BaseService {
     }).then((resp) => resp.json());
   }
 
-  update(id, data) {
+  update(id: string | number, data: any) {
     data.updated_at = Date.now();
     return fetch(`${this.url}/${this.prefix}/${id}`, {
       method: "PATCH",
@@ -34,7 +37,7 @@ export class BaseService {
     }).then((resp) => resp.json());
   }
 
-  post(data) {
+  post(data: any) {
     data.created_at = Date.now();
     return fetch(`${this.url}/${this.prefix}`, {
       method: "POST",
