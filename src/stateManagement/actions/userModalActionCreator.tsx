@@ -1,3 +1,4 @@
+import { IUser } from "../../services/user.service"
 import { CLOSE_USER_MODAL, OPEN_USER_MODAL } from "../reducers/userModalReducer"
 
 export const closeUserModal = () => {
@@ -6,7 +7,7 @@ export const closeUserModal = () => {
     }
 }
 
-export const openUserModal = (userInfo) => {
+export const openUserModal = (userInfo: IUser) => {
     return {
         type: OPEN_USER_MODAL,
         payload: userInfo
