@@ -18,10 +18,10 @@ import UserSequenceService from "../../../services/user-sequence.service";
 import CountryService from "../../../services/countries.service";
 import { RootState } from "../../../stateManagement/reducers/rootReducer";
 import "./index.css";
-import ICountry from '../../../services/countries.service'
+import ICountry from "../../../services/countries.service";
 
 const style = {
-  position: "absolute" as 'absolute',
+  position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -36,9 +36,13 @@ export default function UserModal() {
   const userService = UserService.getInstance();
   const countryService = CountryService.getInstance();
   const userSequenceService = UserSequenceService.getInstance();
-  const open = useSelector((state: RootState) => state.userModalReducer.userModalIsOpen);
+  const open = useSelector(
+    (state: RootState) => state.userModalReducer.userModalIsOpen
+  );
   const user = useSelector((state: RootState) => state.userModalReducer);
-  const mode = useSelector((state: RootState) => state.userModalReducer.userModalMode);
+  const mode = useSelector(
+    (state: RootState) => state.userModalReducer.userModalMode
+  );
   let [emailError, setEmailError] = useState(false);
   let [countries, setCountries] = useState<any[]>([]);
   const dispatch = useDispatch();
@@ -51,6 +55,9 @@ export default function UserModal() {
     country: user.country,
     subscribed_to_cards: [],
     created_at: user.created_at,
+    updated_at: user.updated_at,
+    userModalMode: user.userModalMode,
+    userModalIsOpen: user.userModalIsOpen,
   });
 
   useEffect(() => {
@@ -63,6 +70,9 @@ export default function UserModal() {
       country: user.country,
       subscribed_to_cards: [],
       created_at: user.created_at,
+      updated_at: user.updated_at,
+      userModalMode: user.userModalMode,
+      userModalIsOpen: user.userModalIsOpen,
     });
   }, [user]);
 

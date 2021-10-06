@@ -136,11 +136,6 @@ function changeCardsOrder(result: any, dispatch: any, lists: any[]) {
   listService.update(list_id, { card_positions });
 }
 
-type CardsAndLists = {
-  cards: any[];
-  lists: any[];
-};
-
 function changeCardsOrderBetweenLists(
   result: any,
   dispatch: any,

@@ -31,7 +31,7 @@ export function fetchData(state: IDataState = dataState, action: any) {
     case FETCH_LISTS_SUCCESS:
       return {
         ...state,
-        lists: [...state.lists, ...action.payload],
+        lists: [...state.lists, action.payload],
         isLoading: false,
       };
 

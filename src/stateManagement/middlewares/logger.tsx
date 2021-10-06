@@ -1,4 +1,4 @@
-export const logger = (store) => (next) => (action) => {
+export const logger = (store: any) => (next: any) => (action: any) => {
   console.log("prev state", store.getState());
   console.log("dispatching", action);
   let result = next(action);
