@@ -123,10 +123,11 @@ function changeListOrder(state: any[], result: any, dispatch: any) {
   });
 }
 
-function changeCardsOrder(result: any, dispatch: any, lists: any[]) {
+function changeCardsOrder(result: any, dispatch: any, lists: IList[]) {
   let { destination } = result;
   const list_id = destination.droppableId;
   const current_list = lists.find((list: IList) => list.id === list_id);
+  if (current_list === undefined) return;
   const card_positions = [...current_list.card_positions];
 
   const [reorderedItem] = card_positions.splice(result.source.index, 1);

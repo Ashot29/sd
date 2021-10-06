@@ -16,11 +16,11 @@ import Avatar from "@material-ui/core/Avatar";
 import CardService from "../../../../../services/cards.service";
 import ListService from "../../../../../services/list.service";
 import EditForm from "./editForm";
-import UserService from "../../../../../services/user.service";
+import UserService, { IUser } from "../../../../../services/user.service";
 import { deleteFromListsPositions } from '../../../../../stateManagement/actions/fetchDataActionCreator';
-import "./index.css";
 import { RootState } from "../../../../../stateManagement/reducers/rootReducer";
 import { UserWithoutModalInfo } from "../../../../../services/user.service";
+import "./index.css";
 
 const cardService = CardService.getInstance();
 const listService = ListService.getInstance();
@@ -195,8 +195,9 @@ function handlingCardClick(args: any) {
 
 function deleteUserSubscription(id: string) {
   userService.get().then((data) => {
-    data.forEach((user: any) => {
+    data.forEach((user: IUser) => {
       const subscribed_to_cards = user.subscribed_to_cards;
+      if (subscribed_to_cards === undefined) return;
       const cardIdIndex = subscribed_to_cards.findIndex(
         (cardId: string) => cardId === id
       );

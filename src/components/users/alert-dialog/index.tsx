@@ -11,7 +11,7 @@ import UserService from "../../../services/user.service";
 import { deleteUser } from "../../../stateManagement/actions/usersActionCreator";
 import UserSequenceService from "../../../services/user-sequence.service";
 import { RootState } from "../../../stateManagement/reducers/rootReducer";
-import { UserSequenceData } from "../../../services/user-sequence.service";
+import { IUserSequenceData } from "../../../services/user-sequence.service";
 
 export default function DeleteDialog() {
   const open = useSelector((state: RootState) => state.deleteDialogReducer.dialogIsOpen);
@@ -27,7 +27,7 @@ export default function DeleteDialog() {
   };
 
   const deleteUserFromDialog = () => {
-    userSequenceService.getById(1).then((data: UserSequenceData) => {
+    userSequenceService.getById(1).then((data: IUserSequenceData) => {
       const sequence = [...data.sequence];
       const index = sequence.findIndex((id: string) => id === user_id);
       if (index !== -1) {

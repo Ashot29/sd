@@ -1,15 +1,17 @@
-export const usersInitialData = {
-  users: [],
-};
-
-interface UsersInitialData {
-  users: any[]
-}
+import { IUser } from "../../services/user.service";
 
 export const DISPATCH_USERS_TO_STORE = 'DISPATCH_USERS_TO_STORE';
 export const DELETE_USER = 'DELETE_USER';
 export const ADD_USER = 'ADD_USER';
 export const UPDATE_USER = 'UPDATE_USER';
+
+export const usersInitialData = {
+  users: [],
+};
+
+interface UsersInitialData {
+  users: IUser[]
+}
 
 export function usersReducer(state: UsersInitialData = usersInitialData, action: any) {
   switch (action.type) {

@@ -1,4 +1,4 @@
-import { SyntheticEvent, useEffect, useState } from "react";
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
@@ -11,7 +11,7 @@ import { deleteCard } from "../list/listItem/card";
 import { fetchingAllCards } from "../list";
 import { getUsers } from "../../../stateManagement/actions/usersActionCreator";
 import CardService from "../../../services/cards.service";
-import UserService from "../../../services/user.service";
+import UserService, { IUser } from "../../../services/user.service";
 import MemberCheckbox from "./memberCheckbox";
 import "./index.css";
 import { RootState } from "../../../stateManagement/reducers/rootReducer";
@@ -159,16 +159,17 @@ export default function CardModal() {
 }
 
 type HandleCheckboxClick = {
-  users: any[]
-  user: any
+  users: IUser[]
+  user: IUser
   cardId: string
 }
 
-const handleCheckboxClicks = (event: any, data: HandleCheckboxClick, dispatch: any) => {
+const handleCheckboxClicks = (event: ChangeEvent<HTMLInputElement>, data: HandleCheckboxClick, dispatch: any) => {
   let { users, user, cardId } = data;
 
   const checked = event.target.checked;
   const current_user = users.find((currentUser) => currentUser.id === user.id);
+  if (current_user === undefined) return;
   const subscribed_to_cards = new Set(current_user.subscribed_to_cards);
 
   let argsForHandling = {

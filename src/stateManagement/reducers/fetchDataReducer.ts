@@ -1,14 +1,5 @@
-const dataState = {
-  lists: [],
-  cards: [],
-  isLoading: false,
-};
-
-interface IDataState {
-  lists: any[]
-  cards: any[]
-  isLoading: boolean
-}
+import { ICard } from "../../services/cards.service";
+import { IList } from "../../services/list.service";
 
 export const FETCH_LISTS_REQUEST = 'FETCH_LISTS_REQUEST';
 export const FETCH_LISTS_SUCCESS = 'FETCH_LISTS_SUCCESS';
@@ -19,6 +10,18 @@ export const MOVE_CARD_BETWEEN_LISTS = 'MOVE_CARD_BETWEEN_LISTS';
 export const ADD_CARD = 'ADD_CARD';
 export const GET_ALL_CARDS = 'GET_ALL_CARDS';
 export const CHANGE_CARDS_LIST_ID = 'CHANGE_CARDS_LIST_ID';
+
+const dataState = {
+  lists: [],
+  cards: [],
+  isLoading: false,
+};
+
+interface IDataState {
+  lists: IList[]
+  cards: ICard[]
+  isLoading: boolean
+}
 
 export function fetchData(state: IDataState = dataState, action: any) {
   switch (action.type) {
@@ -45,7 +48,7 @@ export function fetchData(state: IDataState = dataState, action: any) {
     case DELETE_CARD_FROM_LISTS_POSITIONS:
       const listsArr = state.lists.filter(list => list.id !== action.payload.list_id);
       const list = [...state.lists].find(list => list.id === action.payload.list_id);
-      list.card_positions.splice(list.card_positions.indexOf(action.payload.card_id), 1);
+      list?.card_positions.splice(list.card_positions.indexOf(action.payload.card_id), 1);
       return {
         ...state,
         lists: [...listsArr, list]

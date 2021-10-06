@@ -1,5 +1,7 @@
 import { IUser } from "../../services/user.service";
 
+export const CLOSE_USER_MODAL = 'CLOSE_USER_MODAL';
+export const OPEN_USER_MODAL = 'OPEN_USER_MODAL';
 export const userModalState: IUser = {
   userModalIsOpen: false,
   userModalMode: '',
@@ -12,9 +14,6 @@ export const userModalState: IUser = {
   created_at: '',
   updated_at: '',
 };
-
-export const CLOSE_USER_MODAL = 'CLOSE_USER_MODAL';
-export const OPEN_USER_MODAL = 'OPEN_USER_MODAL';
 
 export const userModalReducer = (state: IUser = userModalState, action: any) => {
   switch (action.type) {

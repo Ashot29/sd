@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 interface MemberCheckboxProps {
   cardId: string
-  users: any[]
+  users: IUser[]
   user: IUser
   handleCheckboxClicks: any // Wrong
 }

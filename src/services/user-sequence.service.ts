@@ -15,7 +15,7 @@ export default class UserSequenceService extends BaseService {
   static instance: UserSequenceService;
 }
 
-export interface UserSequenceData {
+export interface IUserSequenceData {
   id: Number
   sequence: string[]
   updated_at: number

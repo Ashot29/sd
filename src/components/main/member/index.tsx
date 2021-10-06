@@ -11,7 +11,7 @@ interface MemberProps {
 export default function Member({ user, index }: MemberProps) {
   return (
     <Draggable index={index} draggableId={user.id} key={user.id}>
-      {(provided: any) => (
+      {(provided) => (
         <div
           className="member"
           {...provided.draggableProps}

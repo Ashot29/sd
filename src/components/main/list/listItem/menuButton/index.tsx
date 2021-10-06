@@ -28,8 +28,8 @@ interface MenuButtonProps {
   id: string;
 }
 
-export default function MenuButton({ id }: MenuButtonProps) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+export default function MenuButton({id}: MenuButtonProps) {
+  const [anchorEl, setAnchorEl] = React.useState<any>(null);
   const open = Boolean(anchorEl);
   const dispatch = useDispatch();
 

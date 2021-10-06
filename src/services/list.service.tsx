@@ -21,5 +21,5 @@ export interface IList {
   id: string
   title: string;
   updated_at?: string | number
-  subscribed_to_cards: string[]
+  card_positions: string[]
 }
