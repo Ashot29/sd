@@ -4,23 +4,25 @@ import { changeButtonState } from "../../stateManagement/actions/buttonActionCre
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { getUsers } from "../../stateManagement/actions/usersActionCreator";
 import CardModal from "./cardModal";
-import UserSequenceService from "./../../services/user-sequence.service";
+import UserSequenceService from "../../services/user-sequence.service";
 import ListForm from "./listForm";
 import Button from "@material-ui/core/Button";
 import Member from "./member";
 import List from "./list";
 import "./index.css";
+import { RootState } from "../../stateManagement/reducers/rootReducer";
+import { IUser } from "../../services/user.service";
 
 function Main() {
   const userSequenceService = UserSequenceService.getInstance();
   const dispatch = useDispatch();
   let [userSequence, setUserSequence] = useState([]);
-  let state = useSelector((state) => state.isButtonClicked);
-  const users = useSelector((state) => {
+  let state = useSelector((state: RootState) => state.isButtonClicked);
+  const users = useSelector((state: RootState) => {
     const allUsers = state.usersReducer.users;
-    const usersInRightArrange = [];
+    const usersInRightArrange: IUser[] = [];
     userSequence.forEach((userId) =>
-      usersInRightArrange.push(allUsers.find((user) => user.id === userId))
+      usersInRightArrange.push(allUsers.find((user: IUser) => user.id === userId))
     );
     return usersInRightArrange;
   });
@@ -29,14 +31,14 @@ function Main() {
     dispatch(getUsers());
     userSequenceService
       .getById(1)
-      .then((data) => setUserSequence([...data.sequence]));
+      .then((data) => setUserSequence(data.sequence));
   }, []);
 
   function changeButtonIntoForm() {
     dispatch(changeButtonState());
   }
 
-  const dragEnd = (result) => {
+  const dragEnd = (result: any) => {
     const { destination, source } = result;
     if (
       (destination?.droppableId === source?.droppableId &&
