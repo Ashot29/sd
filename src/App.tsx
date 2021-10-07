@@ -4,7 +4,7 @@ import Main from "./components/main";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 
-const Users = React.lazy(() => import("./components/users/index.tsx"));
+const Users = React.lazy(() => import("./components/users"));
 
 function App() {
   return (
